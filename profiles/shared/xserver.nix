@@ -1,8 +1,6 @@
 { pkgs, ... }:
 {  
-  services.gnome.core-utilities.enable = true;
-
-
+  # services.gnome.core-utilities.enable = true;
 
   environment.systemPackages = with pkgs; [
     kdePackages.xdg-desktop-portal-kde

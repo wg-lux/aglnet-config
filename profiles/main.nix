@@ -1,28 +1,39 @@
 {   
 
     config, pkgs, lib, # by default, these are passed to the function from nixosSystem function
-    inputs, system, 
-    network-config, 
+    inputs, system, hostname,
+    network-config,
   ... 
-}@args:
+}:
 
 let 
-    hostname = config.networking.hostName;
     ip = network-config.ips.hostnames.${hostname};
 
     # build paths to hostname specific config files
     custom-hardware-path = builtins.toPath ../config/hardware/${hostname}-hardware-configuration.nix;
-    
+
 in {
+    system.stateVersion = "23.11";
+
+    networking.hostName = hostname;
+
+
+    services.openssh.enable = true;
+    programs.ssh.startAgent = true;
+
+
 
     nix.settings = {
         trusted-users = [
             "root"
-            network-config.users.admin-user
-            experimental-features = [ "nix-command" "flakes" ];
-            auto-optimise-store = true;
+            network-config.users.admin
         ];
+        experimental-features = [ "nix-command" "flakes" ];
+        auto-optimise-store = true;
     };
+
+    nixpkgs.config.allowUnfree = true;
+    
 
     programs.git = {
         enable = true;
@@ -43,9 +54,14 @@ in {
         ./shared/locale-settings.nix
         ./shared/printer.nix
         ./shared/audio.nix
-        # (import ./xserver.nix {inherit pkgs; } )
-        ./shared/users.nix
         ./shared/xserver.nix
+        ./shared/ssh.nix
+        #(import ./shared/xserver.nix {inherit pkgs; } )
+        ./shared/users.nix
+        #./shared/xserver.nix
+        custom-hardware-path
+
+        ./shared/dev-tools.nix
     ];
 
     environment.systemPackages = with pkgs; [ 
@@ -63,7 +79,7 @@ in {
         tldr
         powertop
         unixtools.quota
-        chromium
+        firefox
         cachix
         tmux
         tmuxp

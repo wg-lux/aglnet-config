@@ -16,11 +16,6 @@ nixConfig = {
 inputs = {
 	nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
 
-	home-manager = {
-		url = "github:nix-community/home-manager/release-24.05";
-		inputs.nixpkgs.follows = "nixpkgs";
-	};
-
 	nix-index-database.url = "github:Mic92/nix-index-database";
 	nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -37,8 +32,8 @@ inputs = {
 
 
 outputs = { 
-	self, nixpkgs, nix-index-database,
-	vscode-server, sops-nix, 
+	self, nixpkgs, 
+	nix-index-database, sops-nix, 
 	...
 }@inputs: #
 
@@ -46,9 +41,18 @@ let
 	base-config = {
 		system = "x86_64-linux";
 		allow-unfree = true;
+		cuda-support = true;
 	};
 
 	system = base-config.system;
+
+	pkgs = import nixpkgs {
+		system = system;
+		config = {
+			allowUnfree = base-config.allow-unfree;
+			cudaSupport = base-config.cuda-support;
+		};
+	};
 
 	extra-modules = {
 		sops-nix = sops-nix;
@@ -57,13 +61,16 @@ let
 
 	os-base-args = {
 		nixpkgs = nixpkgs;
+		pkgs = pkgs;
 		base-config = base-config;
 		inputs = inputs;
 		extra-modules = extra-modules;
         hostnames = import ./config/hostnames.nix;
 	};
 
-	os-configurations = import ./os-configs/main.nix (
+	network-config = import ./config/main.nix;
+
+	os-configurations = import ./os-config/main.nix (
 		{
 			os-base-args = os-base-args;
 			network-config = network-config;

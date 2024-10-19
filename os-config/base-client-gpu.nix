@@ -1,5 +1,6 @@
 {
-    nixpkgs, pkgs,
+    nixpkgs,
+    pkgs,
     base-config,
     hostname, 
     inputs,
@@ -8,15 +9,7 @@
     ...
 }@args:
 let 
-    nixpkgs = args.os-base-args.nixpkgs;
-
-    pkgs = import nixpkgs {
-		system = system;
-		config = {
-			allowUnfree = base-config.allow-unfree;
-			cudaSupport = true;
-		};
-	};
+    
 
     ######### EXPERIMENTAL #########################
     clangVersion = "16";   # Version of Clang
@@ -43,7 +36,6 @@ in nixpkgs.lib.nixosSystem {
         hostname = hostname;
         inherit inputs system; 
         inherit network-config;
-        
     };
     
     modules = [
