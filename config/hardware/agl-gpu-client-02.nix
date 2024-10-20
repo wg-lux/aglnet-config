@@ -10,4 +10,6 @@
 
     luks-hdd-intern-uuid = "01af2a76-aa8a-46f1-aa8b-8b4bc614cb0e";
     luks-swap-uuid = "";
+
+    system-state = "23.11"
 }
