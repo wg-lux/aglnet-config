@@ -85,6 +85,7 @@ in {
         powertop
         unixtools.quota
         firefox
+        chromium
         cachix
         tmux
         tmuxp
