@@ -1,3 +1,6 @@
-{
-    file-system-readout-path = "/etc/hardware-readout-filesystems.json";
-}
+let 
+    hardware = {
+        file-system-readout = "/etc/hardware-readout-filesystems.json";
+    };
+    
+in hardware
