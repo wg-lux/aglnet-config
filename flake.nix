@@ -22,6 +22,11 @@ inputs = {
 	sops-nix.url = "github:Mic92/sops-nix";
 	sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
+
+	envfs.url = "github:Mic92/envfs";
+  	envfs.inputs.nixpkgs.follows = "nixpkgs";
+
+
 	# nix-ld.url = "github:Mic92/nix-ld";
 	# nix-ld.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -33,6 +38,7 @@ inputs = {
 
 outputs = { 
 	self, nixpkgs, 
+	envfs,
 	nix-index-database, sops-nix, 
 	...
 }@inputs: #
@@ -56,6 +62,7 @@ let
 
 	extra-modules = {
 		sops-nix = sops-nix;
+		envfs = envfs;
 		# nix-ld = inputs.nix-ld;
 	};
 
