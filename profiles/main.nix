@@ -26,7 +26,8 @@ in {
     nix.settings = {
         trusted-users = [
             "root"
-            network-config.users.admin
+            network-config.users.admin.name
+            network-config.users.setup.name #TODO REMOVE AFTER DEV PHASE
         ];
         experimental-features = [ "nix-command" "flakes" ];
         auto-optimise-store = true;
@@ -47,6 +48,7 @@ in {
     }];
 
     imports = [
+        # Base Configuration
         ./shared/bootloader.nix
         ./shared/networking.nix
         ./shared/polkit.nix
@@ -61,7 +63,10 @@ in {
         #./shared/xserver.nix
         custom-hardware-path
 
+        # AglNet Stuff
         ./shared/dev-tools.nix
+        ./shared/util-scripts.nix
+
     ];
 
     environment.systemPackages = with pkgs; [ 
