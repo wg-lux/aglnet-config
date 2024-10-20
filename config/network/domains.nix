@@ -4,7 +4,7 @@ let
     # nix eval --expr 'import ./domains.nix { lib = import <nixpkgs/lib>;}'
 
 
-    hostnames = import ../hostnames.nix;
+    hostnames = import ../hostnames.nix {};
 
     main = "endoreg.net";
     subdomain-suffix-intern = "intern";
@@ -23,4 +23,4 @@ let
 
     };
 
-in clients
+in domains

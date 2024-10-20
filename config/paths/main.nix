@@ -1,6 +1,7 @@
+{ ... }:
 let
     paths = {
-        hardware = import ./hardware.nix;
+        hardware = import ./hardware.nix { };
     };
 
 in paths

@@ -1,7 +1,8 @@
+{ lib, ... }:
 let 
-    paths = import ../../paths/main.nix;
-    users = import ../../users/main.nix;
-    groups = import ../../groups/main.nix;
+    paths = import ../../paths/main.nix { inherit lib; };
+    users = import ../../users/main.nix { inherit lib; };
+    groups = import ../../groups/main.nix { inherit lib; };
 
     filesystem-readout = {
         path = paths.hardware.file-system-readout;

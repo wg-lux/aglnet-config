@@ -85,3 +85,9 @@ file-system-base-uuid = MAPPING_TARGET
 Same applies for swap.
 Lastly, "file-system-boot-uuid" refers to the boot partition.
 
+
+# Testing
+## Configuration
+```bash
+nix eval --expr 'import ./main.nix { lib = import <nixpkgs/lib>;}'
+```

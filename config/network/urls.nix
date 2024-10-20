@@ -1,8 +1,10 @@
+{ lib, ... }:
 let 
-    domains = import ./domains.nix;
+    domains = import ./domains.nix { inherit lib; };
+
     urls = {
-        keycloak = "https://${domains.keycloak.domain}/";
-        endoreg-home = "https://${domains.endoreg-home.domain}/";
+        keycloak = "https://${domains.keycloak}/";
+        endoreg-home = "https://${domains.endoreg-home}/";
     };
 
 in urls

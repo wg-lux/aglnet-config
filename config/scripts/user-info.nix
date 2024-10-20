@@ -1,3 +1,4 @@
+{ ... }:
 let
     user-info = {
         name = "user-info";

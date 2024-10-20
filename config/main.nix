@@ -1,13 +1,13 @@
+{lib,...}:
 let
     network-config = {
-        ips = import ./ips.nix;
-        hostnames = import ./hostnames.nix;
-        users = import ./users/main.nix;
-        groups = import ./groups/main.nix;
-        hardware = import ./hardware/main;
-        paths = import ./paths/main.nix;
-        services = import ./services/main.nix;
-        scripts = import ./scripts/main.nix;
+        hostnames = import ./hostnames.nix { inherit lib; };
+        network = import ./network/main.nix { inherit lib; };
+        users = import ./users/main.nix { inherit lib;};
+        groups = import ./groups/main.nix { inherit lib; };
+        hardware = import ./hardware/main.nix { inherit lib; };
+        paths = import ./paths/main.nix { inherit lib; };
+        services = import ./services/main.nix { inherit lib; };
+        scripts = import ./scripts/main.nix { inherit lib; };
     };
-
 in network-config

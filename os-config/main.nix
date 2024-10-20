@@ -7,7 +7,7 @@
 
 let 
 
-    hostnames = os-base-args.hostnames;
+    hostnames = network-config.hostnames;
 
     os-configs = {
         #"nixos" = import ./base-client-gpu.nix (

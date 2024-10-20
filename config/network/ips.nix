@@ -10,8 +10,8 @@ let
     localhost = "localhost";
     localhost-ip = "127.0.0.1";
 
-    hostnames = import ../hostnames.nix;
-    service-hosts = import ../service-hosts.nix; # {SERVICE_NAME = HOSTNAME} !! e.g. server-01 , NOT HOSTNAMES !!
+    hostnames = import ../hostnames.nix {};
+    service-hosts = import ../service-hosts.nix {}; # {SERVICE_NAME = HOSTNAME} !! e.g. server-01 , NOT HOSTNAMES !!
 
 
     # Function to map hostnames to IPs

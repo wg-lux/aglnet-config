@@ -1,8 +1,9 @@
+{ lib, ... }:
 let 
-    domains = import ./domains.nix;
+    domains = import ./domains.nix { inherit lib; };
     client-domains = domains.clients;
 
-    ips = import ./ips.nix;
+    ips = import ./ips.nix { inherit lib; };
     client-ips = ips.clients;
 
     # Create the `hosts` attribute set by iterating over the `ips`

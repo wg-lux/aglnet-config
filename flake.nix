@@ -72,10 +72,14 @@ let
 		base-config = base-config;
 		inputs = inputs;
 		extra-modules = extra-modules;
-        hostnames = import ./config/hostnames.nix;
+        hostnames = import ./config/hostnames.nix {};
 	};
 
-	network-config = import ./config/main.nix;
+	network-config = import ./config/main.nix (
+		{
+			lib = pkgs.lib;
+		}
+	);
 
 	os-configurations = import ./os-config/main.nix (
 		{

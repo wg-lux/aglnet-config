@@ -1,5 +1,6 @@
+{ lib, ... }:
 let
-    groups = import ../groups/main.nix;
+    groups = import ../groups/main.nix { inherit lib; };
     maintenance-group = groups.maintenance.name;
     service-group = groups.service.name;
     logging-group = groups.logging.name;

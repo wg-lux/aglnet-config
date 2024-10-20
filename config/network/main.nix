@@ -1,11 +1,12 @@
+{ lib, ... }:
 let 
     network = {
-        service-hosts = import ../service-hosts.nix;
-        domains = import ./domains.nix;
-        hosts = import ../hostnames.nix;
-        ips = import ../ips.nix;
-        ports = import ../ports.nix;
-        urls = import ./urls.nix;
+        service-hosts = import ../service-hosts.nix { inherit lib;};
+        hosts = import ../hostnames.nix { inherit lib;};
+        domains = import ./domains.nix { inherit lib;};
+        ips = import ./ips.nix { inherit lib;};
+        ports = import ./ports.nix { inherit lib;};
+        urls = import ./urls.nix { inherit lib;};
     };
 
-in network;
+in network
