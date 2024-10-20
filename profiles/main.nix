@@ -10,18 +10,20 @@ let
     ip = network-config.ips.hostnames.${hostname};
 
     # build paths to hostname specific config files
-    custom-hardware-path = builtins.toPath ../config/hardware/${hostname}-hardware-configuration.nix;
+    # custom-hardware-path = builtins.toPath ../config/hardware/${hostname}-hardware-configuration.nix;
+    # custom-hardware-path = builtins.toPath ../config/hardware/${hostname}.nix;
+
+    custom-hardware = import ../config/hardware/${hostname}.nix;
 
 in {
-    system.stateVersion = "23.11";
+    system.stateVersion = custom-hardware.system-state;
+
 
     networking.hostName = hostname;
 
 
     services.openssh.enable = true;
     programs.ssh.startAgent = true;
-
-
 
     nix.settings = {
         trusted-users = [
@@ -58,10 +60,12 @@ in {
         ./shared/audio.nix
         ./shared/xserver.nix
         ./shared/ssh.nix
-        #(import ./shared/xserver.nix {inherit pkgs; } )
         ./shared/users.nix
-        #./shared/xserver.nix
-        custom-hardware-path
+        
+        # import filesystems, inherit from custom-hardware
+        (import ./shared/filesystem.nix { 
+            inherit config lib pkgs custom-hardware;
+        }) 
 
         # AglNet Stuff
         ./shared/dev-tools.nix

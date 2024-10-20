@@ -1,0 +1,17 @@
+{
+    network-interface = ""; # selected by user
+
+    secondary-network-interface = "2"; # selected by user
+    
+    nvidiaBusId = ""; # selected by user
+    onboardGraphicBusId = ""; # selected by user
+
+    file-system-base-uuid = ""; 
+    file-system-boot-uuid = ""; 
+    swap-device-uuid = "";
+
+    luks-hdd-intern-uuid = "2";
+    luks-swap-uuid = "2";
+
+    system-state = "2"; # entered by user
+}

@@ -61,32 +61,27 @@ A fuse filesystem that dynamically populates contents of /bin and /usr/bin/ so t
 # Setup Guide
 ## Getting System speciic Hardware Info
 ### File System
+1. Identify LUKS UUID and corresponding mapping target:
+e.g., 
+```json
+{
+    "/dev/mapper/luks-428e63c6-f7bb-4e32-94af-cea7ad71bc51 (UUID)": "d7a0d12b-fb94-4795-996c-aac800517ab1",
+    "/dev/mapper/luks-428e63c6-f7bb-4e32-94af-cea7ad71bc51 (FSTYPE)": "ext4",
+}
 
-filesystem-base-uuid = "d7a0d12b-fb94-4795-996c-aac800517ab1";
-filesystem-boot-uuid = "1B9C-2748"
-swap-uuid = "6de14442-0c67-4342-94e2-e0b47dfb9fa2"
-
-luks-base-uuid = "428e63c6-f7bb-4e32-94af-cea7ad71bc51"
-luks-swap-uuid = "e701612f-d046-4505-8ea5-b7069222ae8c"
-
-```nix
-fileSystems."/" = { 
-    device = "/dev/disk/by-uuid/${filesystem-base-uuid}";
-    fsType = "ext4";
-};
-
-fileSystems."/boot" =
-{ device = "/dev/disk/by-uuid/${filesystem-boot-uuid}"; 
-    fsType = "vfat";
-};
-
-boot.initrd.luks.devices. = {
-    "luks-${luks-base-uuid}".device = "/dev/disk/by-uuid/${luks-base-uuid}";
-    "luks-"${luks-swap-uuid}.device = "/dev/disk/by-uuid/${luks-swap-uuid}";
-};
-
-  swapDevices =
-    [ 
-        { device = "/dev/disk/by-uuid/${swap-uuid}"; }
-    ];
 ```
+This tells us the following attributes:
+```json
+{
+    "/dev/mapper/luks-$UUID_OF_ENCRYPTED_PARTITION (UUID)": "MAPPING_TARGET",
+    "/dev/mapper/luks-428e63c6-f7bb-4e32-94af-cea7ad71bc51 (FSTYPE)": "ext4",
+}
+```
+
+Even though legacy variables are named strangely, this leads us to:
+luks-hdd-intern-uuid = UUID_OF_ENCRYPTED_PARTITION
+file-system-base-uuid = MAPPING_TARGET
+
+Same applies for swap.
+Lastly, "file-system-boot-uuid" refers to the boot partition.
+

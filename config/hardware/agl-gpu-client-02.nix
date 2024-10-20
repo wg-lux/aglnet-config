@@ -1,15 +1,17 @@
 {
-    network-interface = "enp4s0"; 
-    secondary-network-interface = "";
-    nvidiaBusId = "PCI:1:0:0";
-    onboardGraphicBusId = "PCI:0:2:0";
+    network-interface = "wlo1"; # select by user
 
-    file-system-base-uuid = "9b443144-d740-49d9-b72b-c11d4dcf8d72";
-    file-system-boot-uuid = "46D6-EB19";
-    swap-device-uuid = "";
+    secondary-network-interface = "enp4s0"; # select by user
+    
+    nvidiaBusId = "01:00.0"; # select by user
+    onboardGraphicBusId = "00:02.0"; # select by user
 
-    luks-hdd-intern-uuid = "01af2a76-aa8a-46f1-aa8b-8b4bc614cb0e";
-    luks-swap-uuid = "";
+    file-system-base-uuid = "d7a0d12b-fb94-4795-996c-aac800517ab1"; 
+    file-system-boot-uuid = "1B9C-2748"; 
+    swap-device-uuid = "6de14442-0c67-4342-94e2-e0b47dfb9fa2";
 
-    system-state = "23.11"
+    luks-hdd-intern-uuid = "428e63c6-f7bb-4e32-94af-cea7ad71bc51";
+    luks-swap-uuid = "e701612f-d046-4505-8ea5-b7069222ae8c";
+
+    system-state = "23.11"; # enter by user
 }

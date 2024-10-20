@@ -27,6 +27,7 @@ let
     system = base-config.system;
 
     sops-nix = extra-modules.sops-nix;
+    envfs = extra-modules.envfs;
     custom-packages = args.custom-packages;
 
 in nixpkgs.lib.nixosSystem {
@@ -41,6 +42,8 @@ in nixpkgs.lib.nixosSystem {
     modules = [
         ../profiles/main.nix
         sops-nix.nixosModules.sops
+        envfs.nixosModules.envfs
+
         
     ];
 }

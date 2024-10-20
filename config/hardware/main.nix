@@ -1,0 +1,4 @@
+let 
+    hardware = {
+    };
+in hardware

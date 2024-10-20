@@ -1,4 +1,4 @@
-{pkgs, ...}@args: {
+{pkgs, lib, ...}@args: {
 
     programs.captive-browser.enable = lib.mkDefault true;
     programs.captive-browser.interface = lib.mkDefault "wlo1";
