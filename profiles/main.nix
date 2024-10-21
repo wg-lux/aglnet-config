@@ -97,5 +97,6 @@ in {
         tmuxp
         tree
         usbutils
+        whois
     ];
 }
