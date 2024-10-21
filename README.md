@@ -48,6 +48,16 @@ Here the public keys of different sops clients and their access are managed
 - user-info [bash-only]
 - filesystem-readout [service, requires maintenance-group]
 
+*EndoReg Client:*
+- `systemctl start mount-dropoff`
+- `systemctl start umount-dropoff`
+- `systemctl start mount-processing`
+- `systemctl start umount-processing`
+- `systemctl start mount-processed`
+- `systemctl start umount-processed`
+- `cat /var/log/mount-dropoff.log`
+- `cat /var/log/mount-processing.log`
+- `cat /var/log/mount-processed.log`
 
 # Misc
 ## Evaluate nix expressions for testing:
