@@ -1,4 +1,4 @@
-{config, pkgs, network-config, ...}:
+{config, lib, pkgs, network-config, ...}:
 {
     imports = [
         ../../scripts/utils/main.nix

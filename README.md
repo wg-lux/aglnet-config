@@ -87,6 +87,13 @@ file-system-base-uuid = MAPPING_TARGET
 Same applies for swap.
 Lastly, "file-system-boot-uuid" refers to the boot partition.
 
+### Manually deploy the sops age key
+1. deploy `keys.txt` file to `~/.config/sops/age/keys.txt`
+    1. Make sure dirs exist: ``
+2. Set permissions
+    1. sudo chown $USER ~/.config/sops/age/keys.txt
+    2. sudo chmod 600 ~/.config/sops/age/keys.txt
+
 ### Decryption USB Stick
 Run `deployment/scripts/create-boot-keyfile.sh`.
 You need root privileges, the hostname, and the existing decryption passphrase
@@ -98,6 +105,7 @@ Then, update the nix config and reboot the system. During boot, the system shoul
 
 # Testing
 ## Configuration
+Run in ./config/
 ```bash
 nix eval --expr 'import ./main.nix { lib = import <nixpkgs/lib>;}'
 ```
