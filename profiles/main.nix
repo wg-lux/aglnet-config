@@ -1,20 +1,17 @@
 {   
 
     config, pkgs, lib, # by default, these are passed to the function from nixosSystem function
-    inputs, system, hostname,
-    network-config,
+    inputs, system, hostname, extra-packages,
+    network-config, is-endoreg-client ? false,
   ... 
 }:
 
 let 
     ip = network-config.ips.hostnames.${hostname};
-
-    # build paths to hostname specific config files
-    # custom-hardware-path = builtins.toPath ../config/hardware/${hostname}-hardware-configuration.nix;
-    # custom-hardware-path = builtins.toPath ../config/hardware/${hostname}.nix;
-
     custom-hardware = import ../config/hardware/${hostname}.nix;
     usb-key-config-path = builtins.toPath ../config/hardware/${hostname}-usb-key.nix;
+
+    
 
 in {
     system.stateVersion = custom-hardware.system-state;
@@ -63,7 +60,13 @@ in {
         ./shared/ssh.nix
         ./shared/users.nix
         ./shared/sops.nix
-        
+
+        # load endoreg-client modules if is-endoreg-client is true using nix library
+        ( import ./endoreg-client/main.nix {
+            inherit config pkgs lib network-config is-endoreg-client;
+        })
+
+
         # import filesystems, inherit from custom-hardware
         (import ./shared/filesystem.nix { 
             inherit config lib pkgs custom-hardware;
@@ -99,5 +102,10 @@ in {
         tree
         usbutils
         whois
+
+        bc
+        gptfdisk
+        parted
+        util-linux
     ];
 }

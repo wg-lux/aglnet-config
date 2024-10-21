@@ -7,6 +7,11 @@ let
     service-group = groups.service.name;
     logging-group = groups.logging.name;
     center-group = groups.center.name;
+    
+    # Endoreg Access Groups:
+    endoreg-dropoff-group = groups.endoreg-dropoff.name;
+    endoreg-processing-group = groups.endoreg-processing.name;
+    endoreg-processed-group = groups.endoreg-processed.name;
 
     base-groups = ["network-manager"];
 
@@ -16,6 +21,9 @@ let
         service-group
         logging-group
         center-group
+        endoreg-dropoff-group
+        endoreg-processing-group
+        endoreg-processed-group
     ];
 
     users = {
@@ -26,7 +34,13 @@ let
             name = "agl-admin";
             config = {
                 isNormalUser = true;
-                extraGroups = ["networkManager" "wheel" "maintenance"];
+                extraGroups = [
+                    "networkManager" 
+                    "wheel" 
+                    endoreg-dropoff-group
+                    endoreg-processing-group
+                    endoreg-processed-group
+                ];
             };
         };
         setup = {
@@ -40,14 +54,22 @@ let
             name = "service-user";
             config = {
                 isNormalUser = true;
-                extraGroups = [service-group];
+                extraGroups = [
+                    service-group
+                    endoreg-dropoff-group
+                    endoreg-processing-group
+                    endoreg-processed-group
+                ];
             };
         };
         center = {
             name = "center-user";
             config = {
                 isNormalUser = true;
-                extraGroups = ["networkManager"];
+                extraGroups = [
+                    "networkManager"
+                    endoreg-dropoff-group
+                ];
             };
         };
         logging = {

@@ -6,10 +6,11 @@
     inputs,
     network-config,
     extra-modules,
+    extra-packages,
     ...
 }@args:
 let 
-    
+    IS_ENDOREG_CLIENT = true;
 
     ######### EXPERIMENTAL #########################
     clangVersion = "16";   # Version of Clang
@@ -26,9 +27,7 @@ let
 
     system = base-config.system;
 
-    sops-nix = extra-modules.sops-nix;
-    envfs = extra-modules.envfs;
-    custom-packages = args.custom-packages;
+    custom-packages = extra-packages;
 
 in nixpkgs.lib.nixosSystem {
     system = system;
@@ -37,13 +36,15 @@ in nixpkgs.lib.nixosSystem {
         hostname = hostname;
         inherit inputs system; 
         inherit network-config;
+        inherit extra-packages;
+        is-endoreg-client = IS_ENDOREG_CLIENT;
     };
     
     modules = [
         ../profiles/main.nix
-        sops-nix.nixosModules.sops
-        envfs.nixosModules.envfs
 
-        
-    ];
+        {environment.systemPackages = extra-packages;}
+    ] ++ extra-modules;
+
+    
 }

@@ -17,5 +17,17 @@ let
             name = "center";
             gid = 1103;
         };
+        endoreg-dropoff = {
+            name = "endoreg-dropoff";
+            gid = 1104;
+        };
+        endoreg-processing = {
+            name = "endoreg-processing";
+            gid = 1105;
+        };
+        endoreg-processed = {
+            name = "endoreg-processed";
+            gid = 1106;
+        };
     };
 in groups

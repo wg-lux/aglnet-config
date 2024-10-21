@@ -128,6 +128,11 @@ Then, update the nix config and reboot the system. During boot, the system shoul
 - move the resulting `nix-user.yaml` file to `secrets/${hostname}/ 
 - encrypt it after moving the file (sops -e --in-place $FILEPATH)
 
+### Sensitive Data HDD
+*Requires endoreg-usb-encrypter installed*
+run `sudo encrypt-usb`:
+- 
+
 # Testing
 ## Configuration
 Run in ./config/

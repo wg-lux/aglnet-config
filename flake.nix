@@ -27,6 +27,10 @@ inputs = {
   	envfs.inputs.nixpkgs.follows = "nixpkgs";
 
 
+	endoreg-usb-encrypter.url = "github:wg-lux/endoreg-usb-encrypter";
+	endoreg-usb-encrypter.inputs.nixpkgs.follows = "nixpkgs";
+
+
 	# nix-ld.url = "github:Mic92/nix-ld";
 	# nix-ld.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -60,11 +64,16 @@ let
 		};
 	};
 
-	extra-modules = {
-		sops-nix = sops-nix;
-		envfs = envfs;
+	extra-modules = [
+		sops-nix.nixosModules.sops
+		envfs.nixosModules.envfs
 		# nix-ld = inputs.nix-ld;
-	};
+
+	];
+
+	extra-packages = [
+		inputs.endoreg-usb-encrypter.packages.x86_64-linux.default
+	];
 
 	os-base-args = {
 		nixpkgs = nixpkgs;
@@ -72,6 +81,7 @@ let
 		base-config = base-config;
 		inputs = inputs;
 		extra-modules = extra-modules;
+		extra-packages = extra-packages;
         hostnames = import ./config/hostnames.nix {};
 	};
 

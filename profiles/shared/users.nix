@@ -20,6 +20,9 @@ in {
         "${groups.service.name}".gid = groups.service.gid;
         "${groups.logging.name}".gid = groups.logging.gid;
         "${groups.center.name}".gid = groups.center.gid;
+        "${groups.endoreg-dropoff.name}".gid = groups.endoreg-dropoff.gid;
+        "${groups.endoreg-processing.name}".gid = groups.endoreg-processing.gid;
+        "${groups.endoreg-processed.name}".gid = groups.endoreg-processed.gid;
     };
 
     imports = [
