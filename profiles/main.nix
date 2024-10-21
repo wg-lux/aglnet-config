@@ -18,7 +18,7 @@ let
 
 in {
     system.stateVersion = custom-hardware.system-state;
-
+    users.mutableUsers = false;
 
     networking.hostName = hostname;
 
@@ -62,6 +62,7 @@ in {
         ./shared/xserver.nix
         ./shared/ssh.nix
         ./shared/users.nix
+        ./shared/sops.nix
         
         # import filesystems, inherit from custom-hardware
         (import ./shared/filesystem.nix { 

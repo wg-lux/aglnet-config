@@ -19,13 +19,34 @@ network-config
 Attributes which may also be interesting for other parts of the system (e.g., paths, ips, binds, ...) should be defined in "low level" parts of the config (i.e., groups/*, paths/*, ...)
 
 # System Security
-## In clean state, no ports are opened (see 'profiles/shared/networking')
+In clean state, no ports are opened (see 'profiles/shared/networking')
+
+## Users & Permissions
+- `users.mutableUsers = false;` resets groups / ... on boot
+
+
+## Secret Management with sops-nix
+The main sops config is located at `aglnet-config/.sops.yaml`
+
+Here the public keys of different sops clients and their access are managed
+
+## Initial user Passwords
+- Initially, randomly generated passwords are used for users
+- Passwords are provided as hashed values by sops-nix
+    - `profiles/shared/users.nix` calls `profiles/shared/user-passwords.nix`
+- create hashed passwords like this `mkpasswd -s`
+
+# Supply Files / Directories
+## Base Directories
+- Base dirs are defined in `aglnet-config/config/services/utils/base-directories`
+- Base dirs are managed using tmpfiles (is not only for temporary files), see: 
+
+
 
 # Custom Scripts & Services
 ## Utils
 - user-info [bash-only]
 - filesystem-readout [service, requires maintenance-group]
-
 
 
 # Misc
@@ -88,7 +109,7 @@ Same applies for swap.
 Lastly, "file-system-boot-uuid" refers to the boot partition.
 
 ### Manually deploy the sops age key
-1. deploy `keys.txt` file to `~/.config/sops/age/keys.txt`
+1. deploy `keys.txt` file to `~/.config/sops/age/keys.txt` ant `/etc/sops-age-keys.txt`
     1. Make sure dirs exist: ``
 2. Set permissions
     1. sudo chown $USER ~/.config/sops/age/keys.txt
@@ -102,6 +123,10 @@ Copy the resulting $HOSTNAME-usb-key.nix file to `config/hardware`
 
 Then, update the nix config and reboot the system. During boot, the system should look for the stick and decrypt the system if available. Else, we fallback to passphrase
 
+### User Passwords
+- use the script `deployment/scripts/create-user-passwords.sh` to generate passwords and hashes
+- move the resulting `nix-user.yaml` file to `secrets/${hostname}/ 
+- encrypt it after moving the file (sops -e --in-place $FILEPATH)
 
 # Testing
 ## Configuration

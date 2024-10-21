@@ -1,4 +1,4 @@
-{ config, network-config, ... }@args:
+{ config, pkgs, lib, network-config, ... }@args:
 
 let
   hostname = config.networking.hostName;
@@ -21,4 +21,8 @@ in {
         "${groups.logging.name}".gid = groups.logging.gid;
         "${groups.center.name}".gid = groups.center.gid;
     };
+
+    imports = [
+        (import ./user-passwords.nix { inherit config pkgs lib network-config; })
+    ];
 }

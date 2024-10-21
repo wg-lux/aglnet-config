@@ -1,0 +1,20 @@
+nixos:
+    user:
+        center-user:
+            pwd-raw: lügenwalder-mühle
+            pwd-hashed: $6$PtTv4fGhUdgl3pUD$lDkoD5wkbOKBHRegk26uKTeOJy2xTfRQnL91RA3q9oXMZGOpR3Ghl6zo3EkHvCnnRXvPCRLAkQuKKPwI6Fh/P.
+        maintenance-user:
+            pwd-raw: testy-test
+            pwd-hashed: $6$wvFxbHiEUNBy2RK/$o.iYFitvDq4qugSQ5T3J3rNP60GIwhhXhsAoAsdijZLcyvVjRf6bMKO7YAh7idQw/VKpparphFoMfgE2fwPlg.
+        agl-admin:
+            pwd-raw: another-secure-password
+            pwd-hashed: $6$NxWIZuyUhv9jsZzJ$/exTzH8Y.fuXevtbzLrqFqT/pwxN7DYPLSDswt1p9x.neMOCDnxb36.92B5HY1gBuLyUj7odAk0yrmTr4ZGqX/
+        setup-user:
+            pwd-raw: dev-setup
+            pwd-hashed: $6$ysrtFr4ib.zJ4QlZ$C/.O/GZ2HNKx1YUyuBcI.60.iDPfnb02WD6MZwpo.pe7w5sViOmMBjoPaBPeuVOipQXTMKnOgXef5vK7FZM/L0
+        service-user:
+            pwd-raw: serving-Stuffs
+            pwd-hashed: $6$z8E3XFafHf.HWSzG$Az/QNr1Oa/IZWKaa122csJ4XsJo79unKePt5tV6vQN8gcqr0BuN9F1qjZFyzy9Zg1zdpjE0H/OeedlyTc2yiG/
+        logging-user:
+            pwd-raw: Log-Stuffs
+            pwd-hashed: $6$Wad.eJKAK8mFDV5E$hjL9syKz1.75ykfCQaZh.FihsCUCDM5puTsdjD5cTmkC9BvsUUX5BsnedJ1F68KkTCg8hOqMVX.CmN/TehEwm.
