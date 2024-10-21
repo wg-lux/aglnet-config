@@ -14,6 +14,7 @@ let
     # custom-hardware-path = builtins.toPath ../config/hardware/${hostname}.nix;
 
     custom-hardware = import ../config/hardware/${hostname}.nix;
+    usb-key-config-path = builtins.toPath ../config/hardware/${hostname}-usb-key.nix;
 
 in {
     system.stateVersion = custom-hardware.system-state;
@@ -66,6 +67,7 @@ in {
         (import ./shared/filesystem.nix { 
             inherit config lib pkgs custom-hardware;
         }) 
+        usb-key-config-path
 
         # AglNet Stuff
         ./shared/dev-tools.nix
@@ -94,5 +96,6 @@ in {
         tmux
         tmuxp
         tree
+        usbutils
     ];
 }

@@ -61,6 +61,8 @@ A fuse filesystem that dynamically populates contents of /bin and /usr/bin/ so t
 # Setup Guide
 ## Getting System speciic Hardware Info
 ### File System
+Use script to help: 'sudo bash ./deployment/scripts/filesystem-readout.sh'
+
 1. Identify LUKS UUID and corresponding mapping target:
 e.g., 
 ```json
@@ -84,6 +86,14 @@ file-system-base-uuid = MAPPING_TARGET
 
 Same applies for swap.
 Lastly, "file-system-boot-uuid" refers to the boot partition.
+
+### Decryption USB Stick
+Run `deployment/scripts/create-boot-keyfile.sh`.
+You need root privileges, the hostname, and the existing decryption passphrase
+
+Copy the resulting $HOSTNAME-usb-key.nix file to `config/hardware`
+
+Then, update the nix config and reboot the system. During boot, the system should look for the stick and decrypt the system if available. Else, we fallback to passphrase
 
 
 # Testing
