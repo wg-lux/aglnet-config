@@ -21,6 +21,7 @@ in {
 
 
     services.openssh.enable = true;
+    services.autorandr.enable = true; # Manages sleep and hot plugging monitors
     programs.ssh.startAgent = true;
 
     nix.settings = {
@@ -61,6 +62,7 @@ in {
         ./shared/users.nix
         ./shared/sops.nix
         ./shared/logging.nix
+        ./shared/power-management.nix
 
         # load endoreg-client modules if is-endoreg-client is true using nix library
         ( import ./endoreg-client/main.nix {
