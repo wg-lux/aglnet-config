@@ -66,6 +66,13 @@ Here the public keys of different sops clients and their access are managed
     - Options defined in `config/scripts/endoreg-sensitive-mounting.nix`
 
 # Misc
+## Power Management
+Using tlp to manage max. charge (set to 80) and reduce cpu frequency when not on charged
+
+Defined in `profiles/shared/power-management.nix`
+
+!! Check if this causes issues with non-laptops
+
 ## Evaluate nix expressions for testing:
 Example:
 nix eval --expr 'import ./domains.nix { lib = import <nixpkgs/lib>;}'

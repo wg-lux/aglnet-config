@@ -4,7 +4,7 @@ let
     custom-imports = if is-endoreg-client then [
         (import ./utils.nix { inherit config pkgs lib network-config; })
         ../shared/video-processing.nix
-        ( import ./maintenance.nix { inherit config pkgs lib network-config; })
+        ( import ./maintenance-mode.nix { inherit config pkgs lib network-config; })
     ] else [];
 
 in {
