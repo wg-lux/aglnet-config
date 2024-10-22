@@ -15,6 +15,7 @@ let
 in {
 
     imports = [
+        ##### Mounting 
         ( import ./partition-mounting.nix {
             inherit config pkgs lib network-config;
             partition-config = dropoff-partition-config;
@@ -24,6 +25,20 @@ in {
             partition-config = processing-partition-config;
         })
         ( import ./partition-mounting.nix {
+            inherit config pkgs lib network-config;
+            partition-config = processed-partition-config;
+        })
+
+        #### Loggers
+        ( import ./log-sensitive-partitions.nix {
+            inherit config pkgs lib network-config;
+            partition-config = dropoff-partition-config;
+        })
+        ( import ./log-sensitive-partitions.nix {
+            inherit config pkgs lib network-config;
+            partition-config = processing-partition-config;
+        })
+        ( import ./log-sensitive-partitions.nix {
             inherit config pkgs lib network-config;
             partition-config = processed-partition-config;
         })

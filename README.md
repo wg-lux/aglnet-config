@@ -59,6 +59,12 @@ Here the public keys of different sops clients and their access are managed
 - `cat /var/log/mount-processing.log`
 - `cat /var/log/mount-processed.log`
 
+## Logging
+- `scripts/endoreg-client/log-sensitive-partitions.nix`
+    - Logs State of sensitive data hdd, writes jsons to custom dir
+    - Custom dir currently is `/etc/sensitive-partitions-log`
+    - Options defined in `config/scripts/endoreg-sensitive-mounting.nix`
+
 # Misc
 ## Evaluate nix expressions for testing:
 Example:
@@ -147,5 +153,5 @@ run `sudo encrypt-usb`:
 ## Configuration
 Run in ./config/
 ```bash
-nix eval --expr 'import ./main.nix { lib = import <nixpkgs/lib>;}'
+nix eval --expr 'import ./main.nix { lib = import <nixpkgs/lib>;}' --impure
 ```

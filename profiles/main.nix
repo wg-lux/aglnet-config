@@ -60,6 +60,7 @@ in {
         ./shared/ssh.nix
         ./shared/users.nix
         ./shared/sops.nix
+        ./shared/logging.nix
 
         # load endoreg-client modules if is-endoreg-client is true using nix library
         ( import ./endoreg-client/main.nix {
@@ -75,7 +76,9 @@ in {
 
         # AglNet Stuff
         ./shared/dev-tools.nix
-        ./shared/util-scripts.nix
+
+        # Utility Scripts Stuff
+        ./shared/util-scripts.nix # Includes scripts/utils/base-directories.nix
 
     ];
 
