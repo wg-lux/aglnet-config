@@ -105,6 +105,7 @@ in {
         tree
         usbutils
         whois
+        direnv
 
         bc
         gptfdisk
