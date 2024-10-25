@@ -3,8 +3,8 @@
 
     secondary-network-interface = "enp4s0"; # select by user
     
-    nvidiaBusId = "01:00.0"; # select by user
-    onboardGraphicBusId = "00:02.0"; # select by user
+    nvidiaBusId = "PCI:01:00:0"; # select by user
+    onboardGraphicBusId = "PCI:00:02:0"; # select by user
 
     file-system-base-uuid = "d7a0d12b-fb94-4795-996c-aac800517ab1"; 
     file-system-boot-uuid = "1B9C-2748"; 

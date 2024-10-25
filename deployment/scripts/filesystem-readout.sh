@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
+# Get Hostname
+hostname=$(hostname)
+
 # Define output file paths
-json_output_file="$(pwd)/hardware-readout.json"
-nix_config_output_file="$(pwd)/nix-config.txt"
+json_output_file="$(pwd)/$(hostname).json"
+nix_config_output_file="$(pwd)/$(hostname)-hardware.nix"
 
 # Function to add JSON formatting
 json_add_entry() {

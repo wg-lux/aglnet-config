@@ -5,6 +5,7 @@ let
         (import ./utils.nix { inherit config pkgs lib network-config; })
         ../shared/video-processing.nix
         ( import ./maintenance-mode.nix { inherit config pkgs lib network-config; })
+        ( import ../shared/nvidia.nix {inherit config pkgs network-config; })
     ] else [];
 
 in {

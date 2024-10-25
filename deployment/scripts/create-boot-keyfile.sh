@@ -9,7 +9,7 @@ MOUNT_POINT="/mnt/usb_key"
 KEYFILE_NAME="keyfile.bin"
 # KEYFILE_PATH="$MOUNT_POINT/$KEYFILE_NAME"
  # Placeholder for hostname config path
-OFFSET_M=14900; # Offset in MiB for the keyfile partition
+OFFSET_M=50; # Offset in MiB for the keyfile partition
 OFFSET_B=$((OFFSET_M * 1024 * 1024)); # Offset in bytes for the keyfile partition
 BS=1;
 COUNT=4096;
@@ -72,8 +72,8 @@ read -p "Please enter the path to the hostname configuration file (default: $HOS
 echo "Available partitions:"
 lsblk -o NAME,SIZE,TYPE,MOUNTPOINT,UUID
 
-read -p "Please enter the UUID of the LUKS partition for the main filesystem: " LUKS_HDD_INTERN_UUID
-read -p "Please enter the UUID of the LUKS partition for the swap: " LUKS_SWAP_UUID
+read -p "Please enter the UUID of the LUKS partition for the main filesystem (e.g., luks-UUID; only enter UUID): " LUKS_HDD_INTERN_UUID
+read -p "Please enter the UUID of the LUKS partition for the swap (e.g., luks-UUID; only enter UUID): " LUKS_SWAP_UUID
 
 # Print device info for confirmation
 echo "LUKS HDD Intern UUID: $LUKS_HDD_INTERN_UUID"
@@ -84,6 +84,7 @@ read -p "Do you want to proceed with adding the keyfile to the LUKS partitions? 
 
 if [[ "$ADD_KEYFILE" == "y" ]]; then
     echo "Adding keyfile to LUKS partitions..."
+    # Ensure cryptsetup is properly referenced
     sudo cryptsetup luksAddKey /dev/disk/by-uuid/$LUKS_HDD_INTERN_UUID $KEYFILE_NAME
     sudo cryptsetup luksAddKey /dev/disk/by-uuid/$LUKS_SWAP_UUID $KEYFILE_NAME
 fi

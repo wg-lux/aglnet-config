@@ -101,6 +101,29 @@ A fuse filesystem that dynamically populates contents of /bin and /usr/bin/ so t
 - programs.captive-browser.enable 
 - defaults to systems wifi interface if available
 
+## Garbage Collection
+```shell
+nix-channel --update
+nix-env -u --always
+rm /nix/var/nix/gcroots/auto/*
+nix-collect-garbage -d
+```
+
+*Clean old Generations*
+```shell
+nix-env --list-generations
+
+nix-collect-garbage  --delete-old
+
+nix-collect-garbage  --delete-generations 1 2 3
+
+# recommeneded to sometimes run as sudo to collect additional garbage
+sudo nix-collect-garbage -d
+
+# As a separation of concerns - you will need to run this command to clean out boot
+sudo /run/current-system/bin/switch-to-configuration boot
+```
+
 
 # Setup Guide
 ## Getting System speciic Hardware Info
