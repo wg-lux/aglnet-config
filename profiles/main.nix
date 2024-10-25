@@ -63,6 +63,7 @@ in {
         ./shared/sops.nix
         ./shared/logging.nix
         ./shared/power-management.nix
+        ./shared/zsh.nix
 
         # load endoreg-client modules if is-endoreg-client is true using nix library
         ( import ./endoreg-client/main.nix {
