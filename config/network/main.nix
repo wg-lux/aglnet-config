@@ -7,6 +7,7 @@ let
         ips = import ./ips.nix { inherit lib;};
         ports = import ./ports.nix { inherit lib;};
         urls = import ./urls.nix { inherit lib;};
+        identities = import ./identities.nix { inherit lib;};
     };
 
 in network

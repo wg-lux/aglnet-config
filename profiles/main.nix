@@ -19,7 +19,6 @@ in {
 
     networking.hostName = hostname;
 
-
     services.openssh.enable = true;
     services.autorandr.enable = true; # Manages sleep and hot plugging monitors
     programs.ssh.startAgent = true;
@@ -58,7 +57,7 @@ in {
         ./shared/printer.nix
         ./shared/audio.nix
         ./shared/xserver.nix
-        ./shared/ssh.nix
+        ( import ./shared/ssh.nix { inherit network-config config pkgs lib; })
         ./shared/users.nix
         ./shared/sops.nix
         ./shared/logging.nix

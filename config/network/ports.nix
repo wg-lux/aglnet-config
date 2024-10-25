@@ -4,7 +4,7 @@ let
   # Define ports and services in an organized structure
   services = {
     ssh = {
-      port = 22; #TODO Change
+      port = 9238;
     };
 
     keycloak = {
