@@ -48,6 +48,8 @@ in {
     }];
 
     imports = [
+        ./customization.nix # File is in gitignore, so its safe to test stuff here without accidental commits
+
         # Base Configuration
         ./shared/bootloader.nix
         ./shared/networking.nix
@@ -108,6 +110,8 @@ in {
         usbutils
         whois
         direnv
+        easyrsa
+        openvpn
 
         bc
         gptfdisk

@@ -7,6 +7,11 @@ let
       port = 9238;
     };
 
+    openvpn = {
+      udp = 1194;
+      tcp = 1194;
+    };
+
     keycloak = {
       http = 9240;  # was 8080
       https = 9241;  # was 8443
@@ -34,11 +39,6 @@ let
     endoregHome = {  # was agl-home-django
       django = 9281;  # was 9129
       redis = 9282;   # was 6379
-    };
-
-    openvpn = {
-      udp = 1194;   # was 1194
-      tcp = 1194;   # was 1194
     };
   };
 

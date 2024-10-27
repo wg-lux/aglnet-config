@@ -169,15 +169,131 @@ Copy the resulting $HOSTNAME-usb-key.nix file to `config/hardware`
 
 Then, update the nix config and reboot the system. During boot, the system should look for the stick and decrypt the system if available. Else, we fallback to passphrase
 
-### User Passwords
+### Sensitive Data HDD
+*Requires endoreg-usb-encrypter installed*
+run `sudo encrypt-usb`:
+move file to `config/hardware`
+
+## Users
+### Passwords
 - use the script `deployment/scripts/create-user-passwords.sh` to generate passwords and hashes
 - move the resulting `nix-user.yaml` file to `secrets/${hostname}/ 
 - encrypt it after moving the file (sops -e --in-place $FILEPATH)
 
-### Sensitive Data HDD
-*Requires endoreg-usb-encrypter installed*
-run `sudo encrypt-usb`:
-- 
+
+## OpenVPN Certificate Authority (CA)
+Initialize
+```bash
+mkdir ~/openvpn-ca
+cd ~/openvpn-ca
+easyrsa init-pki
+```
+
+Use example config
+```bash
+cd pki
+cp vars.example vars
+```
+
+
+Set Variables, e.g.:
+```bash
+set_var EASYRSA_OPENSSL	"openssl"
+set_var EASYRSA_DN	"cn_only"
+set_var EASYRSA_KEY_SIZE	2048
+set_var EASYRSA_CERT_EXPIRE	825
+set_var EASYRSA_CRL_DAYS	360
+set_var EASYRSA_PRE_EXPIRY_WINDOW	90
+```
+
+Build CA (for this, change back to the `openvpn-ca` directory):
+```bash
+easyrsa build-ca
+```
+
+Generate Secure passphrase (e.g., here https://untroubled.org/pwgen ).
+Make Sure the passphrase is secure, e.g.:
+
+Password Length:	20
+Bits per character:	6.60
+Effective password bits:	131
+Total possible combinations:	5,437,943,429,267,472,574,499,737,549,036,572,950,401
+
+### Generate the Diffie-Hellman Parameters
+```bash
+easyrsa gen-dh
+```
+-> openvpn-ca/pki/dh.pem
+
+### Generate the TLS-Auth Key (Optional but Recommended)
+```bash
+openvpn --genkey secret ta.key
+```
+
+### Generate a Certificate and Key for the Server
+
+Create the server key and certificate signing request (CSR):
+```bash
+easyrsa gen-req server nopass
+```
+
+Then, sign the CSR with the CA:
+```bash
+easyrsa sign-req server server
+```
+The files server.crt and server.key will be generated in the pki/issued and pki/private directories, respectively.
+
+
+In our setup we use the hostname of 'server-01'.
+```bash
+easyrsa gen-req agl-server-01 nopass
+easyrsa sign-req server server
+```
+Inline file created:
+openvpn-ca/pki/inline/private/agl-server-01.inline
+
+Certificate created at:
+openvpn-ca/pki/issued/agl-server-01.crt
+
+
+
+### Generate Certificates for Clients
+To generate the CSR and sign it:
+
+```bash
+easyrsa gen-req client1 nopass
+easyrsa sign-req client client1
+
+```
+
+You will need to transfer specific files to the OpenVPN server and clients:
+For the OpenVPN Server:
+
+    pki/ca.crt (CA Certificate)
+    pki/issued/server.crt (Server Certificate)
+    pki/private/server.key (Server Private Key)
+    pki/dh.pem (Diffie-Hellman Parameters)
+    ta.key (TLS-Auth Key)
+
+For Each Client:
+
+    pki/ca.crt (CA Certificate)
+    pki/issued/client1.crt (Client Certificate)
+    pki/private/client1.key (Client Private Key)
+    ta.key (TLS-Auth Key, if using)
+
+
+
+## OpenVPN Configuration files
+**Important**: 
+- Not yet dynamically created, make sure that ports / ips / hostnames in configuration files are same as in config/*.nix files
+- certificate files should be deployed using sops secret management to `/etc/openvpn-cert/`
+- for successful sops deployment the directory must exist
+    - added `/etc/openvpn-cert/`
+
+### Server
+See: `deployment/openvpn/aglnet-host.conf`
+
 
 # Testing
 ## Configuration

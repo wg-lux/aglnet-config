@@ -25,7 +25,7 @@ let
             l = "ls -alh";
             ll = "ls -l";
             ls = "ls --color=tty";
-            un = "update-nix";
+            un = "sudo nixos-rebuild switch --flake .";
             cleanup = "nix-collect-garbage -d";
             cleanup-roots = "sudo rm /nix/var/nix/gcroots/auto/*";
             optimize = "nix-store --optimize";

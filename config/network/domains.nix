@@ -19,6 +19,7 @@ let
 
         keycloak = "keycloak.${main}";
         endoreg-home = "home.${main}";
+        openvpn = "vpn.${main}";
         clients = clients;
 
     };

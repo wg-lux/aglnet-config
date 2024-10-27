@@ -2,3 +2,5 @@
 hardware-readout.json
 keyfile.bin
 *decrypted~*
+
+profiles/customization.nix
