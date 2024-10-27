@@ -14,6 +14,27 @@ let
         
     ] else [];
 
+    openvpn-dirs = [
+        {
+            path = paths.openvpn.certificate-root;
+            owner = users.service.name;
+            group = groups.service.name;
+            permissions = "0700";
+        }
+        {
+            path = paths.openvpn.openvpn-root;
+            owner = users.service.name;
+            group = groups.service.name;
+            permissions = "0700";
+        }
+        {
+            path = paths.openvpn.server.ccd;
+            owner = users.service.name;
+            group = groups.service.name;
+            permissions = "0700";
+        }
+    ]
+
 
     dirs = [
         {
@@ -22,6 +43,6 @@ let
             group = users.root.name;
             permissions = "0700";
         }
-    ] ++ endoreg-client-dirs;
+    ] ++ endoreg-client-dirs ++ openvpn-dirs;
 
 in dirs
