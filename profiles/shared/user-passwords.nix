@@ -62,6 +62,6 @@ in {
         "${users.center.name}".hashedPasswordFile = config.sops.secrets."${sops-target-center-user}".path;
         "${users.logging.name}".hashedPasswordFile = config.sops.secrets."${sops-target-logging-user}".path;
         "${users.maintenance.name}".hashedPasswordFile = config.sops.secrets."${sops-target-maintenance-user}".path;
-        "root".hashedPasswordFile = config.sops.secrets."${sops-target-root-user}".path;
+        # "root".hashedPasswordFile = config.sops.secrets."${sops-target-root-user}".path;
     };
 }
