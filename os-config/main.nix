@@ -11,6 +11,14 @@ let
 
     os-configs = {
         #"nixos" = import ./base-client-gpu.nix (
+        "${hostnames.server-01}" = import ./base-server.nix (
+            os-base-args // {
+                hostname = hostnames.server-01;
+                extra-modules = extra-modules;
+                network-config = network-config;
+            }
+        );
+
         "${hostnames.gpu-client-02}" = import ./base-client-gpu.nix (
             os-base-args // {
                 hostname = hostnames.gpu-client-02;
