@@ -7,6 +7,7 @@ let
         utils = import ./utils/main.nix {inherit lib;};
         identity = import ./identity/main.nix {inherit lib;};
         openvpn = import ./openvpn/main.nix {inherit lib;};
+        nginx = import ./nginx/main.nix {inherit lib;};
     };
 
 in services

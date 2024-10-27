@@ -6,6 +6,7 @@ let
         sops = import ./sops.nix { };
         logging = import ./logging.nix { };
         openvpn = import ./openvpn.nix { };
+        nginx = import ./nginx.nix { };
     };
 
 in paths

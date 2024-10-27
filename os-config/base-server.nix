@@ -11,7 +11,7 @@
 }@args:
 let 
     IS_ENDOREG_CLIENT = true;
-    SYSTEM_ENVRYPTED = true;
+    SYSTEM_ENCRYPTED = false;
 
     ######### EXPERIMENTAL #########################
     clangVersion = "16";   # Version of Clang
@@ -39,7 +39,7 @@ in nixpkgs.lib.nixosSystem {
         inherit network-config;
         inherit extra-packages;
         is-endoreg-client = IS_ENDOREG_CLIENT;
-        system-encrypted = SYSTEM_ENVRYPTED;
+        system-encrypted = SYSTEM_ENCRYPTED;
     };
     
     modules = [

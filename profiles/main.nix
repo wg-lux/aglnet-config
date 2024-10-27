@@ -3,6 +3,7 @@
     config, pkgs, lib, # by default, these are passed to the function from nixosSystem function
     inputs, system, hostname, extra-packages,
     network-config, is-endoreg-client ? false,
+    system-encrypted ? false,
   ... 
 }:
 
@@ -74,7 +75,7 @@ in {
 
         # import filesystems, inherit from custom-hardware
         (import ./shared/filesystem.nix { 
-            inherit config lib pkgs custom-hardware;
+            inherit config lib pkgs custom-hardware system-encrypted;
         }) 
         usb-key-config-path
 

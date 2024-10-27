@@ -1,4 +1,6 @@
 {config, pkgs, ...}:
 {
-    environment.systemPackages = [];
+    environment.systemPackages = with pkgs; [
+        udisks
+    ];
 }

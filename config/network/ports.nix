@@ -19,6 +19,7 @@ let
 
     nginx = {
       local = 9249;
+      aglnet = 9250;
     };
 
     endoregClientManager = {
@@ -27,7 +28,7 @@ let
     };
 
     monitor = {
-      django = 9251;  # was 9243
+      django = 9261;  # was 9243
       redis = 9262;   # was 6382
     };
 

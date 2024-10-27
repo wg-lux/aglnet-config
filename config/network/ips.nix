@@ -35,8 +35,10 @@ let
     };
 
     ips = {
+        vpn-ip-prefix = "172.16.255";
+        vpn-subnet = "${vpn-ip-prefix}.0/24";
         clients = clients;
-        by-hostname = ips-by-hostname;
+        # by-hostname = ips-by-hostname; # BROKEN
         services = {
             openvpn = {
                 host = clients."${service-hosts.openvpn}";

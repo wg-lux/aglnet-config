@@ -87,6 +87,16 @@ let
             };
         };
 
+        nginx = {
+            name = "nginx-user";
+            config = {
+                isNormalUser = false;
+                isSystemUser = true;
+                group = groups.nginx.name;
+                extraGroups = ["network-manager" "wheel"]; #2 TODO reduce permissions after initial testing
+            };
+        };
+
         openvpn = {
             name = "openvpn-user";
             config = {

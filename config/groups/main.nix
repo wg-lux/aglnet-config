@@ -33,5 +33,9 @@ let
             name = "openvpn";
             gid = 1107;
         };
+        nginx = {
+            name = "nginx";
+            gid = 1108;
+        };
     };
 in groups

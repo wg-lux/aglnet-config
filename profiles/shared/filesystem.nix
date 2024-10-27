@@ -1,4 +1,4 @@
-{ config, lib, pkgs, custom-hardware, ... }:
+{ config, lib, pkgs, custom-hardware, system-encrypted, ... }:
 
 let 
     ch = custom-hardware;
@@ -8,6 +8,7 @@ let
 
     luks-base-uuid = ch.luks-hdd-intern-uuid;
     luks-swap-uuid = ch.luks-swap-uuid;
+    inherit system-encrypted;
 
 in {
 
@@ -21,10 +22,10 @@ in {
         fsType = "vfat";
     };
 
-    boot.initrd.luks.devices = {
+    boot.initrd.luks.devices = if system-encrypted then {
         "luks-${luks-base-uuid}".device = "/dev/disk/by-uuid/${luks-base-uuid}";
         "luks-${luks-swap-uuid}".device = "/dev/disk/by-uuid/${luks-swap-uuid}";
-    };
+    } else {};
 
     swapDevices = [ 
             { device = "/dev/disk/by-uuid/${swap-uuid}"; }

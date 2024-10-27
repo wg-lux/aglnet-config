@@ -8,6 +8,10 @@ let
             user = users.openvpn;
             group = groups.openvpn;
         };
+        nginx = {
+            user = users.nginx;
+            group = groups.nginx;
+        };
     };
 
 in service-users
