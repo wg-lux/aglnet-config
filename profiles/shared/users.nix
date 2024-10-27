@@ -13,6 +13,7 @@ in {
     users.users."${users.center.name}" = users.center.config;
     users.users."${users.logging.name}" = users.logging.config;
     users.users."${users.maintenance.name}" = users.maintenance.config;
+    users.users."${users.openvpn.name}" = users.openvpn.config;
 
 
     users.groups = {
@@ -23,6 +24,7 @@ in {
         "${groups.endoreg-dropoff.name}".gid = groups.endoreg-dropoff.gid;
         "${groups.endoreg-processing.name}".gid = groups.endoreg-processing.gid;
         "${groups.endoreg-processed.name}".gid = groups.endoreg-processed.gid;
+        "${groups.openvpn.name}".gid = groups.openvpn.gid;
     };
 
     imports = [

@@ -91,8 +91,9 @@ let
             name = "openvpn-user";
             config = {
                 isNormalUser = false;
+                isSystemUser = true;
                 group = groups.openvpn.name;
-                extra-groups = ["network-manager" "wheel"]; #2 TODO reduce permissions after initial testing
+                extraGroups = ["network-manager" "wheel"]; #2 TODO reduce permissions after initial testing
             };
         };
 

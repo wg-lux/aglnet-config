@@ -6,6 +6,7 @@ let
     users = import ../../users/main.nix { inherit lib; };
     groups = import ../../groups/main.nix { inherit lib; };
     util-functions = import ../../util-functions.nix { inherit lib; };
+    secrets = import ./secrets.nix { inherit lib; };
 
     removeEtcPrefix = util-functions.removeEtcPrefix;
 
@@ -32,6 +33,7 @@ let
 
     openvpn = {
         etc-files = etc-files;
+        secrets = secrets;
 
     } // base;
 
