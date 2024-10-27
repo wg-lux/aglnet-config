@@ -15,13 +15,29 @@ let
     hostname-secrets = if is-openvpn-host then conf.secrets.server hostname else conf.secrets.client hostname;
     sops-secrets = shared-secrets // hostname-secrets;
 
+    openvpn-config = if is-openvpn-host then conf.paths.server.conf else conf.client.paths.conf;
+
 in {
     boot.initrd.network.openvpn.enable = true; # Starts Openvpn at stage 1 of boot
+    
     environment.etc = etc-files; 
+    environment.systemPackages = [
+        pkgs.openvpn
+        pkgs.vault
+    ];
 
     sops.secrets = sops-secrets;
+    networking.firewall.allowedUDPPorts =  if is-openvpn-host then [ conf.port ] else [ ];
 
-    #TODO Deploy the certificates
+    # services.openvpn.restartAfterSleep = true;
+    # services.openvpn.servers = {
+    #     aglNetHost = { 
+    #         config = '' config ${openvpn-config-path}/${openvpn-config-file}'';
+    #         autoStart = true;
+    #         updateResolvConf = true;
+    #     };
+    # };
+
     #TODO Load Configuration file
     #TODO Check old configuration for other migrations
     #TODO Review update-resolv-conf
