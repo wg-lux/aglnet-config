@@ -6,6 +6,7 @@ let
 
     openvpn = {
         configurations = configurations;
+        ccd = ccd;
     } // base;
 
 
