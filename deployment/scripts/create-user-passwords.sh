@@ -11,6 +11,7 @@ declare -A users=(
     ["center-user"]="center"
     ["logging-user"]="logging"
     ["maintenance-user"]="maintenance"
+    ["root"]="root"
 )
 
 # Initialize the output file

@@ -33,7 +33,7 @@ let
             group = groups.service.name;
             permissions = "0700";
         }
-    ]
+    ];
 
 
     dirs = [

@@ -29,5 +29,9 @@ let
             name = "endoreg-processed";
             gid = 1106;
         };
+        openvpn = {
+            name = "openvpn";
+            gid = 1107;
+        };
     };
 in groups

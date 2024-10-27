@@ -1,27 +1,23 @@
-{...}:
+{ lib, ... }:
 
 let 
-    base = import ./base.nix { };
-    ips = import ../../network/ips.nix { }.services.openvpn;
-    domains = import ../../network/domains.nix { }.domains;
-    
-    
-    # hostnames = import ../../hostnames.nix { };
-    hostnames = {
-        server-01 = "agl-server-01";
-        server-02 = "agl-server-02";
-        server-03 = "agl-server-03";
-        server-04 = "agl-server-04";
-        gpu-client-dev = "agl-gpu-client-dev";
-        gpu-client-01 = "agl-gpu-client-01";
-        gpu-client-02 = "agl-gpu-client-02";
-        gpu-client-03 = "agl-gpu-client-03";
-        gpu-client-04 = "agl-gpu-client-04";
-        gpu-client-05 = "agl-gpu-client-05";
-    };
+    base = import ./base.nix { inherit lib; };
+    _ips = import ../../network/ips.nix { inherit lib; };
+    ips = _ips.services.openvpn;
+    clients = _ips.clients;
+    hostnames = import ../../hostnames.nix { };
+    util-functions = import ../../util-functions.nix { inherit lib; };
+    removeEtcPrefix = util-functions.removeEtcPrefix;
 
-    ccd = {
-        
+
+    ccd = lib.attrsets.listToAttrs (lib.attrsets.mapAttrsToList (name: hostname: {
+    name = "${removeEtcPrefix base.paths.server.ccd}/${hostname}";
+    value = {
+        text = "ifconfig-push ${clients.${name}} ${ips.intern-subnet}";
+        user = base.user;
+        group = base.group;
+        mode = base.filemode-base;
     };
+    }) hostnames);
 
 in ccd

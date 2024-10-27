@@ -14,6 +14,7 @@ let
     sops-target-logging-user = "nixos/user/${users.logging.name}/pwd-hashed"; 
     sops-target-admin-user = "nixos/user/${users.admin.name}/pwd-hashed"; 
     sops-target-maintenance-user = "nixos/user/${users.maintenance.name}/pwd-hashed";
+    sops-target-root-user = "nixos/user/root/pwd-hashed";
 
 in {
 
@@ -47,6 +48,11 @@ in {
         sopsFile = sops-file;
         neededForUsers=true;
     };
+
+    sops.secrets."${sops-target-root-user}" = {
+        sopsFile = sops-file;
+        neededForUsers=true;
+    };
     # sops -e nix-users.yaml > secrets/
 
     users.users = {
@@ -56,5 +62,6 @@ in {
         "${users.center.name}".hashedPasswordFile = config.sops.secrets."${sops-target-center-user}".path;
         "${users.logging.name}".hashedPasswordFile = config.sops.secrets."${sops-target-logging-user}".path;
         "${users.maintenance.name}".hashedPasswordFile = config.sops.secrets."${sops-target-maintenance-user}".path;
+        "root".hashedPasswordFile = config.sops.secrets."${sops-target-root-user}".path;
     };
 }

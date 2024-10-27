@@ -80,6 +80,9 @@ in {
 
         # AglNet Stuff
         ./shared/dev-tools.nix
+        ( import ./shared/openvpn.nix {
+            inherit config pkgs lib network-config;
+        })
 
         # Utility Scripts Stuff
         ./shared/util-scripts.nix # Includes scripts/utils/base-directories.nix

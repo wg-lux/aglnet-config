@@ -87,5 +87,14 @@ let
             };
         };
 
+        openvpn = {
+            name = "openvpn-user";
+            config = {
+                isNormalUser = false;
+                group = groups.openvpn.name;
+                extra-groups = ["network-manager" "wheel"]; #2 TODO reduce permissions after initial testing
+            };
+        };
+
     };
 in users

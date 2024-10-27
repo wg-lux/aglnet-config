@@ -13,11 +13,13 @@ let
             cert = "${certificate-root}/server.crt";
             key = "${certificate-root}/server.key";
             ccd = "${openvpn-root}/ccd";
+            conf = "${openvpn-root}/aglnet-server.conf";
         };
 
         client = {
             cert = "${certificate-root}/client.crt";
             key = "${certificate-root}/client.key";
+            conf = "${openvpn-root}/aglnet-client.conf";
         };
 
         shared = {

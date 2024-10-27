@@ -9,5 +9,7 @@ let
         paths = import ./paths/main.nix { inherit lib; };
         services = import ./services/main.nix { inherit lib; };
         scripts = import ./scripts/main.nix { inherit lib; };
+        service-hosts = import ./service-hosts.nix {};
+        # util-functions = import ./util-functions.nix { inherit lib; };
     };
 in network-config

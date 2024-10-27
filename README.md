@@ -281,11 +281,8 @@ For Each Client:
 
 
 ## OpenVPN Configuration files
-**Important**: 
-- Not yet dynamically created, make sure that ports / ips / hostnames in configuration files are same as in config/*.nix files
-- certificate files should be deployed using sops secret management to `/etc/openvpn-cert/`
-- for successful sops deployment the directory must exist
-    - added `/etc/openvpn-cert/`
+Dynamically created in `config/services/openvpn`
+
 
 ### Server
 See: `deployment/openvpn/aglnet-host.conf`

@@ -1,9 +1,9 @@
-{...}:
+{lib ? <nixpkgs/lib>, ...}:
 let 
     base = import ./base.nix { };
     
 
-    server-configuration = ''
+    server = ''
         port ${base.port}
         proto ${base.proto}
         dev ${base.dev}
@@ -19,7 +19,7 @@ let
         key ${base.paths.server.key}
         dh ${base.paths.server.dh-pem}
         
-        server ${base.subnet} ${internal-network}
+        server ${base.subnet} ${base.intern-subnet}
 
         client-config-dir ${base.paths.server.ccd}
 
@@ -33,7 +33,7 @@ let
         verb ${base.verb}
     '';
 
-    client-configuration = ''
+    client = ''
         client
         proto ${base.proto}
         dev ${base.dev}
@@ -54,4 +54,9 @@ let
         verb ${base.verb}
     '';
 
-in configuration-files
+    configurations = {
+        server = server;
+        client = client;
+    };
+
+in configurations

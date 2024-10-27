@@ -40,9 +40,10 @@ let
         services = {
             openvpn = {
                 host = clients."${service-hosts.openvpn}";
+                hostname = hostnames."${service-hosts.openvpn}";
                 subnet = "${vpn-ip-prefix}.0";
                 subnet-suffix = "32";
-                intern-subnet = "255.255.255.0"
+                intern-subnet = "255.255.255.0";
             };
             main-nginx = {
                 host = clients."${service-hosts.main-nginx}";

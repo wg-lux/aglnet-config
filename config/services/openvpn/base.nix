@@ -1,19 +1,28 @@
-{lib, ...}:
+{lib ? <nixpkgs/lib>, ...}:
 let 
-    ports = import ../../network/ports.nix { inherit lib; };
+    _ports = import ../../network/ports.nix { inherit lib; };
+    ports = _ports.openvpn;
     paths = import ../../paths/openvpn.nix { };
     _ips = import ../../network/ips.nix { inherit lib; };
-    ips = ips.services.openvpn;
+    ips = _ips.services.openvpn;
     domains = import ../../network/domains.nix { inherit lib; };
+    service-users = import ../../service-users.nix { inherit lib; };
+    user = service-users.openvpn.user.name;
+    group = service-users.openvpn.group.name;
 
     base = {
-        port = ports.tcp;
+        port = toString ports.tcp;
         paths = paths;
         domain = domains.openvpn;
         host-ip = ips.host;
+        hostname = ips.hostname;
         subnet = ips.subnet;
+        filemode-base = "0600";
+        filemode-secret = "0400";
         intern-subnet = ips.intern-subnet;
         subnet-suffix = ips.subnet-suffix;
+        user = user;
+        group = group;
         proto = "tcp";
         dev = "tun";
         cipher = "AES-256-GCM";
