@@ -8,8 +8,8 @@ let
     };
 
     openvpn = {
-      udp = 1194;
-      tcp = 1194;
+      udp = 9239;
+      tcp = 9239;
     };
 
     keycloak = {
@@ -19,7 +19,7 @@ let
 
     nginx = {
       local = 9249;
-      aglnet = 9250;
+      aglnet = 443;
     };
 
     endoregClientManager = {
