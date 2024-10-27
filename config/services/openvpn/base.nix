@@ -11,7 +11,7 @@ let
     group = service-users.openvpn.group.name;
 
     base = {
-        port = toString ports.udp;
+        port = ports.udp;
         paths = paths;
         domain = domains.openvpn;
         host-ip = ips.host;

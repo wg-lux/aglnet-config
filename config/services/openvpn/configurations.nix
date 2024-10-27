@@ -4,7 +4,7 @@ let
     
 
     server = ''
-        port ${base.port}
+        port ${toString base.port}
         proto ${base.proto}
         dev ${base.dev}
 
@@ -37,7 +37,7 @@ let
         client
         proto ${base.proto}
         dev ${base.dev}
-        remote ${base.host-ip} ${base.port}
+        remote ${base.host-ip} ${toString base.port}
 
         ca ${base.paths.shared.ca}
         tls-auth ${base.paths.shared.ta}

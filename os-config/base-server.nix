@@ -10,7 +10,7 @@
     ...
 }@args:
 let 
-    IS_ENDOREG_CLIENT = true;
+    IS_ENDOREG_CLIENT = false;
     SYSTEM_ENCRYPTED = false;
 
     ######### EXPERIMENTAL #########################
