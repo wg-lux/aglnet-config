@@ -13,13 +13,13 @@ let
 
     shared-secrets = conf.secrets.shared;
     hostname-secrets = if is-openvpn-host then conf.secrets.server hostname else conf.secrets.client hostname;
-    # sops-secrets = {} // shared-secrets // hostname-secrets;
+    sops-secrets = shared-secrets // hostname-secrets;
 
 in {
     boot.initrd.network.openvpn.enable = true; # Starts Openvpn at stage 1 of boot
     environment.etc = etc-files; 
 
-    sops.secrets = hostname-secrets;
+    sops.secrets = sops-secrets;
 
     #TODO Deploy the certificates
     #TODO Load Configuration file

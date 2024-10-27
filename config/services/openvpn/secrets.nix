@@ -7,6 +7,7 @@ let
     group = base.group;
     filemode = base.filemode-secret;
     format = "binary";
+    openvpn-host-hostname = base.hostname;
 
     filenames = paths.filenames;
 
