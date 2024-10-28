@@ -6,7 +6,7 @@ let
 
     hostnames = import ../hostnames.nix {};
 
-    main = "endoreg.net";
+    main = "endo-reg.net";
     subdomain-suffix-intern = "intern";
 
     addInternalDomain = name: value: "${value}-${subdomain-suffix-intern}.${main}";

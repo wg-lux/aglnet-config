@@ -13,8 +13,6 @@ let
         keepalive ${base.keepalive}
         cipher ${base.cipher}
         push "route ${base.subnet} ${base.intern-subnet}" # makes subnet available
-        user nobody # drops privileges after start
-        group nobody # drops privileges after start
         verb ${base.verb}
 
         ca ${base.paths.shared.ca}
@@ -27,8 +25,6 @@ let
         topology ${base.topology}
 
         client-to-client
-
-        
     '';
 
 # remote ${base.host-ip} ${toString base.port}
@@ -38,8 +34,10 @@ let
         client
         proto ${base.proto}
         dev ${base.dev}
-        #remote ${base.domain} ${toString base.port}
-        remote 192.168.179.1 ${toString base.port}
+        remote ${base.domain} ${toString base.port}
+        #remote 192.168.179.1 ${toString base.port}
+        # remote endo-reg.net ${toString base.port}
+
 
         resolv-retry ${base.resolv-retry}
         nobind
