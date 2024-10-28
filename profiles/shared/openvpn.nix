@@ -23,7 +23,7 @@ let
     
     extra-imports = 
         if is-openvpn-host then [
-            (import ./shared/openvpn.nix { inherit config pkgs lib network-config; })
+            (import ./shared/dnsmasq.nix { inherit config pkgs lib network-config; })
          ]
         else [ ];
 
