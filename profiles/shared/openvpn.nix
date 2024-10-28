@@ -30,7 +30,6 @@ in {
 
     sops.secrets = sops-secrets;
     networking.firewall.allowedTCPPorts =  if is-openvpn-host then [ conf.port ] else [ ];
-    # networking.enableIPv4Forwarding = true;
 
 
     services.openvpn.restartAfterSleep = true;

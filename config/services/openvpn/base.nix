@@ -16,11 +16,11 @@ let
         domain = domains.openvpn;
         host-ip = ips.host;
         hostname = ips.hostname;
-        subnet = ips.subnet;
+        subnet = ips.subnet; #172.16.255.0
         filemode-base = "0600";
         filemode-secret = "0400";
-        intern-subnet = ips.intern-subnet;
-        subnet-suffix = ips.subnet-suffix;
+        intern-subnet = ips.intern-subnet; #255.255.255.0
+        subnet-suffix = ips.subnet-suffix; #32
         user = user;
         group = group;
         proto = "tcp";

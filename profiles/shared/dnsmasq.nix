@@ -8,14 +8,12 @@ let
 
 in {
 
-    networking.firewall.allowedUDPPorts = [ dnsmasq-port ];
-    services.dnsmasq = {
-        enable = true;
-        # extraConfig = dnsmasq-extra-config; ## DEPRECEATED
-        alwaysKeepRunning = true;
-        settings = dnsmasq-conf.settings;
-    };
-
-
+    # networking.firewall.allowedUDPPorts = [ dnsmasq-port ];
+    # services.dnsmasq = {
+    #     enable = true;
+    #     # extraConfig = dnsmasq-extra-config; ## DEPRECEATED
+    #     alwaysKeepRunning = true;
+    #     settings = dnsmasq-conf.settings;
+    # };
 
 }

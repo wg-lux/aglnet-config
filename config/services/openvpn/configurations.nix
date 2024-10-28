@@ -7,30 +7,28 @@ let
         port ${toString base.port}
         proto ${base.proto}
         dev ${base.dev}
-
-        push "dhcp-option DNS ${base.host-ip}"
-        push "route ${base.subnet} ${base.intern-subnet}"
-        push "route ${base.domain} 255.255.255.255"
+        server ${base.subnet} ${base.intern-subnet} # -> 172.16.255.0/24
+        persist-key
+        persist-tun
+        keepalive ${base.keepalive}
+        cipher ${base.cipher}
+        push "route ${base.subnet} ${base.intern-subnet}" # makes subnet available
+        user nobody # drops privileges after start
+        group nobody # drops privileges after start
+        verb ${base.verb}
 
         ca ${base.paths.shared.ca}
-        tls-auth ${base.paths.shared.ta}
-
+        tls-auth ${base.paths.shared.ta} 0
         cert ${base.paths.server.cert}
         key ${base.paths.server.key}
         dh ${base.paths.server.dh-pem}
         
-        server ${base.subnet} ${base.intern-subnet}
-
         client-config-dir ${base.paths.server.ccd}
-
-        cipher ${base.cipher}
-        keepalive ${base.keepalive}
         topology ${base.topology}
 
         client-to-client
-        persist-key
-        persist-tun
-        verb ${base.verb}
+
+        
     '';
 
 # remote ${base.host-ip} ${toString base.port}
@@ -40,19 +38,23 @@ let
         client
         proto ${base.proto}
         dev ${base.dev}
+        #remote ${base.domain} ${toString base.port}
         remote 192.168.179.1 ${toString base.port}
 
-        ca ${base.paths.shared.ca}
-        tls-auth ${base.paths.shared.ta}
-
-        cert ${base.paths.client.cert}
-        key ${base.paths.client.key}
-
-        cipher ${base.cipher}
         resolv-retry ${base.resolv-retry}
         nobind
         persist-key
         persist-tun
+
+        ca ${base.paths.shared.ca}
+        tls-auth ${base.paths.shared.ta} 1
+        cert ${base.paths.client.cert}
+        key ${base.paths.client.key}
+        cipher ${base.cipher}
+
+        route-nopull
+        route 172.16.255.0 255.255.255.0
+
         remote-cert-tls server
         verb ${base.verb}
     '';
