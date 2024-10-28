@@ -3,6 +3,7 @@
 
 let 
     conf = network-config.services.openvpn;
+    main-domain = network-config.network.domains.main;
     hostname = config.networking.hostName;
     openvpn-host-hostname = conf.hostname;
 
@@ -18,11 +19,14 @@ let
     openvpn-config = if is-openvpn-host then conf.paths.server.conf else conf.paths.client.conf;
 
     extra-packages = 
-        if is-openvpn-host then [ pkgs.openvpn pkgs.vault] 
-        else [ ];
+        if is-openvpn-host then [ pkgs.openvpn pkgs.vault ]pkgs.traceroute  
+        else [ pkgs.traceroute ];
 
 
 in {
+
+    programs.dublin-traceroute.enable = true;
+    networking.domain = main-domain;
 
     networking.nameservers = [ "8.8.8.8" "1.1.1.1" ];
     boot.initrd.network.openvpn.enable = true; # Starts Openvpn at stage 1 of boot
