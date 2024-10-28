@@ -35,9 +35,6 @@ let
         proto ${base.proto}
         dev ${base.dev}
         remote ${base.domain} ${toString base.port}
-        #remote 192.168.179.1 ${toString base.port}
-        # remote endo-reg.net ${toString base.port}
-
 
         resolv-retry ${base.resolv-retry}
         nobind

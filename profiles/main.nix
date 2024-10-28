@@ -20,7 +20,7 @@ let
     ] else [];
 
     openvpn-host-modules = if is-openvpn-host then [
-        ( import ./shared/dnsmasq.nix { inherit config pkgs lib network-config; }) 
+        # ( import ./shared/dnsmasq.nix { inherit config pkgs lib network-config; }) 
     ] else [];
 
     ssh-modules = if ssh-by-default then [ ( import ./shared/ssh.nix { inherit network-config config pkgs lib; }) ] else [];
@@ -32,7 +32,7 @@ in {
     networking.hostName = hostname;
 
     services.openssh.enable = true;
-    services.autorandr.enable = true; # Manages sleep and hot plugging monitors
+    # services.autorandr.enable = true; # Manages sleep and hot plugging monitors
     programs.ssh.startAgent = true;
 
     nix.settings = {
