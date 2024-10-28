@@ -26,6 +26,7 @@ in
     services.openssh.settings = {
         PermitRootLogin = permit-root;
         PasswordAuthentication = password-auth;
+        KbdInteractiveAuthentication = false;
         port = port;
     };
 

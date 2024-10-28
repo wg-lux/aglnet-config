@@ -287,6 +287,16 @@ Dynamically created in `config/services/openvpn`
 ### Server
 See: `deployment/openvpn/aglnet-host.conf`
 
+## SSH
+Known hosts are added in the config.
+If you want to use SSH to access another client, you have to deploy a suitable identity file
+
+For this we deploy the corresponding identity to ~/.ssh/use ssh-add
+(if we need another path we can use ssh-add $PATH)
+
+verify with ssh-add -l
+
+*Important:* When connecting via ssh we need use the correct user for the available key files (USER@HOST), if not specified we use the currently active user
 
 # Testing
 ## Configuration
