@@ -34,7 +34,7 @@ let
             name = "agl-admin";
             config = {
                 isNormalUser = true;
-                password = "agl-admin";
+                # password = "agl-admin";
                 extraGroups = [
                     "networkManager" 
                     "wheel" 
@@ -48,7 +48,7 @@ let
             name = "setup-user";
             config = {
                 isNormalUser = true;
-                password = "setup-user";
+                # password = "setup-user";
                 extraGroups = dev-access;
             };
         };
@@ -56,7 +56,7 @@ let
             name = "service-user";
             config = {
                 isNormalUser = true;
-                password = "service-user";
+                # password = "service-user";
                 extraGroups = [
                     service-group
                     endoreg-dropoff-group
@@ -69,7 +69,7 @@ let
             name = "center-user";
             config = {
                 isNormalUser = true;
-                password = "center-user";
+                # password = "center-user";
                 extraGroups = [
                     "networkManager"
                     endoreg-dropoff-group
@@ -80,7 +80,7 @@ let
             name = "logging-user";
             config = {
                 isNormalUser = true;
-                password = "logging-user";
+                # password = "logging-user";
                 extraGroups = [logging-group];
             };
         };
@@ -88,7 +88,7 @@ let
             name = "maintenance-user";
             config = {
                 isNormalUser = true;
-                password = "maintenance-user";
+                # password = "maintenance-user";
                 extraGroups = [maintenance-group];
             };
         };

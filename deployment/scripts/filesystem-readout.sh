@@ -151,6 +151,10 @@ cat <<EOL > "$nix_config_output_file"
     luks-hdd-intern-uuid = "$luks_hdd_intern_uuid";
     luks-swap-uuid = "$luks_swap_uuid";
 
+    kernel-modules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "usbhid" "sd_mod" ];
+    initrd-available-kernel-modules = [ "kvm-intel" ];
+
+
     system-state = "$system_state"; # enter by user
 }
 EOL
@@ -158,5 +162,5 @@ EOL
 # Ensure correct permissions are set for the Nix configuration file
 sudo chmod 644 "$nix_config_output_file"
 
-echo "Nix configuration written to $nix_config_output_file"
+echo "Nix configuration written to $nix_config_output_file", Remember to check kernel modules and move file to config/hardware
 
