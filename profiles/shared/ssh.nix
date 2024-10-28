@@ -25,7 +25,7 @@ in
 
     services.openssh.settings = {
         PermitRootLogin = permit-root;
-        PasswordAuthentication = true;# password-auth;
+        PasswordAuthentication = password-auth;
         port = port;
     };
 

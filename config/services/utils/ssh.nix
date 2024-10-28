@@ -38,7 +38,7 @@ let
     ssh = {
         port = ports.ssh.port;
         permit-root-login = "no";
-        password-authentication = true; # TODO
+        password-authentication = false; # TODO
 
         # Assign user configurations properly
         user-configs = user-configs;
