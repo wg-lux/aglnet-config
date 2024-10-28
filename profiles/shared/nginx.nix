@@ -1,23 +1,29 @@
 { config, pkgs, lib, network-config, ... }:
 
 let 
+    conf = network-config.services.nginx;
 
 
 
 in {
 
-    services.nginx = {
-        enable = true;
-        recommendedGzipSettings = true;
-        recommendedOptimisation = true;
-        recommendedProxySettings = true;
-        recommendedTlsSettings = true; 
+    # open ports:
+    networking.firewall.allowedTCPPorts = [ 
+        80 443 conf.port
+     ];
 
-        appendHttpConfig = conf.appendHttpConfig;
+    # services.nginx = {
+    #     enable = true;
+    #     recommendedGzipSettings = true;
+    #     recommendedOptimisation = true;
+    #     recommendedProxySettings = true;
+    #     recommendedTlsSettings = true; 
 
-        virtualHosts = conf.virtualHosts;
+    #     appendHttpConfig = conf.appendHttpConfig;
 
-    };
+    #     virtualHosts = conf.virtualHosts;
+
+    # };
 
 };
 

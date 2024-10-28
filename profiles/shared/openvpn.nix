@@ -29,14 +29,14 @@ in {
     sops.secrets = sops-secrets;
     networking.firewall.allowedUDPPorts =  if is-openvpn-host then [ conf.port ] else [ ];
 
-    # services.openvpn.restartAfterSleep = true;
-    # services.openvpn.servers = {
-    #     aglNetHost = { 
-    #         config = '' config ${openvpn-config-path}/${openvpn-config-file}'';
-    #         autoStart = true;
-    #         updateResolvConf = true;
-    #     };
-    # };
+    services.openvpn.restartAfterSleep = true;
+    services.openvpn.servers = {
+        aglNet = { 
+            config = '' config ${openvpn-config}'';
+            autoStart = true;
+            updateResolvConf = true;
+        };
+    };
 
     #TODO Load Configuration file
     #TODO Check old configuration for other migrations

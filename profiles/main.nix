@@ -12,6 +12,13 @@ let
     custom-hardware = import ../config/hardware/${hostname}.nix;
     usb-key-config-path = builtins.toPath ../config/hardware/${hostname}-usb-key.nix;
 
+    is-nginx-host = hostname == network-config.services.nginx.hostname;
+
+    nginx-modules = if is-nginx-host then [
+        ( import ./shared/nginx.nix { inherit config pkgs lib network-config; }) 
+    ] else [];
+
+
     ssh-modules = if ssh-by-default then [ ( import ./shared/ssh.nix { inherit network-config config pkgs lib; }) ] else [];
 
 in {

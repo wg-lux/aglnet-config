@@ -3,6 +3,7 @@ let
 
     service-users = import ../../service-users.nix { inherit lib; };
     service-hosts = import ../../service-hosts.nix { inherit lib; };
+    paths = import ../../paths/nginx.nix { }; 
 
     network = import ../../network/main.nix { inherit lib; };
     ips = network.ips;
@@ -19,6 +20,8 @@ let
         port = network.ports.nginx.aglnet;
         user = service-users.nginx.user.name;
         group = service-users.nginx.user.config.group;
+        filemode-secret = "0400";
+        paths = paths;
 
 
         all-extraConfig = ''
