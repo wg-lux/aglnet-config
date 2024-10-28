@@ -3,7 +3,7 @@
     config, pkgs, lib, # by default, these are passed to the function from nixosSystem function
     inputs, system, hostname, extra-packages,
     network-config, is-endoreg-client ? false,
-    system-encrypted ? false,
+    system-encrypted ? false, ssh-by-default ? false,
   ... 
 }:
 
@@ -12,7 +12,7 @@ let
     custom-hardware = import ../config/hardware/${hostname}.nix;
     usb-key-config-path = builtins.toPath ../config/hardware/${hostname}-usb-key.nix;
 
-    
+    ssh-modules = if ssh-by-default then [ ( import ./shared/ssh.nix { inherit network-config config pkgs lib; }) ] else [];
 
 in {
     system.stateVersion = custom-hardware.system-state;
@@ -60,7 +60,6 @@ in {
         ./shared/printer.nix
         ./shared/audio.nix
         ./shared/xserver.nix
-        ( import ./shared/ssh.nix { inherit network-config config pkgs lib; })
         ./shared/users.nix
         ./shared/sops.nix
         ./shared/logging.nix
@@ -88,7 +87,8 @@ in {
         # Utility Scripts Stuff
         ./shared/util-scripts.nix # Includes scripts/utils/base-directories.nix
 
-    ];
+    ]
+    ++ ssh-modules;
 
     environment.systemPackages = with pkgs; [ 
         vim

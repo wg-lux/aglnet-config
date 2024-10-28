@@ -1,46 +1,51 @@
-{ lib, ...}:
+{ lib ? import <nixpkgs/lib>, ... }:
+
 let
     users = import ../../users/main.nix { inherit lib; };
     identities = import ../../network/identities.nix { inherit lib; };
     ports = import ../../network/ports.nix { inherit lib; };
 
+    # Define the SSH users and corresponding authorized keys
     ssh-users = [
-        users.maintenance.name
-        users.admin.name
+        {
+            name = users.maintenance.name;
+            authorized-keys = [
+                identities.ed25519.backup
+                identities.ed25519.gpu-client-dev
+            ];
+        }
+        {
+            name = users.admin.name;
+            authorized-keys = [
+                identities.ed25519.gpu-client-dev
+                identities.ed25519."root_agl-gpu-client-02"
+            ];
+        }
     ];
 
-    authorized-keys = [
-        identities.ssh.backup
-        identities.ssh.gpu-client-dev
-    ];
-
-    # Add function create user configs from user ssh-users list
+    # Function to generate user configuration
     create-user-config = user: {
-        user = user;
-        authorized-keys = authorized-keys;
+        openssh.authorizedKeys.keys = user.authorized-keys;
     };
 
-    # Iterate over list of ssh-users and create list of user-configs
-    _user-configs = map create-user-config ssh-users;
-
-    user-configs = lib.listToAttrs (map (userConfig: {
-      name = userConfig.user;
-      value = {
-        openssh.authorizedKeys.keys = userConfig."authorized-keys";
-      };
-    }) _user-configs);
+    # Generate the user configurations
+    user-configs = lib.genAttrs (map (u: u.name) ssh-users) (name:
+      let
+        user = builtins.elemAt (lib.filter (u: u.name == name) ssh-users) 0;
+      in create-user-config user
+    );
 
     ssh = {
         port = ports.ssh.port;
         permit-root-login = "no";
         password-authentication = true; # TODO
 
+        # Assign user configurations properly
         user-configs = user-configs;
         accepted-key-types = [ "ssh-ed25519" "ssh-rsa" ];
     };
 
-    # define known hosts! #TODO
+    # Define known hosts! #TODO
     # https://search.nixos.org/options?channel=24.05&show=programs.ssh.knownHosts&from=0&size=50&sort=relevance&type=packages&query=programs.ssh
-
 
 in ssh

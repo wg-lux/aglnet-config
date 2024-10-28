@@ -19,7 +19,7 @@ let
             }
         );
 
-        "${hostnames.gpu-client-02}" = import ./base-client-gpu.nix (
+        "${hostnames.gpu-client-02}" = import ./dev-client-gpu.nix ( ##TODO Change to base-client after prototyping
             os-base-args // {
                 hostname = hostnames.gpu-client-02;
                 extra-modules = extra-modules;

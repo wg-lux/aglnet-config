@@ -10,8 +10,8 @@
     ...
 }@args:
 let 
-    IS_ENDOREG_CLIENT = false;
-    SYSTEM_ENCRYPTED = false;
+    IS_ENDOREG_CLIENT = true;
+    SYSTEM_ENVRYPTED = true;
     SSH_BY_DEFAULT = true;
 
     ######### EXPERIMENTAL #########################
@@ -40,7 +40,7 @@ in nixpkgs.lib.nixosSystem {
         inherit network-config;
         inherit extra-packages;
         is-endoreg-client = IS_ENDOREG_CLIENT;
-        system-encrypted = SYSTEM_ENCRYPTED;
+        system-encrypted = SYSTEM_ENVRYPTED;
         ssh-by-default = SSH_BY_DEFAULT;
     };
     

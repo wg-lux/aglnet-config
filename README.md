@@ -294,3 +294,106 @@ Run in ./config/
 ```bash
 nix eval --expr 'import ./main.nix { lib = import <nixpkgs/lib>;}' --impure
 ```
+
+
+
+# Nix Functions
+(Chat GPT Content)
+Let's break down the expression:
+
+### Full Expression:
+
+```nix
+user-configs = lib.genAttrs (map (u: u.name) ssh-users) (name:
+  let
+    user = builtins.elemAt (filter (u: u.name == name) ssh-users) 0;
+  in create-user-config user
+);
+```
+
+### Explanation of Each Component:
+
+1. **`lib.genAttrs`**:
+    - **Purpose**: This is a function from the Nix library (`lib`) that generates an attribute set (similar to a dictionary in other programming languages) from a list of keys. For each key, it runs a function to determine the corresponding value.
+    - **Syntax**: 
+      ```nix
+      lib.genAttrs keys function
+      ```
+    - **Parameters**:
+      - `keys`: A list of strings that will be used as the keys in the resulting attribute set.
+      - `function`: A function that takes each key (one at a time) and returns the corresponding value for that key.
+
+2. **`map (u: u.name) ssh-users`**:
+    - **Purpose**: This expression generates the `keys` list for `lib.genAttrs`. It uses `map` to extract the `name` attribute from each element in `ssh-users`.
+    - **How `map` Works**:
+        - The `map` function applies a transformation to each element of a list. Here, it takes each `u` (where `u` is an element of `ssh-users`) and retrieves `u.name`.
+        - **Example**: If `ssh-users` is:
+          ```nix
+          [
+            { name = "maintenance-user"; authorized-keys = [ ... ]; }
+            { name = "admin-user"; authorized-keys = [ ... ]; }
+          ]
+          ```
+          Then `map (u: u.name) ssh-users` results in:
+          ```nix
+          [ "maintenance-user" "admin-user" ]
+          ```
+
+3. **Function `(name: ...)`**:
+    - **Purpose**: This is the function passed as the second argument to `lib.genAttrs`. It is called for each key (which is a username string, like `"maintenance-user"`) and generates the corresponding value that will be placed in the resulting attribute set.
+    - **Input**: Each `name` (e.g., `"maintenance-user"`, `"admin-user"`) is processed individually.
+
+4. **The `let` Expression**:
+    - **Purpose**: The `let` expression is used to define local variables. In this case, it is defining `user`:
+      ```nix
+      let
+        user = builtins.elemAt (filter (u: u.name == name) ssh-users) 0;
+      in create-user-config user
+      ```
+    - **`builtins.elemAt`**:
+        - **Purpose**: This function retrieves an element from a list based on its index. In this case, it is used to get the first element (`index 0`) of the list returned by `filter`.
+        - **Example**: If `filter` returns `[ { name = "admin-user"; ... } ]`, then `builtins.elemAt ... 0` will give you `{ name = "admin-user"; ... }`.
+    - **`filter (u: u.name == name) ssh-users`**:
+        - **Purpose**: `filter` is a function that selects elements from a list based on a condition. Here, it picks the element(s) from `ssh-users` where `u.name` matches the `name` provided by `genAttrs`.
+        - **Example**: If `name` is `"maintenance-user"`, then:
+          ```nix
+          filter (u: u.name == "maintenance-user") ssh-users
+          ```
+          will return a list containing only the object with `name = "maintenance-user"`.
+    - **Why `builtins.elemAt` is Used**:
+        - Since `filter` returns a list, and we know there should be only one match, `builtins.elemAt ... 0` retrieves the first (and expected only) element of the list, giving us a single user configuration.
+
+5. **`create-user-config user`**:
+    - **Purpose**: The result of the `let` expression is passed to `create-user-config`, which converts the `user` object into the desired configuration format.
+    - **Output**: This generates the configuration for a single user, which `genAttrs` then uses to build the final attribute set.
+
+### Putting It All Together:
+
+- **Step-by-Step Process**:
+    1. **`map (u: u.name) ssh-users`** creates a list of usernames from `ssh-users` to use as keys.
+    2. **`lib.genAttrs`** iterates over this list of usernames, calling the function `(name: ...)` for each username.
+    3. Inside the function, **`filter (u: u.name == name) ssh-users`** finds the user object with the matching name.
+    4. **`builtins.elemAt`** retrieves this matching user object.
+    5. **`create-user-config`** converts this object into a configuration, which `genAttrs` uses as the value associated with the username.
+
+- **Example Output**:
+  If `ssh-users` is:
+  ```nix
+  [
+    { name = "maintenance-user"; authorized-keys = [ "key1" ]; }
+    { name = "admin-user"; authorized-keys = [ "key2" ]; }
+  ]
+  ```
+  The result of `user-configs` would be:
+  ```nix
+  {
+    maintenance-user = {
+      openssh.authorizedKeys.keys = [ "key1" ];
+    };
+    admin-user = {
+      openssh.authorizedKeys.keys = [ "key2" ];
+    };
+  }
+  ``` 
+
+This final attribute set can be used directly in Nix configurations where each key corresponds to a username and each value provides the appropriate SSH configuration.
