@@ -17,14 +17,23 @@ let
 
     openvpn-config = if is-openvpn-host then conf.paths.server.conf else conf.paths.client.conf;
 
+    extra-packages = 
+        if is-openvpn-host then [ pkgs.openvpn pkgs.vault] 
+        else [ ];
+    
+    extra-imports = 
+        if is-openvpn-host then [
+            (import ./shared/openvpn.nix { inherit config pkgs lib network-config; })
+         ]
+        else [ ];
+
 in {
     boot.initrd.network.openvpn.enable = true; # Starts Openvpn at stage 1 of boot
     
     environment.etc = etc-files; 
-    environment.systemPackages = [
-        pkgs.openvpn
-        pkgs.vault
-    ];
+    environment.systemPackages = extra-packages;
+
+    imports = extra-imports;
 
     sops.secrets = sops-secrets;
     networking.firewall.allowedTCPPorts =  if is-openvpn-host then [ conf.port ] else [ ];
