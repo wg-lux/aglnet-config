@@ -28,6 +28,8 @@ in {
 
     sops.secrets = sops-secrets;
     networking.firewall.allowedTCPPorts =  if is-openvpn-host then [ conf.port ] else [ ];
+    networking.enableIPv4Forwarding = true;
+
 
     services.openvpn.restartAfterSleep = true;
     services.openvpn.servers = {
@@ -37,10 +39,5 @@ in {
             updateResolvConf = true;
         };
     };
-
-    #TODO Load Configuration file
-    #TODO Check old configuration for other migrations
-    #TODO Review update-resolv-conf
-
 
 }

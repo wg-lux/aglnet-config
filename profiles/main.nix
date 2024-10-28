@@ -72,6 +72,7 @@ in {
         ./shared/logging.nix
         ./shared/power-management.nix
         ./shared/zsh.nix
+        (import ./shared/hosts.nix { inherit config pkgs lib network-config; })
 
         # load endoreg-client modules if is-endoreg-client is true using nix library
         ( import ./endoreg-client/main.nix {

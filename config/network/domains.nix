@@ -1,4 +1,4 @@
-{lib, ...}:
+{lib ? import <nixpkgs/lib> , ...}:
 let
 
     # nix eval --expr 'import ./domains.nix { lib = import <nixpkgs/lib>;}'

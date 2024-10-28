@@ -7,6 +7,10 @@ let
       port = 9238;
     };
 
+    dnsmasq = {
+      port = 53;
+    };
+
     openvpn = {
       udp = 9239;
       tcp = 9239;
