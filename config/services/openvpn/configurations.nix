@@ -33,11 +33,14 @@ let
         verb ${base.verb}
     '';
 
+# remote ${base.host-ip} ${toString base.port}
+        
+
     client = ''
         client
         proto ${base.proto}
         dev ${base.dev}
-        remote ${base.host-ip} ${toString base.port}
+        remote 192.168.179.1 ${toString base.port}
 
         ca ${base.paths.shared.ca}
         tls-auth ${base.paths.shared.ta}

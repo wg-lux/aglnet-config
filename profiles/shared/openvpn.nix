@@ -15,7 +15,7 @@ let
     hostname-secrets = if is-openvpn-host then conf.secrets.server hostname else conf.secrets.client hostname;
     sops-secrets = shared-secrets // hostname-secrets;
 
-    openvpn-config = if is-openvpn-host then conf.paths.server.conf else conf.client.paths.conf;
+    openvpn-config = if is-openvpn-host then conf.paths.server.conf else conf.paths.client.conf;
 
 in {
     boot.initrd.network.openvpn.enable = true; # Starts Openvpn at stage 1 of boot
@@ -27,7 +27,7 @@ in {
     ];
 
     sops.secrets = sops-secrets;
-    networking.firewall.allowedUDPPorts =  if is-openvpn-host then [ conf.port ] else [ ];
+    networking.firewall.allowedTCPPorts =  if is-openvpn-host then [ conf.port ] else [ ];
 
     services.openvpn.restartAfterSleep = true;
     services.openvpn.servers = {
