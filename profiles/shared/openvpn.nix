@@ -23,6 +23,8 @@ let
 
 
 in {
+
+    networking.nameservers = [ "8.8.8.8" "1.1.1.1" ];
     boot.initrd.network.openvpn.enable = true; # Starts Openvpn at stage 1 of boot
     
     environment.etc = etc-files; 
@@ -37,7 +39,7 @@ in {
         aglNet = { 
             config = '' config ${openvpn-config}'';
             autoStart = true;
-            updateResolvConf = true;
+            updateResolvConf = false;
         };
     };
 
