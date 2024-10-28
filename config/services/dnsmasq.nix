@@ -36,12 +36,23 @@ let
         log-facility=/var/log/dnsmasq.log
     '';
 
-
     dnsmasq = {
         hostname = hostname;
         port = port;
         ip = ip;
-        extra-config = extra-config;
+        # extra-config = extra-config; # DEPRECEATED
+        settings = {
+            listen-address = "127.0.0.1,${ip}";
+            local="/${domains.main}/";
+            interface = network-interface;
+            bind-interfaces = true;
+            log-queries = true;
+            log-facility = "/var/log/dnsmasq.log";
+            server = [
+                "8.8.8.8"
+                "4.4.4.4"
+            ];
+        };
     };
 
 in dnsmasq

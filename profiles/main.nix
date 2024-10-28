@@ -13,11 +13,15 @@ let
     usb-key-config-path = builtins.toPath ../config/hardware/${hostname}-usb-key.nix;
 
     is-nginx-host = hostname == network-config.services.nginx.hostname;
+    is-openvpn-host = hostname == network-config.services.openvpn.hostname;
 
     nginx-modules = if is-nginx-host then [
         ( import ./shared/nginx.nix { inherit config pkgs lib network-config; }) 
     ] else [];
 
+    openvpn-host-modules = if is-openvpn-host then [
+        ( import ./shared/dnsmasq.nix { inherit config pkgs lib network-config; }) 
+    ] else [];
 
     ssh-modules = if ssh-by-default then [ ( import ./shared/ssh.nix { inherit network-config config pkgs lib; }) ] else [];
 
