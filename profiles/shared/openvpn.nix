@@ -20,20 +20,17 @@ let
     extra-packages = 
         if is-openvpn-host then [ pkgs.openvpn pkgs.vault] 
         else [ ];
-    
-    extra-imports = 
-        if is-openvpn-host then [
-            (import ./shared/dnsmasq.nix { inherit config pkgs lib network-config; })
-         ]
-        else [ ];
+
+    dnsmasq-conf = network-config.services.dnsmasq;
+    dnsmasq-port = dnsmasq-conf.port;
+    dnsmasq-extra-config = dnsmasq-conf.extra-config;
+
 
 in {
     boot.initrd.network.openvpn.enable = true; # Starts Openvpn at stage 1 of boot
     
     environment.etc = etc-files; 
     environment.systemPackages = extra-packages;
-
-    imports = extra-imports;
 
     sops.secrets = sops-secrets;
     networking.firewall.allowedTCPPorts =  if is-openvpn-host then [ conf.port ] else [ ];
@@ -48,5 +45,15 @@ in {
             updateResolvConf = true;
         };
     };
+
+
+    ################ DNSMASQ
+    networking.firewall.allowedUDPPorts = [ dnsmasq-port ];
+    services.dnsmasq = {
+        enable = true;
+        extraConfig = dnsmasq-extra-config;
+        alwaysKeepRunning = true;
+    };
+
 
 }

@@ -1,19 +1,19 @@
-{ config, pkgs, lib, network-config, ... }:
+# { config, pkgs, lib, network-config, ... }:
 
-let 
+# let 
 
-    conf = network-config.services.dnsmasq;
-    port = conf.port;
-    extra-config = conf.extra-config;
+#     dnsmasq-conf = network-config.services.dnsmasq;
+#     dnsmasq-port = dnsmasq-conf.port;
+#     dnsmasq-extra-config = dnsmasq-conf.extra-config;
 
-in {
+# in {
 
-    networking.firewall.allowedUDPPorts = [ port ];
-    services.dnsmasq = {
-        enable = true;
-        extraConfig = extra-config;
-        alwaysKeepRunning = true;
-    };
+#     networking.firewall.allowedUDPPorts = [ dnsmasq-port ];
+#     services.dnsmasq = {
+#         enable = true;
+#         extraConfig = dnsmasq-extra-config;
+#         alwaysKeepRunning = true;
+#     };
 
 
-}
+# }
