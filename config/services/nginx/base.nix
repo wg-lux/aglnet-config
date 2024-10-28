@@ -9,14 +9,17 @@ let
     ips = network.ips;
 
     hostnames = import ../../hostnames.nix { inherit lib; };
-    hostname = hostnames."${service-hosts.nginx}";
+    raw-host = service-hosts.nginx;
+    hostname = hostnames."${raw-host}";
 
     proxy_headers_hash_bucket_size = 128;
 
     base = {
         hostname = hostname;
+        raw-host = raw-host;
 
-        host-ip = network.ips.clients."${service-hosts.nginx}";
+        
+        host-ip = network.ips.clients."${raw-host}";
         port = network.ports.nginx.aglnet;
         user = service-users.nginx.user.name;
         group = service-users.nginx.user.config.group;

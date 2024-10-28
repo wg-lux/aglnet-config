@@ -8,10 +8,15 @@ let
 
     hostnames = import ../hostnames.nix { inherit lib; };
 
-    # Create the `hosts` attribute set by iterating over the `ips`
-    hosts = lib.mapAttrs (raw-hostname: ip: {
-        "${ip}" = [ (client-domains.${raw-hostname}) hostnames."${raw-hostname}" ];
-    }) client-ips;
+    # Create the `hosts` attribute set by iterating over `client-ips`
+    hosts = lib.foldl' (acc: raw-hostname: 
+        let 
+            ip = client-ips.${raw-hostname};
+        in
+            acc // {
+                "${ip}" = [ (client-domains.${raw-hostname}) hostnames.${raw-hostname} ];
+            }
+    ) {} (lib.attrNames client-ips);
 
     # create hosts by adding localhost to the hosts
     finalHosts = hosts // {

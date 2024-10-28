@@ -2,6 +2,8 @@
 let
     base = import ./base.nix { inherit lib; };
 
+    secret-root = ../../../secrets/${base.hostname}/nginx;
+
     secrets = {
         shared = {};
         server = {

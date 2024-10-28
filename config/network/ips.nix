@@ -48,7 +48,7 @@ let
                 intern-subnet = "255.255.255.0";
             };
             main-nginx = {
-                host = clients."${service-hosts.main-nginx}";
+                host = clients."${service-hosts.nginx}";
             };
         };
     };

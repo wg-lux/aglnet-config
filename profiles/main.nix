@@ -58,7 +58,7 @@ in {
     imports = [
         ./customization.nix # File is in gitignore, so its safe to test stuff here without accidental commits
 
-        # Base Configuration
+        # Base Configurations
         ./shared/bootloader.nix
         ./shared/networking.nix
         ./shared/polkit.nix

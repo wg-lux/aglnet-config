@@ -1,9 +1,6 @@
 { lib ? <nixpkgs/lib> , ... }:
 let
-    base = import ./base.nix { inherit lib; };
-
-    main-nginx-host = base.hostname;
-    secret-root = ../../secrets + "/${main-nginx-host}/nginx";
+    base = import ./base.nix { inherit lib; }; 
 
     main = {
         secrets = import ./secrets.nix { inherit lib; };

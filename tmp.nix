@@ -1,13 +1,4 @@
-{config, pkgs, network-config, ...}:
-
-let 
-    hosts = network-config.network.hosts;
-
-
-in {
-
-    # networking.hosts = hosts;
-    networking.hosts = { 
+{ 
     "127.0.0.1" = [ "localhost" "localhost" ]; 
     "172.16.255.1" = [ "agl-server-01-intern.endoreg.net" "agl-server-01" ]; 
     "172.16.255.140" = [ "agl-gpu-client-dev-intern.endoreg.net" "agl-gpu-client-dev" ]; 
@@ -19,6 +10,4 @@ in {
     "172.16.255.2" = [ "agl-server-02-intern.endoreg.net" "agl-server-02" ]; 
     "172.16.255.3" = [ "agl-server-03-intern.endoreg.net" "agl-server-03" ]; 
     "172.16.255.4" = [ "agl-server-04-intern.endoreg.net" "agl-server-04" ]; 
-};
-
 }
