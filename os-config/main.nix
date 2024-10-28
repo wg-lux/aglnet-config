@@ -19,6 +19,14 @@ let
             }
         );
 
+        "${hostnames.server-02}" = import ./base-server.nix (
+            os-base-args // {
+                hostname = hostnames.server-02;
+                extra-modules = extra-modules;
+                network-config = network-config;
+            }
+        );
+
         "${hostnames.gpu-client-02}" = import ./dev-client-gpu.nix ( ##TODO Change to base-client after prototyping
             os-base-args // {
                 hostname = hostnames.gpu-client-02;
