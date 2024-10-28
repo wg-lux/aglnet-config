@@ -8,6 +8,7 @@ let
         identity = import ./identity/main.nix {inherit lib;};
         openvpn = import ./openvpn/main.nix {inherit lib;};
         nginx = import ./nginx/main.nix {inherit lib;};
+        dnsmasq = import ./dnsmasq.nix {inherit lib;};
     };
 
 in services
