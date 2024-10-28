@@ -10,15 +10,22 @@ let
         {
             name = users.maintenance.name;
             authorized-keys = [
-                identities.ed25519.backup
                 identities.ed25519.gpu-client-dev
             ];
         }
         {
             name = users.admin.name;
             authorized-keys = [
+                identities.ed25519.backup
                 identities.ed25519.gpu-client-dev
-                identities.ed25519."root_agl-gpu-client-02"
+            ];
+        }
+
+        ###### TEMPORARILY ADD SETUP USER #########
+        {
+            name = users.setup.name;
+            authorized-keys = [
+                identities.ed25519.gpu-client-dev
             ];
         }
     ];
