@@ -19,7 +19,7 @@ let
     openvpn-config = if is-openvpn-host then conf.paths.server.conf else conf.paths.client.conf;
 
     extra-packages = 
-        if is-openvpn-host then [ pkgs.openvpn pkgs.vault ]pkgs.traceroute  
+        if is-openvpn-host then [ pkgs.openvpn pkgs.vault pkgs.traceroute ]  
         else [ pkgs.traceroute ];
 
 
