@@ -8,7 +8,6 @@ let
 
     main = "endo-reg.net";
     subdomain-suffix-intern = "intern";
-
     addInternalDomain = name: value: "${value}-${subdomain-suffix-intern}.${main}";
     clients = lib.mapAttrs addInternalDomain hostnames;
 
