@@ -13,7 +13,7 @@ let
     proto = "tcp";
 
     base = {
-        port = ports."${tcp}";
+        port = ports."${proto}";
         paths = paths;
         domain = domains.openvpn;
         host-ip = ips.host;
