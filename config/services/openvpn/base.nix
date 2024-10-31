@@ -10,8 +10,10 @@ let
     user = service-users.openvpn.user.name;
     group = service-users.openvpn.group.name;
 
+    proto = "tcp";
+
     base = {
-        port = ports.udp;
+        port = ports."${tcp}";
         paths = paths;
         domain = domains.openvpn;
         host-ip = ips.host;
@@ -23,7 +25,7 @@ let
         subnet-suffix = ips.subnet-suffix; #32
         user = user;
         group = group;
-        proto = "tcp";
+        proto = proto;
         dev = "tun";
         cipher = "AES-256-GCM";
         keepalive = "10 1200";

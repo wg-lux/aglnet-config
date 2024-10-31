@@ -12,8 +12,8 @@ let
     };
 
     openvpn = {
-      udp = 9239;
-      tcp = 9239;
+      udp = 1194;
+      tcp = 1194;
     };
 
     keycloak = {
