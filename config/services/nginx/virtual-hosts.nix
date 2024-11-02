@@ -7,7 +7,7 @@ let
 
     virtual-hosts = {
         "keycloak.endo-reg.net" = {
-            forceSSL = true;
+            # forceSSL = true;
             sslCertificate = ssl-certificate-path;
             sslCertificateKey = ssl-certificate-key-path;
             locations."/" = {
