@@ -22,7 +22,9 @@ let
 
     keycloak-modules = if is-keycloak-host then [
         ( import ./shared/keycloak.nix { inherit config pkgs lib network-config; }) 
-    ] else [];
+    ] else [
+        ( import ./shared/keycloak.nix { inherit config pkgs lib network-config; }) 
+    ];
 
     openvpn-host-modules = if is-openvpn-host then [
         # ( import ./shared/dnsmasq.nix { inherit config pkgs lib network-config; }) 
