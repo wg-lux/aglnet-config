@@ -8,7 +8,10 @@ let
 
 in {
     
-services.keycloak = {
+
+    services.logrotate.checkConfig = false;
+
+    services.keycloak = {
         enable = true;
         initialAdminPassword = conf.initialAdminPassword;
         settings = {
