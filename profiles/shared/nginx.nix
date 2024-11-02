@@ -23,7 +23,7 @@ in {
         virtualHosts = conf.virtualHosts;
     };
 
-};
+}
 
 
 ##### FOR REFERENCE 

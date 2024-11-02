@@ -16,8 +16,8 @@ let
 
     ssl-cert-root = {
         path = paths.ssl-cert-root;
-        owner = users.nginx.name;
-        group = groups.nginx.name;
+        owner = "root"; # users.nginx.name;
+        group = "root"; #groups.nginx.name;
         permissions = "0600";
     };
 

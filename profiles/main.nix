@@ -100,7 +100,8 @@ in {
         ./shared/util-scripts.nix # Includes scripts/utils/base-directories.nix
 
     ]
-    ++ ssh-modules;
+    ++ ssh-modules
+    ++ nginx-modules;
 
     environment.systemPackages = with pkgs; [ 
         vim

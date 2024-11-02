@@ -4,6 +4,7 @@ let
 
     main = {
         secrets = import ./secrets.nix { inherit lib; };
+        virtualHosts = import ./virtual-hosts.nix { inherit lib; };
     } // base;
 
 
