@@ -17,7 +17,10 @@ let
     base = {
         hostname = hostname;
         raw-host = raw-host;
-
+        recommendedGzipSettings = true;
+        recommendedOptimisation = true;
+        recommendedProxySettings = true;
+        recommendedTlsSettings = true;
         
         host-ip = network.ips.clients."${raw-host}";
         port = network.ports.nginx.aglnet;

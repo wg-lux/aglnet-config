@@ -12,18 +12,16 @@ in {
         80 443 conf.port
      ];
 
-    # services.nginx = {
-    #     enable = true;
-    #     recommendedGzipSettings = true;
-    #     recommendedOptimisation = true;
-    #     recommendedProxySettings = true;
-    #     recommendedTlsSettings = true; 
+    services.nginx = {
+        enable = true;
+        recommendedGzipSettings = conf.recommendedGzipSettings;
+        recommendedOptimisation = conf.recommendedOptimisation;
+        recommendedProxySettings = conf.recommendedProxySettings;
+        recommendedTlsSettings = conf.recommendedTlsSettings;
 
-    #     appendHttpConfig = conf.appendHttpConfig;
-
-    #     virtualHosts = conf.virtualHosts;
-
-    # };
+        appendHttpConfig = conf.appendHttpConfig;
+        virtualHosts = conf.virtualHosts;
+    };
 
 };
 

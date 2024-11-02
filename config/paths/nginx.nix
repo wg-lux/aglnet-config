@@ -1,8 +1,12 @@
 {...}:
 let
+
+    cert-root = "/etc/endoreg-cert";
     nginx = {
-        ssl-certificate = "/etc/endoreg-cert/__endo-reg_net_chain.pem";
-        ssl-certificate-key = "/etc/endoreg-cert/endo-reg-net-lower-decrypted.key";
+        cert-root = cert-root;
+
+        ssl-certificate = "${cert-root}/__endo-reg_net_chain.pem";
+        ssl-certificate-key = "${cert-root}/endo-reg-net-lower-decrypted.key";
     };
 
 in nginx

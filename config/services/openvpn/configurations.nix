@@ -48,7 +48,7 @@ let
         cipher ${base.cipher}
 
         route-nopull
-        route 172.16.255.0 255.255.255.0
+        route ${base.subnet} ${base.intern-subnet} 
 
         remote-cert-tls server
         verb ${base.verb}

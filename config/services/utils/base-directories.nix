@@ -14,6 +14,13 @@ let
         
     ] else [];
 
+    ssl-cert-root = {
+        path = paths.ssl-cert-root;
+        owner = users.nginx.name;
+        group = groups.nginx.name;
+        permissions = "0600";
+    };
+
     openvpn-dirs = [
         {
             path = paths.openvpn.certificate-root;
