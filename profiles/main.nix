@@ -14,9 +14,14 @@ let
 
     is-nginx-host = hostname == network-config.services.nginx.hostname;
     is-openvpn-host = hostname == network-config.services.openvpn.hostname;
+    is-keycloak-host = hostname == network-config.services.keycloak.hostname;
 
     nginx-modules = if is-nginx-host then [
         ( import ./shared/nginx.nix { inherit config pkgs lib network-config; }) 
+    ] else [];
+
+    keycloak-modules = if is-keycloak-host then [
+        ( import ./shared/keycloak.nix { inherit config pkgs lib network-config; }) 
     ] else [];
 
     openvpn-host-modules = if is-openvpn-host then [

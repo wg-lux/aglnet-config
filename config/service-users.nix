@@ -12,6 +12,10 @@ let
             user = users.nginx;
             group = groups.nginx;
         };
+        keycloak = {
+            user = users.service-user;
+            group = groups.service-user;
+        };
     };
 
 in service-users

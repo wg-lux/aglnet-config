@@ -29,7 +29,7 @@ let
             ];
 
             locations."/" = {
-                proxyPass = "http://127.0.0.1:8080"; # TODO FIXME
+                proxyPass = "http://127.0.0.1:{network.ports.keycloak.http}"; # TODO FIXME
                 extraConfig = base.all-extraConfig;
             };
         };

@@ -50,6 +50,10 @@ let
             main-nginx = {
                 host = clients."${service-hosts.nginx}";
             };
+
+            keycloak = {
+                host = clients."${service-hosts.keycloak}";
+            };
         };
     };
 
