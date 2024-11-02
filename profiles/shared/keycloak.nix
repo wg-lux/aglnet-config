@@ -12,7 +12,7 @@ in {
     services.logrotate.checkConfig = false;
 
     services.keycloak = {
-        enable = true;
+        enable = false;
         initialAdminPassword = conf.initialAdminPassword;
         settings = {
             http-host = conf.http-host;
