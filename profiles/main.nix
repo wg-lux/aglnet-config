@@ -31,10 +31,10 @@ let
     ssh-modules = if ssh-by-default then [ ( import ./shared/ssh.nix { inherit network-config config pkgs lib; }) ] else [];
 
 
-    extra-service-modules = [] + nginx-modules 
-        + keycloak-modules 
-        + openvpn-host-modules
-        + ssh-modules;
+    extra-service-modules = [] ++ nginx-modules 
+        ++ keycloak-modules 
+        ++ openvpn-host-modules
+        ++ ssh-modules;
 
 in {
     system.stateVersion = custom-hardware.system-state;
@@ -110,7 +110,7 @@ in {
         # Utility Scripts Stuff
         ./shared/util-scripts.nix # Includes scripts/utils/base-directories.nix
 
-    ] + extra-service-modules;
+    ] ++ extra-service-modules;
 
     environment.systemPackages = with pkgs; [ 
         vim
