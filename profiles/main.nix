@@ -30,6 +30,12 @@ let
 
     ssh-modules = if ssh-by-default then [ ( import ./shared/ssh.nix { inherit network-config config pkgs lib; }) ] else [];
 
+
+    extra-service-modules = [] + nginx-modules 
+        + keycloak-modules 
+        + openvpn-host-modules
+        + ssh-modules;
+
 in {
     system.stateVersion = custom-hardware.system-state;
     users.mutableUsers = false;
@@ -104,9 +110,7 @@ in {
         # Utility Scripts Stuff
         ./shared/util-scripts.nix # Includes scripts/utils/base-directories.nix
 
-    ]
-    ++ ssh-modules
-    ++ nginx-modules;
+    ] + extra-service-modules;
 
     environment.systemPackages = with pkgs; [ 
         vim
