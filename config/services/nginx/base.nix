@@ -22,6 +22,7 @@ let
         recommendedOptimisation = true;
         recommendedProxySettings = true;
         recommendedTlsSettings = true;
+        domain = network.domains.keycloak;
         
         host-ip = network.ips.clients."${raw-host}";
         port = network.ports.nginx.aglnet;
@@ -29,7 +30,6 @@ let
         group = service-users.nginx.user.config.group;
         filemode-secret = "0400";
         paths = paths;
-
 
         all-extraConfig = ''
             proxy_headers_hash_bucket_size ${toString proxy_headers_hash_bucket_size};
