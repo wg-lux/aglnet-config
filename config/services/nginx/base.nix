@@ -31,10 +31,11 @@ let
         filemode-secret = "0400";
         paths = paths;
 
-        all-extraConfig = ''
-            proxy_headers_hash_bucket_size ${toString proxy_headers_hash_bucket_size};
-            proxy_headers_hash_max_size ${toString proxy_headers_hash_max_size};
-        '';
+        all-extraConfig = '''';
+        # ''
+        #     proxy_headers_hash_bucket_size ${toString proxy_headers_hash_bucket_size};
+        #     proxy_headers_hash_max_size ${toString proxy_headers_hash_max_size};
+        # '';
         
         intern-endoreg-net-extraConfig = ''
             allow ${ips.vpn-subnet};

@@ -10,6 +10,7 @@ let
     custom-packages = [] 
         ++ (if hostname == "agl-gpu-client-02" then [ 
             pkgs.udisks
+            pkgs.vault
 
             ] else [])
         ++ (if hostname == "agl-gpu-client-03" then []

@@ -22,7 +22,7 @@ in {
         recommendedTlsSettings = conf.recommendedTlsSettings;
 
         appendHttpConfig = conf.appendHttpConfig;
-        virtualHosts = conf.virtualHosts;
+        # virtualHosts = conf.virtualHosts;
     };
 
 }
