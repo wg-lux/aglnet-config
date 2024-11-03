@@ -26,6 +26,8 @@ In clean state, no ports are opened (see 'profiles/shared/networking')
 
 
 ## Secret Management with sops-nix
+General sops Intro: https://blog.gitguardian.com/a-comprehensive-guide-to-sops/
+
 The main sops config is located at `aglnet-config/.sops.yaml`
 
 Here the public keys of different sops clients and their access are managed
