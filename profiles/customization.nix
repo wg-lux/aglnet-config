@@ -3,6 +3,6 @@
     environment.systemPackages = with pkgs; [
         udisks
         nixfmt-rfc-style
-        # libreoffice
+        # libreoffice # asd
     ];
 }
