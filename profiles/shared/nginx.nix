@@ -14,8 +14,7 @@ in {
 
     services.nginx = {
         enable = true;
-        user = conf.user;
-        group = conf.group;
+        # user = conf.user; # should be "nginx"
         recommendedGzipSettings = conf.recommendedGzipSettings;
         recommendedOptimisation = conf.recommendedOptimisation;
         recommendedProxySettings = conf.recommendedProxySettings;
