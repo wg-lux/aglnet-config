@@ -91,6 +91,12 @@ in {
         ./shared/zsh.nix
         (import ./shared/hosts.nix { inherit config pkgs lib network-config; })
 
+        # TESTING####################################
+
+        ./shared/postgresql-base.nix
+
+        #############################################
+
         # load endoreg-client modules if is-endoreg-client is true using nix library
         ( import ./endoreg-client/main.nix {
             inherit config pkgs lib network-config is-endoreg-client;

@@ -19,7 +19,6 @@ let
                 {
                     addr = ips.clients."${service-hosts.nginx}";
                     port = 443;
-                    ssl = true;
                 }
                 {
                     addr = ips.clients."${service-hosts.nginx}";
