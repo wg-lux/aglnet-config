@@ -1,4 +1,7 @@
 {config, pkgs, lib, ...}:
+
+
+
 {
     # environment.systemPackages = with pkgs; [
     #     lm_sensors
@@ -6,6 +9,17 @@
     # ];
 
     services.power-profiles-daemon.enable = false;
+    # services.auto-cpufreq.enable = true;
+    # services.auto-cpufreq.settings = {
+    #   battery = {
+    #     governor = "powersave";
+    #     turbo = "never";
+    #   };
+    #   charger = {
+    #     governor = "performance";
+    #     turbo = "auto";
+    #   };
+    # };
 
     services.tlp = {
       enable = true;
@@ -27,6 +41,6 @@
        STOP_CHARGE_THRESH_BAT0 = 80; # 80 and above it stops charging
 
       };
-};
+    };
 
 }

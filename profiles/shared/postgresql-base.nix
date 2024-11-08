@@ -29,17 +29,17 @@ let
     };
 
 in {
-    services.postgresql = {
-        enable = true;
+    # services.postgresql = {
+    #     enable = true;
 
-        ensureDatabases = conf.ensure-databases;
-        authentication = pkgs.lib.mkOverride 10 ''
-        #type database  DBuser  auth-method
-        local all       all     trust
-        '';
+    #     ensureDatabases = conf.ensure-databases;
+    #     authentication = pkgs.lib.mkOverride 10 ''
+    #     #type database  DBuser  auth-method
+    #     local all       all     trust
+    #     '';
 
-        settings = conf.settings;
-    };
+    #     settings = conf.settings;
+    # };
 
 
 
