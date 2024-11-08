@@ -12,8 +12,8 @@ let
     raw-host = service-hosts.nginx;
     hostname = hostnames."${raw-host}";
 
-    proxy_headers_hash_max_size = 1024;
-    proxy_headers_hash_bucket_size = 128;
+    proxy_headers_hash_max_size = 512;
+    proxy_headers_hash_bucket_size = 64;
 
     base = {
         hostname = hostname;
@@ -31,11 +31,10 @@ let
         filemode-secret = "0400";
         paths = paths;
 
-        all-extraConfig = '''';
-        # ''
-        #     proxy_headers_hash_bucket_size ${toString proxy_headers_hash_bucket_size};
-        #     proxy_headers_hash_max_size ${toString proxy_headers_hash_max_size};
-        # '';
+        all-extraConfig = ''
+            proxy_headers_hash_bucket_size ${toString proxy_headers_hash_bucket_size};
+            proxy_headers_hash_max_size ${toString proxy_headers_hash_max_size};
+        '';
         
         intern-endoreg-net-extraConfig = ''
             allow ${ips.vpn-subnet};

@@ -15,17 +15,13 @@ let
             sslCertificate = ssl-certificate-path;
             sslCertificateKey = ssl-certificate-key-path;
 
-            listen = [
-                {
-                    addr = ips.clients."${service-hosts.nginx}";
-                    port = 443;
-                }
-                {
-                    addr = ips.clients."${service-hosts.nginx}";
-                    port = 80;
-                    ssl = false;
-                }
-            ];
+            # listen = [
+            #     {
+            #         addr = ips.clients."${service-hosts.nginx}";
+            #         port = 80;
+            #         # ssl = false;
+            #     }
+            # ];
 
             locations."/" = {
                 proxyPass = "http://127.0.0.1:${toString network.ports.keycloak.http}"; # TODO FIXME

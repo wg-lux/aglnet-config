@@ -5,7 +5,7 @@ let
     nginx = {
         cert-root = cert-root;
 
-        ssl-certificate = "${cert-root}/__endo-reg_net_chain.pem";
+        ssl-certificate = "${cert-root}/__endo-reg_net.pem";
         ssl-certificate-key = "${cert-root}/endo-reg_net.key";
     };
 

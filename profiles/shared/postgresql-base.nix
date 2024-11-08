@@ -5,11 +5,11 @@ let
     conf = {
         settings = {
             port = port;
-            log_connections = true;
-            log_statement = "all";
-            logging_collector = true;
-            log_disconnections = true;
-            log_destination = "syslog";
+            # log_connections = true;
+            # log_statement = "all";
+            # logging_collector = true;
+            # log_disconnections = true;
+            # log_destination = "syslog";
         };
 
         ensure-users = [
@@ -29,17 +29,18 @@ let
     };
 
 in {
-    # services.postgresql = {
-    #     enable = true;
+    services.postgresql = {
+        enable = true;
+        dataDir = "/var/lib/postgresql/15"; #TODO DEFINE MANUALLY?
 
-    #     ensureDatabases = conf.ensure-databases;
-    #     authentication = pkgs.lib.mkOverride 10 ''
-    #     #type database  DBuser  auth-method
-    #     local all       all     trust
-    #     '';
+        ensureDatabases = conf.ensure-databases;
+        authentication = pkgs.lib.mkOverride 10 ''
+        #type database  DBuser  auth-method
+        local all       all     trust
+        '';
 
-    #     settings = conf.settings;
-    # };
+        settings = conf.settings;
+    };
 
 
 
