@@ -3,18 +3,21 @@ let
 
     base = import ./base.nix { inherit lib; };
     conf = base.base-db;
+    data-dir = "/var/lib/postgresql/15";
 
     base-db-conf = {
       host = conf.host-backup;
+      target-db-host = conf.host;
+
+      target-db-ip = conf.ip;
+      target-db-port = conf.port;
+      target-db-user = conf.replication-user;
+      target-db-pass-file = data-dir + "/.pgpass";
+
       settings = {
             port = conf.port;
-            listen_addresses = lib.mkForce "localhost,127.0.0.1,${conf.ip-backup}"; # defaults to "*" if enableTCPIP is true;
-            # Enable WAL archiving and set the level to logical or replica
-            wal_level = "replica";
-            # Set the number of maximum concurrent connections from standby servers
-            max_wal_senders = 3;
-            # Enable WAL logging
-            wal_keep_size = "64MB";
+            listen_addresses = lib.mkForce "localhost,${conf.ip-backup}"; # defaults to "*" if enableTCPIP is true;
+            hot_standby = true;
             password_encryption = "scram-sha-256";
 
 
@@ -25,7 +28,7 @@ let
             # log_destination = "syslog";
         };
 
-        data-dir = "/var/lib/postgresql/15"; # if changed we need to make sure the directory exists (e.g. using tmpfiles)
+        data-dir = data-dir; # if changed we need to make sure the directory exists (e.g. using tmpfiles)
 
         ensure-users = [
             {
@@ -45,7 +48,7 @@ let
         authentication = lib.mkOverride 10 ''
             #type database                  DBuser                      address                     auth-method         optional_ident_map
             local sameuser                  all                                                     peer                map=superuser_map
-            host  ${conf.replication-user}  ${conf.replication-user}    ${conf.ip-backup}/32         scram-sha-256
+            host  ${conf.replication-user}  ${conf.replication-user}    ${conf.ip}/32         scram-sha-256
         '';
 
         ident-map = lib.mkOverride 10 ''

@@ -318,6 +318,9 @@ verify with ssh-add -l
 - Set keycloak user pwd
 - create / alter replication user
   - `CREATE ROLE replication_user WITH REPLICATION LOGIN ENCRYPTED PASSWORD 'your_secure_password';`
+- on server running base-backup-db (server-02), we need to deploy the replicator user pwd (default `~postgres/.pgpass`)
+  - `sudo -u postgres nano ~postgres/.pgpass`
+  - `sudo chmod 0600 ~postgres/.pgpass`
 
 
 TODO
@@ -481,3 +484,8 @@ user-configs = lib.genAttrs (map (u: u.name) ssh-users) (name:
   ``` 
 
 This final attribute set can be used directly in Nix configurations where each key corresponds to a username and each value provides the appropriate SSH configuration.
+
+
+# TODO
+- vault setup (consul, keycloak integration)
+  - secret management and deployment
