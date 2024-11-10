@@ -76,12 +76,7 @@ in {
             User = "postgres";  # Run the backup as the postgres user
             ExecStart = ''
                 # Backup each database individually to reduce locking and load
-                for db in $(psql -U postgres -t -c "SELECT datname FROM pg_database WHERE datistemplate = false;"); do
-                    db=$(echo "$db" | xargs)  # Trim whitespace from the database name
-                    if [ -n "$db" ]; then  # Ensure db variable is not empty
-                        pg_dump -h localhost -U postgres "$db" > /backup/pg_backup_${db}_$(date +\%Y\%m\%d_%H%M).sql
-                    fi
-                done
+                pg_dumpall -h ${conf.target-db-ip} -U ${conf.target-db-user} > /backup/pg_backup_$(date +\%Y\%m\%d_%H%M).sql
             '';
             # Retain backups for 30 days and automatically delete old backups to manage storage
             ExecStartPost = "find /backup -name '*.sql' -mtime +30 -delete";
