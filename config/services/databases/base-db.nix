@@ -14,8 +14,9 @@ let
             # Set the number of maximum concurrent connections from standby servers
             max_wal_senders = 5;
             # Enable WAL logging
-            wal_keep_size = "64MB";
+            wal_keep_size = "512MB";
             password_encryption = "scram-sha-256";
+            hot_standby = true;
 
 
             # log_connections = true;
