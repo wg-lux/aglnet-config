@@ -25,84 +25,50 @@ in {
 
     # Define a systemd service to handle the initial setup of the secondary server's data directory
     # using pg_basebackup from the primary server.
-    systemd.services.pg_basebackup = {
-        enable = true;
-        description = "Initial PostgreSQL base backup for replication setup";
-        after = [ "network.target" ];
-        wantedBy = [ "multi-user.target" ];
-        path = [ pkgs.postgresql pkgs.coreutils pkgs.gnugrep pkgs.bash ];
-        # Service configuration
-        serviceConfig = {
-            ExecStartPre = [ "/bin/sh -c '! [ -d ${conf.data-dir}/pg_wal ]'" ];
+    systemd.services.pg-replication-init = {
+    description = "Initialize PostgreSQL Replication if pg_wal is missing";
+    after = [ "network.target" ]; # Start after network is up
+    wants = [ "network.target" ];
 
-            ExecStart = ''
-                pg_basebackup -h ${conf.target-db-ip} -D ${conf.data-dir} -U ${conf.target-db-user} -W -P --wal-method=stream
-            '';
+    # This prevents the service from being re-run when unnecessary
+    conditionPathExists = "${conf.data-dir}/pg_wal";
 
-            # Configure the replication settings after the backup completes
-            ExecStartPost = ''
-                # Create the standby signal file (required for PostgreSQL versions 12+)
-                touch ${conf.data-dir}/standby.signal
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.bash}/bin/bash -c ${''
+        #!/bin/bash
 
-                # Configure the primary server connection settings in `postgresql.auto.conf`
-                echo "primary_conninfo = 'host=${conf.target-db-ip} port=${toString conf.target-db-port} user=${conf.target-db-user} passfile=${conf.target-db-pass-file}'" >> ${conf.data-dir}/postgresql.auto.conf
-            
-                chown -R postgres:postgres ${conf.data-dir}
-                chmod 700 ${conf.data-dir}
-            '';
-        };
+        # Check if replication is initialized by checking pg_wal existence
+        if [ ! -d "${conf.data-dir}/pg_wal" ]; then
+          echo "Initializing replication..."
+
+          # Run pg_basebackup
+          pg_basebackup -h ${conf.target-db-ip} -D ${conf.data-dir} -U ${conf.target-db-user} -P --wal-method=stream
+
+          # Check if the backup succeeded
+          if [ $? -ne 0 ]; then
+            echo "pg_basebackup failed, exiting."
+            exit 1
+          fi
+
+          # Create standby.signal file
+          touch "${conf.data-dir}/standby.signal"
+
+          # Append primary_conninfo to postgresql.auto.conf
+          echo "primary_conninfo = 'host=${conf.target-db-ip} port=${toString conf.target-db-port} user=${conf.target-db-user} passfile=${conf.target-db-pass-file}'" >> ${conf.data-dir}/postgresql.auto.conf
+
+          echo "Replication initialized successfully."
+        else
+          echo "pg_wal directory already exists. Replication is already initialized."
+        fi
+      ''}";
     };
 
-    # Define Nix tmpfiles rules to create the backup directory with correct permissions
-    systemd.tmpfiles.rules = [
-        "d ${conf.backup-dir} 0700 postgres postgres -"
-    ];
+    # Ensure it runs after PostgreSQL has been installed
+    wantedBy = [ "multi-user.target" ];
+  };
 
-    # Define a systemd timer to perform more granular backups of individual databases.
-    # This will help reduce peak loads and minimize locking issues.
-    systemd.timers.pg_database_backup = {
-        enable = true;
-        description = "Granular backup of PostgreSQL databases every hour";
-        timerConfig.OnCalendar = "hourly";
-        wantedBy = [ "timers.target" ];
-    };
 
-    # Define the systemd service that performs the granular database backup operation
-    systemd.services.pg_database_backup = {
-        enable = true;
-        description = "Granular Backup of PostgreSQL databases";
-        # Run after the PostgreSQL service to ensure the database is running
-        after = [ "postgresql.service" ];
-        serviceConfig = {
-            User = "postgres";  # Run the backup as the postgres user
-            ExecStart = ''
-                # Backup each database individually to reduce locking and load
-                pg_dumpall -h ${conf.target-db-ip} -U ${conf.target-db-user} > /backup/pg_backup_$(date +\%Y\%m\%d_%H%M).sql
-            '';
-            # Retain backups for 30 days and automatically delete old backups to manage storage
-            ExecStartPost = "find /backup -name '*.sql' -mtime +30 -delete";
-        };
-    };
 
 }
 
-# Documentation for Backup Configuration
-
-# 1. **Granular Backup Strategy**:
-#    - Instead of using `pg_dumpall` to back up all databases at once, which can lead to high resource utilization and potential database locks,
-#      the new configuration uses `pg_dump` to back up each individual database separately.
-#    - The `pg_database_backup` systemd service iterates over each non-template database and runs `pg_dump`, creating separate SQL dump files for each database.
-#    - This helps in reducing peak loads and minimizes the risk of locks affecting the entire server.
-
-# 2. **Backup Frequency**:
-#    - The backup timer (`pg_database_backup`) runs hourly, ensuring that recent changes are regularly saved without putting too much strain on the server.
-#    - The more frequent, smaller backups are less likely to cause disruptions compared to a single large daily backup.
-
-# 3. **Backup Retention Policy**:
-#    - The backup retention policy is implemented with a `find` command that automatically deletes backups older than 30 days.
-#    - This ensures that the `${conf.backup-dir}` directory does not run out of space due to old backups piling up.
-
-# 4. **Ensuring Backup Directory Availability**:
-#    - The Nix `tmpfiles` rule (`systemd.tmpfiles.rules`) ensures that the `${conf.backup-dir}` directory is always available with the correct permissions.
-#    - The directory is created with permissions `0700` and owned by the `postgres` user to ensure that only the PostgreSQL user has access to the backups.
-#    - This improves security by limiting access to sensitive database backups.
