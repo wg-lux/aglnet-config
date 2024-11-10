@@ -1,26 +1,20 @@
 { lib ? import <nixpkgs/lib>, ...}:
 let 
 
-    service-hosts = import ../../service-hosts.nix { inherit lib; };
-    service-users = import ../../service-users.nix { inherit lib; };
-    hostnames = import ../../hostnames.nix {};
-    paths = import ../../paths/main.nix { inherit lib; };
-    network = import ../../network/main.nix { inherit lib; };
-
-    client-ips = network.ips.clients;
-
-    host-raw = service-hosts.postgresql-base;
-    host = hostnames."${host-raw}";
-    ip = client-ips."${host-raw}";
-
-    host-keycloak-hostname = hostnames."${service-hosts.keycloak}";
-    host-keycloak-ip = client-ips."${service-hosts.keycloak}";
-    keycloak-user = service-users.keycloak.user.name;
+    base = import ./base.nix { inherit lib; };
+    conf = base.base-db;
 
     base-db-conf = {
       settings = {
-            port = network.ports.postgresql.base;
-            listen_addresses = lib.mkForce "localhost,127.0.0.1,${ip}"; # defaults to "*" if enableTCPIP is true;
+            port = conf.port;
+            listen_addresses = lib.mkForce "localhost,127.0.0.1,${conf.ip}"; # defaults to "*" if enableTCPIP is true;
+            # Enable WAL archiving and set the level to logical or replica
+            wal_level = "replica";
+            # Set the number of maximum concurrent connections from standby servers
+            max_wal_senders = 3;
+            # Enable WAL logging
+            wal_keep_size = "64MB";
+
             # log_connections = true;
             # log_statement = "all";
             # logging_collector = true;
@@ -32,30 +26,36 @@ let
 
         ensure-users = [
             {
-                name = "agl-admin";
-                ensureDBOwnership = true;
+                name = conf.replication-user;
+                ensureClauses = {
+                    replication = true;
+                    login = true;
+                };
             }
             {
-                name = keycloak-user;
+                name = conf.keycloak-user;
                 ensureDBOwnership = true;
             }
         ];
 
-        ensure-databases = [ "agl-admin" ];
+        ensure-databases = [ 
+            conf.keycloak-user
+        ];
         
         authentication = lib.mkOverride 10 ''
-            #type database          DBuser             address                auth-method         optional_ident_map
-            local sameuser          all                                       peer                map=superuser_map
-            host  ${keycloak-user}  ${keycloak-user}   127.0.0.1/32           scram-sha-256 
-            host  ${keycloak-user}  ${keycloak-user}   ${host-keycloak-ip}/32 scram-sha-256
+            #type database                  DBuser                      address                     auth-method         optional_ident_map
+            local sameuser                  all                                                     peer                map=superuser_map
+            host  ${conf.keycloak-user}     ${conf.keycloak-user}       127.0.0.1/32                scram-sha-256 
+            host  ${conf.keycloak-user}     ${conf.keycloak-user}       ${conf.host-keycloak-ip}/32 scram-sha-256
+            host  replication               ${conf.replication-user}    ${conf.ip-backup}/32        scram-sha-256
         '';
 
         ident-map = lib.mkOverride 10 ''
             # ArbitraryMapName systemUser DBUser
             superuser_map      root      postgres
             superuser_map      postgres  postgres
-            superuser_map      ${keycloak-user}  ${keycloak-user}
-            superuser_map      keycloak   ${keycloak-user}
+            superuser_map      ${conf.keycloak-user}  ${conf.keycloak-user}
+            superuser_map      keycloak   ${conf.keycloak-user}
             # Let other names login as themselves
             superuser_map      /^(.*)$   \1
         '';
