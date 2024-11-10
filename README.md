@@ -315,6 +315,11 @@ verify with ssh-add -l
 
 ## Database
 ### Postgresql base db
+- Set keycloak user pwd
+- create / alter replication user
+  - `CREATE ROLE replication_user WITH REPLICATION LOGIN ENCRYPTED PASSWORD 'your_secure_password';`
+
+
 TODO
 - if ssl is on, we need to provide server.crt and server.key in the postgresql data dir.
   - for testing e.g., like this:
@@ -358,6 +363,7 @@ list auth rules in psql shell `table pg_hba_file_rules;`
 - Deploy password to file '/etc/keycloak_user-postgresql-pwd'
   - make sure ownership / permissions are secure
 - change admin login credentials immediately after deployment
+
 
 
 
