@@ -75,9 +75,10 @@ in {
         serviceConfig = {
             User = "postgres";  # Run the backup as the postgres user
             ExecStart = ''
-                # Backup each database individually to reduce locking and load
+                 # Backup each database individually to reduce locking and load
                 for db in $(psql -U postgres -t -c "SELECT datname FROM pg_database WHERE datistemplate = false;"); do
-                    pg_dump -h localhost -U postgres "$db" > ${conf.backup-dir}/pg_backup_${db}_$(date +\%Y\%m\%d_%H%M).sql
+                    db=$(echo "$db" | xargs)  # Trim whitespace from the database name
+                    pg_dump -h localhost -U postgres "$db" > /backup/pg_backup_${db}_$(date +\%Y\%m\%d_%H%M).sql
                 done
             '';
             # Retain backups for 30 days and automatically delete old backups to manage storage
