@@ -17,6 +17,7 @@ let
 
       settings = {
             hot_standby = true;
+            port = conf.port;
         };
 
         data-dir = data-dir; # if changed we need to make sure the directory exists (e.g. using tmpfiles)
