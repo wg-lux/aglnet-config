@@ -15,6 +15,9 @@ let
     is-nginx-host = hostname == network-config.services.nginx.hostname;
     is-openvpn-host = hostname == network-config.services.openvpn.hostname;
     is-keycloak-host = hostname == network-config.services.keycloak.hostname;
+    is-base-db-host = hostname == network-config.services.databases.base.host;
+    is-base-db-backup-host = hostname == network-config.services.databases.base-backup.host;
+
 
     nginx-modules = if is-nginx-host then [
         ( import ./shared/nginx.nix { inherit config pkgs lib network-config; }) 
@@ -32,11 +35,21 @@ let
 
     ssh-modules = if ssh-by-default then [ ( import ./shared/ssh.nix { inherit network-config config pkgs lib; }) ] else [];
 
+    base-db-modules = if is-base-db-host then [
+        ( import ./shared/postgresql-base.nix { inherit config pkgs lib network-config; }) 
+    ] else [];
+
+    base-db-backup-modules = if is-base-db-backup-host then [
+        ( import ./shared/postgresql-base-backup.nix { inherit config pkgs lib network-config; }) 
+    ] else [];
 
     extra-service-modules = [] ++ nginx-modules 
         ++ keycloak-modules 
         ++ openvpn-host-modules
-        ++ ssh-modules;
+        ++ ssh-modules
+        ++ base-db-modules
+        ++ base-db-backup-modules
+    ;
 
 in {
     system.stateVersion = custom-hardware.system-state;
@@ -90,12 +103,6 @@ in {
         ./shared/power-management.nix
         ./shared/zsh.nix
         (import ./shared/hosts.nix { inherit config pkgs lib network-config; })
-
-        # TESTING####################################
-
-        ./shared/postgresql-base.nix
-
-        #############################################
 
         # load endoreg-client modules if is-endoreg-client is true using nix library
         ( import ./endoreg-client/main.nix {

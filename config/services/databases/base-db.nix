@@ -5,7 +5,8 @@ let
     conf = base.base-db;
 
     base-db-conf = {
-      settings = {
+        host = conf.host;
+        settings = {
             port = conf.port;
             listen_addresses = lib.mkForce "localhost,127.0.0.1,${conf.ip}"; # defaults to "*" if enableTCPIP is true;
             # Enable WAL archiving and set the level to logical or replica
@@ -57,6 +58,7 @@ let
         ident-map = lib.mkOverride 10 ''
             # ArbitraryMapName systemUser DBUser
             superuser_map      root      postgres
+            superuser_map      root      ${conf.replication-user}
             superuser_map      postgres  postgres
             superuser_map      ${conf.keycloak-user}  ${conf.keycloak-user}
             superuser_map      keycloak   ${conf.keycloak-user}
