@@ -15,6 +15,8 @@ in {
 
     networking.firewall.allowedTCPPorts = [ conf.settings.port ];
 
+
+
     services.postgresql = {
         enable = true;
         enableTCPIP = true;
