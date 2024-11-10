@@ -44,7 +44,7 @@ in {
                 touch ${conf.data-dir}/standby.signal
 
                 # Configure the primary server connection settings in `postgresql.auto.conf`
-                echo "primary_conninfo = 'host=${conf.target-db-ip} port=${conf.target-db-port} user=${conf.target-db-user} passfile=${conf.target-db-pass-file}'" >> ${conf.data-dir}/postgresql.auto.conf
+                echo "primary_conninfo = 'host=${conf.target-db-ip} port=${toString conf.target-db-port} user=${conf.target-db-user} passfile=${conf.target-db-pass-file}'" >> ${conf.data-dir}/postgresql.auto.conf
             
                 chown -R postgres:postgres ${conf.data-dir}
                 chmod 700 ${conf.data-dir}
