@@ -11,6 +11,7 @@ in {
         dataDir = conf.data-dir;
 
         ensureDatabases = conf.ensure-databases;
+        ensureUsers = conf.ensure-users;
         authentication = conf.authentication;
 
         identMap = conf.ident-map;

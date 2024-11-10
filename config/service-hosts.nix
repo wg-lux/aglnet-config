@@ -5,4 +5,5 @@
     dnsmasq = "server-01";
     keycloak = "server-01";
     postgresql-base = "server-01";
+    postgresql-base-backup = "server-02";
 }

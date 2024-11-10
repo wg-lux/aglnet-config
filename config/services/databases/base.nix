@@ -27,7 +27,7 @@ let
       host-keycloak-hostname = hostnames."${service-hosts.keycloak}";
       host-keycloak-ip = client-ips."${service-hosts.keycloak}";
       keycloak-user = service-users.keycloak.user.name;
-      replication-user = "replicator"; 
+      replication-user = "replication_user"; 
     };
   };
 

@@ -14,6 +14,8 @@ let
             max_wal_senders = 3;
             # Enable WAL logging
             wal_keep_size = "64MB";
+            password_encryption = "scram-sha-256";
+
 
             # log_connections = true;
             # log_statement = "all";
@@ -27,9 +29,9 @@ let
         ensure-users = [
             {
                 name = conf.replication-user;
+                ensureDBOwnership = true;
                 ensureClauses = {
                     replication = true;
-                    login = true;
                 };
             }
             {
@@ -40,14 +42,16 @@ let
 
         ensure-databases = [ 
             conf.keycloak-user
+            conf.replication-user
         ];
+
         
         authentication = lib.mkOverride 10 ''
             #type database                  DBuser                      address                     auth-method         optional_ident_map
             local sameuser                  all                                                     peer                map=superuser_map
             host  ${conf.keycloak-user}     ${conf.keycloak-user}       127.0.0.1/32                scram-sha-256 
             host  ${conf.keycloak-user}     ${conf.keycloak-user}       ${conf.host-keycloak-ip}/32 scram-sha-256
-            host  replication               ${conf.replication-user}    ${conf.ip-backup}/32        scram-sha-256
+            host  ${conf.replication-user}  ${conf.replication-user}    ${conf.ip-backup}/32         scram-sha-256
         '';
 
         ident-map = lib.mkOverride 10 ''
