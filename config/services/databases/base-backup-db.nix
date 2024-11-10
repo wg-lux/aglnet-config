@@ -12,7 +12,7 @@ let
       target-db-ip = conf.ip;
       target-db-port = conf.port;
       target-db-user = conf.replication-user;
-      target-db-pass-file = data-dir + "/.pgpass";
+      target-db-pass-file = "/etc/replication.pgpass";
       backup-dir = "/backup";
 
       settings = {
