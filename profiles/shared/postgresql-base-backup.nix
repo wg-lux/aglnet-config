@@ -30,6 +30,7 @@ in {
         description = "Initial PostgreSQL base backup for replication setup";
         after = [ "network.target" ];
         wantedBy = [ "multi-user.target" ];
+        path = [ pkgs.postgresql pkgs.coreutils pkgs.gnugrep pkgs.bash ];
         # Service configuration
         serviceConfig = {
             ExecStartPre = [ "! [ -d ${conf.data-dir}/pg_wal ]" ];
