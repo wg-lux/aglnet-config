@@ -35,7 +35,7 @@ in {
             ExecStartPre = [ "! [ -d ${conf.data-dir}/pg_wal ]" ];
 
             ExecStart = ''
-                pg_basebackup -h ${target-db-ip} -D ${conf.data-dir} -U ${conf.target-db-user} -W -P --wal-method=stream
+                pg_basebackup -h ${conf.target-db-ip} -D ${conf.data-dir} -U ${conf.target-db-user} -W -P --wal-method=stream
             '';
 
             # Configure the replication settings after the backup completes
