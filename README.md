@@ -321,6 +321,8 @@ verify with ssh-add -l
 - on server running base-backup-db (server-02), we need to deploy the replicator user pwd (default `~postgres/.pgpass`)
   - `sudo -u postgres nano ~postgres/.pgpass`
   - `sudo chmod 0600 ~postgres/.pgpass`
+- set up replication:
+  - `pg_basebackup -h <server-01-ip-address> -D /var/lib/postgresql/<version>/main -U replication_user -W -P --wal-method=stream`
 
 
 TODO

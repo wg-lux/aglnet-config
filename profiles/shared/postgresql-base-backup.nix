@@ -33,7 +33,7 @@ in {
         path = [ pkgs.postgresql pkgs.coreutils pkgs.gnugrep pkgs.bash ];
         # Service configuration
         serviceConfig = {
-            ExecStartPre = [ "! [ -d ${conf.data-dir}/pg_wal ]" ];
+            ExecStartPre = [ "/bin/sh -c '! [ -d ${conf.data-dir}/pg_wal ]'" ];
 
             ExecStart = ''
                 pg_basebackup -h ${conf.target-db-ip} -D ${conf.data-dir} -U ${conf.target-db-user} -W -P --wal-method=stream
