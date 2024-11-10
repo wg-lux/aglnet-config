@@ -28,7 +28,7 @@ in {
     systemd.services.pg_basebackup = {
         enable = true;
         description = "Initial PostgreSQL base backup for replication setup";
-        after = [ "network.target" "openvpn-aglNet.target"];
+        after = [ "network.target" ];
         wantedBy = [ "multi-user.target" ];
         # Service configuration
         serviceConfig = {

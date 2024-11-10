@@ -12,7 +12,7 @@ let
             # Enable WAL archiving and set the level to logical or replica
             wal_level = "replica";
             # Set the number of maximum concurrent connections from standby servers
-            max_wal_senders = 3;
+            max_wal_senders = 5;
             # Enable WAL logging
             wal_keep_size = "64MB";
             password_encryption = "scram-sha-256";
@@ -52,7 +52,7 @@ let
             local sameuser                  all                                                     peer                map=superuser_map
             host  ${conf.keycloak-user}     ${conf.keycloak-user}       127.0.0.1/32                scram-sha-256 
             host  ${conf.keycloak-user}     ${conf.keycloak-user}       ${conf.host-keycloak-ip}/32 scram-sha-256
-            host  ${conf.replication-user}  ${conf.replication-user}    ${conf.ip-backup}/32         scram-sha-256
+            host  replication               ${conf.replication-user}    ${conf.ip-backup}/32        scram-sha-256
         '';
 
         ident-map = lib.mkOverride 10 ''
