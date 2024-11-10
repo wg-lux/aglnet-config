@@ -9,9 +9,9 @@ in {
     ];
 
     # Define tmpfile rules to create the data directory belonging to the postgres user with the correct permissions
-    systemd.tmpfiles.rules = [
-        "d ${conf.data-dir} 0700 postgres postgres -"
-    ];
+    # systemd.tmpfiles.rules = [
+    #     "d ${conf.data-dir} 0700 postgres postgres -"
+    # ];
 
     networking.firewall.allowedTCPPorts = [ conf.settings.port ];
 
