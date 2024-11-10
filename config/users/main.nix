@@ -113,5 +113,15 @@ let
             };
         };
 
+        keycloak = {
+            name = "keycloak_user";
+            config = {
+                isNormalUser = false;
+                isSystemUser = true;
+                group = groups.service.name;
+                extraGroups = ["network-manager" "wheel"]; #2 TODO reduce permissions after initial testing
+            };
+        };
+
     };
 in users

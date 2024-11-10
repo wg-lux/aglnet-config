@@ -17,6 +17,7 @@ let
         intern = "${subdomain-suffix-intern}.${main}";
 
         keycloak = "keycloak.${main}";
+        keycloak-admin = "keycloak-${subdomain-suffix-intern}.${main}";
         endoreg-home = "home.${main}";
         openvpn = "vpn.${main}";
         clients = clients;

@@ -46,6 +46,19 @@ Here the public keys of different sops clients and their access are managed
 
 
 # Custom Scripts & Services
+## Database
+Postgresql-servers of our network:
+- local (TODO)
+- aglnet-base
+
+### aglnet-base 
+- currently running on server-01
+
+*Required by:*
+- keycloak authentication
+  - (user: keycloak_user; table: keycloak_user)
+- endoreg-home
+
 ## Utils
 - user-info [bash-only]
 - filesystem-readout [service, requires maintenance-group]
@@ -299,6 +312,59 @@ For this we deploy the corresponding identity to ~/.ssh/use ssh-add
 verify with ssh-add -l
 
 *Important:* When connecting via ssh we need use the correct user for the available key files (USER@HOST), if not specified we use the currently active user
+
+## Database
+### Postgresql base db
+TODO
+- if ssl is on, we need to provide server.crt and server.key in the postgresql data dir.
+  - for testing e.g., like this:
+  - `sudo -u postgres openssl req -new -x509 -days 365 -nodes -text -out server.crt  -keyout server.key`
+  - `sudo chmod 0600 server.key`
+
+## Keycloak
+>[!important]
+>Change initial password of keycloak instance after setup!
+>services.keycloak.initialAdminPassword  defaults to `changeme`
+
+### set "keycloak-user" db password
+```shell
+sudo su - root
+psql --u postgres
+
+ALTER ROLE keycloak_user WITH PASSWORD 'secret123';
+```
+
+Manually deploy Secret File on Keycloak server (default: "/etc/keycloak_user-postgresql-pwd") and set according permissions:
+
+```shell
+nano /etc/keycloak_user-postgresql-pwd
+.....
+
+# IMPORTANT keycloak_user is legacy from testing external db access and prevent unix login
+# Keycloak service runs from keycloak:keycloak
+sudo chown keycloak:service /etc/keycloak_user-postgresql-pwd
+sudo chmod 400 /etc/keycloak_user-postgresql-pwd
+```
+
+verify remote connection:
+```shell
+psql -U postgres -d phoenixnap -h localhost
+```
+
+list auth rules in psql shell `table pg_hba_file_rules;`
+
+### summary of keycloak deployment steps
+- Set postgres keycloak user pw
+- Deploy password to file '/etc/keycloak_user-postgresql-pwd'
+  - make sure ownership / permissions are secure
+- change admin login credentials immediately after deployment
+
+
+
+### Security Note
+- admin interface is exposed via domain `keycloak-intern.endo-reg.net`
+- nginx only allows requests from vpn subnet for this domain
+  - Important for this to work: clients need entry for this in their "hosts" file (defined in `profiles/shared/hosts.nix` and `config/networking/hosts.nix`)
 
 # Testing
 ## Configuration

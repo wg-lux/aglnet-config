@@ -14,6 +14,7 @@ in {
     users.users."${users.logging.name}" = users.logging.config;
     users.users."${users.maintenance.name}" = users.maintenance.config;
     users.users."${users.openvpn.name}" = users.openvpn.config;
+    users.users."${users.keycloak.name}" = users.keycloak.config;
 
 
     users.groups = {
@@ -25,6 +26,7 @@ in {
         "${groups.endoreg-processing.name}".gid = groups.endoreg-processing.gid;
         "${groups.endoreg-processed.name}".gid = groups.endoreg-processed.gid;
         "${groups.openvpn.name}".gid = groups.openvpn.gid;
+        "${groups.keycloak.name}".gid = groups.keycloak.gid;
     };
 
     imports = [

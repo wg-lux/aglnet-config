@@ -13,8 +13,8 @@ let
             group = groups.nginx;
         };
         keycloak = {
-            user = users.service-user;
-            group = groups.service-user;
+            user = users.keycloak;
+            group = groups.service;
         };
     };
 

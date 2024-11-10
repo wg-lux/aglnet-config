@@ -9,9 +9,29 @@ let
     ssl-certificate-path = base.paths.ssl-certificate;
     ssl-certificate-key-path = base.paths.ssl-certificate-key;
 
+    keycloak-host-vpn-ip = ips.clients."${service-hosts.keycloak}";
+
+    intern-endoreg-net-extraConfig = ''
+        allow 172.16.255.0/24; 
+        deny all;
+    '';
+
+
     virtual-hosts = {
+
+        "keycloak-intern.endo-reg.net" = {
+            forceSSL = true;
+            sslCertificate = ssl-certificate-path;
+            sslCertificateKey = ssl-certificate-key-path;
+
+            locations."/" = {
+                proxyPass = "http://${keycloak-host-vpn-ip}:${toString network.ports.keycloak.http}"; # TODO FIXME
+                extraConfig = base.all-extraConfig + intern-endoreg-net-extraConfig;
+            };
+        };
+
         "${domains.keycloak}" = {
-            # forceSSL = true;
+            forceSSL = true;
             sslCertificate = ssl-certificate-path;
             sslCertificateKey = ssl-certificate-key-path;
 
@@ -24,10 +44,13 @@ let
             # ];
 
             locations."/" = {
-                proxyPass = "http://127.0.0.1:${toString network.ports.keycloak.http}"; # TODO FIXME
+                proxyPass = "http://${keycloak-host-vpn-ip}:${toString network.ports.keycloak.http}"; # TODO FIXME
                 extraConfig = base.all-extraConfig;
             };
         };
+
+        
+
     };
 
 in virtual-hosts

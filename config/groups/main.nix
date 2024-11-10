@@ -37,5 +37,9 @@ let
             name = "nginx";
             gid = 1108;
         };
+        keycloak = {
+            name = "keycloak_group";
+            gid = 1109;
+        };
     };
 in groups

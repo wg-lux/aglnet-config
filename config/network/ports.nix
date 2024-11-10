@@ -45,6 +45,10 @@ let
       django = 9281;  # was 9129
       redis = 9282;   # was 6379
     };
+
+    postgresql = {
+      base = 5432;
+    };
   };
 
 

@@ -10,6 +10,7 @@ let
         nginx = import ./nginx/main.nix {inherit lib;};
         dnsmasq = import ./dnsmasq.nix {inherit lib;};
         keycloak = import ./keycloak/main.nix {inherit lib;};
+        databases = import ./databases/main.nix {inherit lib;};
     };
 
 in services

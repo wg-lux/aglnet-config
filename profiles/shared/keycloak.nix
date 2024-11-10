@@ -7,34 +7,44 @@ let
     domain = conf.domain;
 
 in {
+
+    services.postgresql.ensureUsers = [
+      {
+        name = conf.user;
+        ensureDBOwnership = true; # allows system users
+      }  
+    ];
+
+    services.postgresql.ensureDatabases = [ conf.user ];
     
+    systemd.services.keycloak = {
+        wants = [ "openvpn-aglNet.service" "network-online.target" ];
+        after = [ "openvpn-aglNet.service" "network-online.target" ];
+        serviceConfig = {
+        # Add a pre-start script to check for database connectivity
+        ExecStartPre = pkgs.writeScript "check-db-connectivity.sh" ''
+            #!/bin/sh
+            until ${pkgs.netcat}/bin/nc -z ${conf.database.host} ${toString conf.database.port}; do
+            echo "Waiting for database connectivity..."
+            sleep 1
+            done
+        '';
+        };
+    };
 
-    # services.logrotate.checkConfig = false;
+    services.keycloak = {
+        enable = true;
+        initialAdminPassword = conf.initialAdminPassword;
+        database = conf.database;
 
-    # environment.etc."keycloak-database-pass".text = "PWD";
-    # services.keycloak = {
-    # enable = true;
-    # settings = {
-    #     hostname = "localhost";
-    #     http-enabled = true;
-    #     hostname-strict-https = false;
-    # };
-    # database.passwordFile = "/etc/keycloak-database-pass";
-    # };
+        settings = {
+            http-host = conf.http-host;
+            http-port = conf.http-port;
+            https-port = conf.https-port; 
+            proxy = conf.proxy;# edge
+            hostname = conf.domain; # currently "keycloak.endo-reg.net"
+            hostname-admin = conf.domain-admin; # currently "keycloak-admin.endo-reg.net"
+        };
 
-    # services.keycloak = {
-    #     enable = true;
-    #     initialAdminPassword = conf.initialAdminPassword;
-    #     settings = {
-    #         http-host = conf.http-host;
-    #         http-port = conf.http-port;
-    #         https-port = conf.https-port; 
-    #         proxy = conf.proxy;# none (default), edge, reencrypt, passthrough;  The proxy address forwarding mode if the server is behind a reverse proxy. https://www.keycloak.org/server/reverseproxy for
-    # #     #     # hostname-strict-backchannel = false;
-    #         hostname = conf.domain; # The public host name of the Keycloak server, used for public URL generation
-    #     };
-    #     database.passwordFile = conf.database.passwordFile;
-    #     # sslCertificateKey = conf.sslCertificateKey;
-    #     # sslCertificate = conf.sslCertificate; 
-    # };
+    };
 }
