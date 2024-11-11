@@ -28,6 +28,14 @@ let
       host-keycloak-ip = client-ips."${service-hosts.keycloak}";
       keycloak-user = service-users.keycloak.user.name;
       replication-user = "replication_user"; 
+
+      users = {
+        aglnet-base = {
+          name = "aglnet_base";
+          ensureDBOwnership = true;
+          ensureClauses = {};
+        };
+      };
     };
   };
 

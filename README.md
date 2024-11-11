@@ -74,6 +74,23 @@ Postgresql-servers of our network:
 - `cat /var/log/mount-processing.log`
 - `cat /var/log/mount-processed.log`
 
+## Database
+Postgres Regex Guide: https://www.postgresql.org/docs/current/functions-matching.html#POSIX-SYNTAX-DETAILS
+
+### Postgresql base
+defined in `profiles/shared/postgresql-base.nix`
+
+verify setup (run as systemuser postgres since linux logs in with the current user):
+```sh
+sudo -u postgres psql 
+```
+
+in psql shell: 
+- `\l` to list all databases
+- `\du` to list all users
+- List all authentication rules (called an "pg_hba.conf" file in Postgres ) with `table pg_hba_file_rules;`:
+
+
 ## Logging
 - `scripts/endoreg-client/log-sensitive-partitions.nix`
     - Logs State of sensitive data hdd, writes jsons to custom dir

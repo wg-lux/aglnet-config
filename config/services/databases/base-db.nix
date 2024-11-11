@@ -40,11 +40,17 @@ let
                 name = conf.keycloak-user;
                 ensureDBOwnership = true;
             }
+            {
+                name = conf.users.aglnet-base.name;
+                ensureDBOwnership = conf.users.aglnet-base.ensureDBOwnership;
+                ensureClauses = conf.users.aglnet-base.ensureClauses;
+            }
         ];
 
         ensure-databases = [ 
             conf.keycloak-user
             conf.replication-user
+            conf.users.aglnet-base.name
         ];
 
         
@@ -54,6 +60,7 @@ let
             host  ${conf.keycloak-user}     ${conf.keycloak-user}       127.0.0.1/32                scram-sha-256 
             host  ${conf.keycloak-user}     ${conf.keycloak-user}       ${conf.host-keycloak-ip}/32 scram-sha-256
             host  replication               ${conf.replication-user}    ${conf.ip-backup}/32        scram-sha-256
+            host  ${conf.users.aglnet-base.name} ${conf.users.aglnet-base.name} 172.16.255.142/32 scram-sha-256
         '';
 
         ident-map = lib.mkOverride 10 ''
