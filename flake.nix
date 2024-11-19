@@ -24,15 +24,13 @@ inputs = {
 
 
 	envfs.url = "github:Mic92/envfs";
-  	envfs.inputs.nixpkgs.follows = "nixpkgs";
+	envfs.inputs.nixpkgs.follows = "nixpkgs";
 
+	nix-ld.url = "github:Mic92/nix-ld";
+  nix-ld.inputs.nixpkgs.follows = "nixpkgs";
 
 	endoreg-usb-encrypter.url = "github:wg-lux/endoreg-usb-encrypter";
 	endoreg-usb-encrypter.inputs.nixpkgs.follows = "nixpkgs";
-
-
-	# nix-ld.url = "github:Mic92/nix-ld";
-	# nix-ld.inputs.nixpkgs.follows = "nixpkgs";
 
 	# add for flake usage with nixos stable
 	flake-compat.url = "https://flakehub.com/f/edolstra/flake-compat/1.tar.gz";
@@ -42,7 +40,7 @@ inputs = {
 
 outputs = { 
 	self, nixpkgs, 
-	envfs,
+	envfs, nix-ld,
 	nix-index-database, sops-nix, 
 	...
 }@inputs: #
@@ -67,12 +65,13 @@ let
 	extra-modules = [
 		sops-nix.nixosModules.sops
 		envfs.nixosModules.envfs
-		# nix-ld = inputs.nix-ld;
+    nix-ld.nixosModules.nix-ld
 
 	];
 
 	extra-packages = [
 		inputs.endoreg-usb-encrypter.packages.x86_64-linux.default
+		
 	];
 
 	os-base-args = {

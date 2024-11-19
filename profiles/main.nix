@@ -41,22 +41,31 @@ let
         ( import ./shared/postgresql-base-backup.nix { inherit config pkgs lib network-config; }) 
     ] else [];
 
+    # is-base-db-api-host = hostname == "agl-gpu-client-02";
+    # # is-base-db-api-host = hostname == network-config.services.databases.endoreg-db-api.host;
+    # endoreg-db-api-modules = if is-base-db-api-host then [
+    #     ( import ./shared/endoreg-base-db-api.nix { inherit config pkgs lib network-config; })
+    # ] else [];
+
+
     extra-service-modules = [] ++ nginx-modules 
         ++ keycloak-modules 
         ++ openvpn-host-modules
         ++ ssh-modules
         ++ base-db-modules
         ++ base-db-backup-modules
+        # ++ endoreg-db-api-modules
     ;
 
 in {
+    
+
     system.stateVersion = custom-hardware.system-state;
     users.mutableUsers = false;
 
     networking.hostName = hostname;
 
     services.openssh.enable = true;
-    # services.autorandr.enable = true; # Manages sleep and hot plugging monitors
     programs.ssh.startAgent = true;
 
     nix.settings = {
@@ -100,6 +109,7 @@ in {
         ./shared/logging.nix
         ./shared/power-management.nix
         ./shared/zsh.nix
+        ./shared/nix-ld.nix
         (import ./shared/hosts.nix { inherit config pkgs lib network-config; })
 
         # load endoreg-client modules if is-endoreg-client is true using nix library
@@ -113,6 +123,10 @@ in {
             inherit config lib pkgs custom-hardware system-encrypted;
         }) 
         usb-key-config-path
+
+        # ( import ./deployment-test.nix {
+        #     inherit config pkgs lib;
+        # } )
 
         # AglNet Stuff
         ./shared/dev-tools.nix
@@ -156,5 +170,8 @@ in {
         gptfdisk
         parted
         util-linux
+        python312Full
+        devenv
+        dbeaver-bin
     ];
 }

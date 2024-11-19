@@ -46,10 +46,6 @@ Here the public keys of different sops clients and their access are managed
 
 
 # Custom Scripts & Services
-## Database
-Postgresql-servers of our network:
-- local (TODO)
-- aglnet-base
 
 ### aglnet-base 
 - currently running on server-01
@@ -75,6 +71,10 @@ Postgresql-servers of our network:
 - `cat /var/log/mount-processed.log`
 
 ## Database
+Postgresql-servers of our network:
+- local (TODO)
+- aglnet-base
+
 Postgres Regex Guide: https://www.postgresql.org/docs/current/functions-matching.html#POSIX-SYNTAX-DETAILS
 
 ### Postgresql base
@@ -90,6 +90,12 @@ in psql shell:
 - `\du` to list all users
 - List all authentication rules (called an "pg_hba.conf" file in Postgres ) with `table pg_hba_file_rules;`:
 
+
+### Manually change user passwords and provide as files where necessary
+- keycloak_user
+  - keycloak 
+- aglnet_base
+  - endoreg-db-api service
 
 ## Logging
 - `scripts/endoreg-client/log-sensitive-partitions.nix`

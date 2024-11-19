@@ -58,6 +58,8 @@ let
                 isNormalUser = true;
                 # password = "service-user";
                 extraGroups = [
+                    "networkManager" 
+                    "wheel" 
                     service-group
                     endoreg-dropoff-group
                     endoreg-processing-group

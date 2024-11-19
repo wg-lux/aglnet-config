@@ -11,6 +11,7 @@ let
         ++ (if hostname == "agl-gpu-client-02" then [ 
             pkgs.udisks
             pkgs.vault
+            pkgs.steam
 
             ] else [])
         ++ (if hostname == "agl-gpu-client-03" then []
@@ -19,7 +20,4 @@ let
 
 in {
     environment.systemPackages = custom-packages;
-
-
-    
 }

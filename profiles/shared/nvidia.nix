@@ -17,7 +17,7 @@ in {
   boot.initrd.kernelModules = [ "nvidia" ];
 
   environment.systemPackages = with pkgs; [
-    cudaPackages.cudatoolkit
+    # cudaPackages.cudatoolkit
     autoAddDriverRunpath
   ];
 
@@ -58,32 +58,3 @@ in {
   };
 
 }
-
-
-
-#   environment.systemPackages = with pkgs; [
-#     cudaPackages.cudatoolkit
-#     pkgs.autoAddDriverRunpath
-    
-#     git gitRepo gnupg autoconf curl
-#     procps gnumake util-linux m4 gperf unzip
-
-#     libGLU libGL
-#     glibc
-#     xorg.libXi xorg.libXmu freeglut
-#     xorg.libXext xorg.libX11 xorg.libXv xorg.libXrandr zlib 
-#     ncurses5 stdenv.cc binutils
-
-#   ];
-
-
-#   hardware.nvidia = {
-#     # Driver version
-#     package = config.boot.kernelPackages.nvidiaPackages.mkDriver {
-#       version = "555.58";
-#       sha256_64bit = "sha256-bXvcXkg2kQZuCNKRZM5QoTaTjF4l2TtrsKUvyicj5ew=";
-#       sha256_aarch64 = pkgs.lib.fakeSha256;
-#       openSha256 = pkgs.lib.fakeSha256;
-#       settingsSha256 = "sha256-vWnrXlBCb3K5uVkDFmJDVq51wrCoqgPF03lSjZOuU8M=";
-#       persistencedSha256 = pkgs.lib.fakeSha256;
-#     };

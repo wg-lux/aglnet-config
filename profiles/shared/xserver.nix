@@ -4,8 +4,6 @@
 
   environment.systemPackages = with pkgs; [
     kdePackages.xdg-desktop-portal-kde
-    # kdePackages.kwallet
-    # kdePackages.kwalletmanager
     kdePackages.svgpart
     kdePackages.systemsettings
   ];
