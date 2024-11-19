@@ -10,8 +10,7 @@ let
 
 
 in {
-  # hardware.graphics = true; # OpenGl will be migrated to hardware.graphics in 24.11
-  hardware.opengl.enable = true;
+  hardware.graphics.enable = true;
   nixpkgs.config.cudaSupport = true;
   services.xserver.videoDrivers = ["nvidia"];
   boot.initrd.kernelModules = [ "nvidia" ];

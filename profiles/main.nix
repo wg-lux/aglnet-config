@@ -41,11 +41,11 @@ let
         ( import ./shared/postgresql-base-backup.nix { inherit config pkgs lib network-config; }) 
     ] else [];
 
-    # is-base-db-api-host = hostname == "agl-gpu-client-02";
-    # # is-base-db-api-host = hostname == network-config.services.databases.endoreg-db-api.host;
-    # endoreg-db-api-modules = if is-base-db-api-host then [
-    #     ( import ./shared/endoreg-base-db-api.nix { inherit config pkgs lib network-config; })
-    # ] else [];
+    is-base-db-api-host = hostname == "agl-gpu-client-02";
+    # is-base-db-api-host = hostname == network-config.services.databases.endoreg-db-api.host;
+    endoreg-db-api-modules = if is-base-db-api-host then [
+        ( import ./shared/endoreg-base-db-api.nix { inherit config pkgs lib network-config; })
+    ] else [];
 
 
     extra-service-modules = [] ++ nginx-modules 
@@ -54,7 +54,7 @@ let
         ++ ssh-modules
         ++ base-db-modules
         ++ base-db-backup-modules
-        # ++ endoreg-db-api-modules
+        ++ endoreg-db-api-modules
     ;
 
 in {

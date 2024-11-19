@@ -12,6 +12,7 @@
   services.displayManager = {
     defaultSession = "plasmax11";
     sddm.enable = true;
+    # sddm.wayland.enable = true;
   };
 
   services.xserver = {

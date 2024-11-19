@@ -1,7 +1,7 @@
 {pkgs, ...}: {
 
   hardware.pulseaudio = {
-    enable = true;
+    enable = false;
     package = pkgs.pulseaudioFull;  # Ensures full feature set
     extraConfig = ''
       load-module module-alsa-card

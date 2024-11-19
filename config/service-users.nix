@@ -17,7 +17,6 @@ let
             group = groups.service;
         };
         endoreg-base-db-api = {
-            # user = users.service;
             user = users.setup;
             group = groups.service;
         };

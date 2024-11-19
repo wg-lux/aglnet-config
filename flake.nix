@@ -14,7 +14,7 @@ nixConfig = {
 
 
 inputs = {
-	nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+	nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
 
 	nix-index-database.url = "github:Mic92/nix-index-database";
 	nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
@@ -34,6 +34,9 @@ inputs = {
 
 	# add for flake usage with nixos stable
 	flake-compat.url = "https://flakehub.com/f/edolstra/flake-compat/1.tar.gz";
+
+	home-manager.url = "github:nix-community/home-manager/release-24.11";
+	home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
   };
 
@@ -62,11 +65,22 @@ let
 		};
 	};
 
+	# home-manager-module = 
+
 	extra-modules = [
 		sops-nix.nixosModules.sops
 		envfs.nixosModules.envfs
     nix-ld.nixosModules.nix-ld
+		inputs.home-manager.nixosModules.home-manager
+		{
+			home-manager.useGlobalPkgs = true;
+			home-manager.useUserPackages = true;
 
+			# TODO replace ryan with your own username
+			home-manager.users.setup-user = import ./profiles/home/base.nix;
+
+			# Optionally, use home-manager.extraSpecialArgs to pass arguments to home.nix
+		}
 	];
 
 	extra-packages = [

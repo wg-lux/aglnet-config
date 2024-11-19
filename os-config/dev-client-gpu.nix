@@ -29,8 +29,6 @@ let
 
     system = base-config.system;
 
-    custom-packages = extra-packages;
-
 in nixpkgs.lib.nixosSystem {
     system = system;
 
