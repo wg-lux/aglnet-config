@@ -42,6 +42,14 @@ let
                 network-config = network-config;
             }
         );
-	};
+
+ 	"${hostnames.gpu-client-03}" = import ./dev-client-gpu.nix ( ##TODO Change to base-client after prototyping
+            os-base-args // {
+                hostname = hostnames.gpu-client-03;
+                extra-modules = extra-modules;
+                network-config = network-config;
+            }
+        );
+};
 
 in os-configs
