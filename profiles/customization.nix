@@ -16,6 +16,10 @@ let
             ] else [])
         ++ (if hostname == "agl-gpu-client-03" then []
             else [])
+
+        ++ (if hostname == "agl-gpu-client-05" then [
+            pkgs.vlc
+        ] else [])
         ;
 
 in {
