@@ -11,7 +11,7 @@ let
         ++ (if hostname == "agl-gpu-client-02" then [ 
             pkgs.udisks
             pkgs.vault
-            pkgs.steam
+            pkgs.vlc
 
             ] else [])
         ++ (if hostname == "agl-gpu-client-03" then []

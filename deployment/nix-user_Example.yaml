@@ -1,0 +1,23 @@
+nixos:
+    user:
+        center-user:
+            pwd-raw: asdasdasd
+            pwd-hashed: $6$iOLxzqBC27DCLRMf$1WZvKDIk.UuWWS6jVv9m0lY7r8qE.Ei1658p6ulw4nuseyWCqL2Oql.2zUSd6OxdQZtdQ5gU8BAPYhbX6tuzl1
+        maintenance-user:
+            pwd-raw: asdasdasd
+            pwd-hashed: $6$QJOdK9X1V5MMI4sw$nYkSPBBuTFWH.z5S6s7MHJREHQFx.oCaBK2cJvrsOyEW1fOG/MYfC9pJo/37p7ymAS3U9fXlKfmMz/iGLJOix.
+        agl-admin:
+            pwd-raw: asdasdasd
+            pwd-hashed: $6$0HF1VCuwrwyWAen0$uK9VQ4Tj8b4NW0A5qsfaPXR8KqxEinRzy8FVamkAnUCzxnXPJPob5nuaYdeTbQH2V8Z5v3gmq41JMMUN7yF.9/
+        setup-user:
+            pwd-raw: asdasdasd
+            pwd-hashed: $6$P/CMj3jQJ4Ri.ZMd$xpcFLhCMwqEAbABNsIFJkPqdIUGjD81WU7qWDh6n0bHJWkQOXwWtOtoPOJDN8EAjououEoFJ.ViEm6XuyvJ6v1
+        service-user:
+            pwd-raw: asdasdasd
+            pwd-hashed: $6$LtEmqSdWuhGsbEcl$ek/1s4c1pIfacya2XfZ3.X0fQRXmxinvWlBB8eoYxwQwSsb9nbZhWxQiZAOjhA7Gc0YndY4RkbEi0gfcMU9rk.
+        root:
+            pwd-raw: asdasdasd
+            pwd-hashed: $6$COHd//4vZLGUMNi4$OPd2fGSL35hM6JKaWR4nZHf/EbEmLi1PzxR9sarjmo9sX7px4HPTXVfUwNzokE.VSGqKZHMzZ2Qn0auUc6lMp1
+        logging-user:
+            pwd-raw: asdasdasd
+            pwd-hashed: $6$kr.TJYzTIiM0P5gt$dStXgJsR7n/NgI.crxMuL7Pq8kPi.xmXrEiJ6.FYw.KnDBpXZRIjLyGo2YId17wms7fJRBJbs7YnQsZtteKgW0

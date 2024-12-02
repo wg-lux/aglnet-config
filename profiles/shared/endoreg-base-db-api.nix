@@ -24,6 +24,14 @@ let
 
   DB_PWD_FILE = conf.paths.db-pwd;
 
+  buildInputs = with pkgs; [
+    python311Full
+    cudaPackages.cuda_cudart
+    cudaPackages.cudnn
+    cudaPackages.cuda_nvcc
+    stdenv.cc.cc
+  ];
+
   get-repo-script = pkgs.writeShellScriptBin "get-endoreg-db-api-repo" ''
     #!/usr/bin/env zsh
 
@@ -43,7 +51,12 @@ let
     # if FRESH_REPO is true, we create a file named "fresh_repo" in the REPO_ROOT directory
     if [ $FRESH_REPO = true ]; then
       touch ${REPO_ROOT}/fresh_repo
+      cd ${REPO_ROOT}
+      devenv ci
     fi
+
+    # sleep 10 seconds to ensure that the shell is activated before the service starts
+    sleep 10
 
   '';
 
@@ -80,12 +93,20 @@ let
     fi
     
     echo "activating virtual environment"
-    . .devenv/state/venv/bin/activate
     echo "running server"
-    export CONF_DIR="${conf-dir}"
-    export DJANGO_SETTINGS_MODULE="endoreg_db_api.settings_prod"
-    export DJANGO_DEBUG="False"
-    devenv tasks deploy:collectstatic
+    
+    # write environment variables to .env file, overwrite if it exists
+    export CONF_DIR=${conf-dir}
+    export DJANGO_SETTINGS_MODULE=endoreg_db_api.settings_prod
+    export DJANGO_DEBUG=False
+    export LD_LIBRARY_PATH=${
+      with pkgs;
+      lib.makeLibraryPath buildInputs
+    }:/run/opengl-driver/lib:/run/opengl-driver-32/lib
+
+    # devenv shell
+    devenv tasks run test:gpu
+    devenv tasks run deploy:collectstatic
     devenv tasks run prod:runserver
   '';
 
@@ -116,7 +137,7 @@ in {
     description = "Get endoreg-db-api repo in ${REPO_ROOT} directory";
     path = [
       pkgs.sudo pkgs.util-linux pkgs.coreutils pkgs.gnugrep pkgs.jq
-      pkgs.devenv pkgs.git pkgs.direnv pkgs.zsh
+      pkgs.devenv pkgs.git pkgs.direnv pkgs.zsh pkgs.cudaPackages.cuda_nvcc
     ];
 
     serviceConfig = {
@@ -143,7 +164,7 @@ in {
     description = "Run endoreg-db-api in ${REPO_ROOT} directory using devenv (ConfDir: ${conf-dir})";
     path = [
       pkgs.sudo pkgs.util-linux pkgs.coreutils pkgs.gnugrep pkgs.jq
-      pkgs.devenv pkgs.git pkgs.direnv pkgs.zsh
+      pkgs.devenv pkgs.git pkgs.direnv pkgs.zsh pkgs.postgresql
     ];
 
     serviceConfig = {
