@@ -31,48 +31,59 @@ let
     
     ############ MOUNT SCRIPT ############
     mount-script-path = pkgs.writeShellScriptBin "${mount-script-name}" ''
-      LOG_FILE="/var/log/mount-${label}.log"
-      ERROR_LOG_FILE="/var/log/mount-${label}-error.log"
-      
-      # Function to log messages with timestamps
-      log() {
-          echo "[$(date)] $1" >> $LOG_FILE
-      }
+        LOG_FILE="/var/log/mount-${label}.log"
+        ERROR_LOG_FILE="/var/log/mount-${label}-error.log"
 
-      # Function to log errors with timestamps
-      log_error() {
-          echo "[$(date)] ERROR: $1" >> $ERROR_LOG_FILE
-      }
+        # Function to log messages with timestamps
+        log() {
+            echo "[$(date)] $1" >> $LOG_FILE
+        }
 
-      # Start the script logging
-      log "Starting to mount ${label} at ${mountpoint}."
+        # Function to log errors with timestamps
+        log_error() {
+            echo "[$(date)] ERROR: $1" >> $ERROR_LOG_FILE
+        }
 
-      # Decrypt the partition
-      if sudo cryptsetup open UUID=${partition-luks-uuid} ${label} --key-file ${key-file}; then
-          log "Successfully decrypted ${label} with UUID ${partition-luks-uuid}."
-          
-          # Create a mount point if it doesn't exist
-          mkdir -p ${mountpoint} || { log_error "Failed to create mount point ${mountpoint}"; exit 1; }
-          
-          # Mount the file system
-          if mount /dev/mapper/${label} ${mountpoint}; then
-              log "Successfully mounted ${label} at ${mountpoint}."
-          else
-              log_error "Failed to mount ${label} at ${mountpoint}."
-              sudo cryptsetup close ${label}  # Close the encrypted partition if mount fails
-              exit 1
-          fi
+        # Start the script logging
+        log "Starting to mount ${label} at ${mountpoint}."
 
-          # Set permissions and ownership
-          sudo chown -R ${user}:${group} ${mountpoint} || log_error "Failed to set ownership of ${mountpoint} to ${user}:${group}"
-          sudo chmod -R ${filemode-mountpoint} ${mountpoint} || log_error "Failed to set permissions of ${mountpoint} to ${filemode-mountpoint}"
+        # Check if the mapper device already exists and remove it if necessary
+        if [ -e /dev/mapper/${label} ]; then
+            log "Device mapper ${label} already exists, attempting to remove it."
+            if sudo cryptsetup close ${label}; then
+                log "Successfully removed existing mapper device ${label}."
+            else
+                log_error "Failed to remove existing mapper device ${label}."
+                exit 1
+            fi
+        fi
 
-      else
-          log_error "Failed to decrypt ${label}."
-          exit 1
-      fi
+        # Decrypt the partition
+        if sudo cryptsetup open UUID=${partition-luks-uuid} ${label} --key-file ${key-file}; then
+            log "Successfully decrypted ${label} with UUID ${partition-luks-uuid}."
 
-      log "Mount operation completed."
+            # Create a mount point if it doesn't exist
+            mkdir -p ${mountpoint} || { log_error "Failed to create mount point ${mountpoint}"; exit 1; }
+
+            # Mount the file system
+            if mount /dev/mapper/${label} ${mountpoint}; then
+                log "Successfully mounted ${label} at ${mountpoint}."
+            else
+                log_error "Failed to mount ${label} at ${mountpoint}."
+                sudo cryptsetup close ${label}  # Close the encrypted partition if mount fails
+                exit 1
+            fi
+
+            # Set permissions and ownership
+            sudo chown -R ${user}:${group} ${mountpoint} || log_error "Failed to set ownership of ${mountpoint} to ${user}:${group}"
+            sudo chmod -R ${filemode-mountpoint} ${mountpoint} || log_error "Failed to set permissions of ${mountpoint} to ${filemode-mountpoint}"
+
+        else
+            log_error "Failed to decrypt ${label}."
+            exit 1
+        fi
+
+        log "Mount operation completed."
     '';
 
 
