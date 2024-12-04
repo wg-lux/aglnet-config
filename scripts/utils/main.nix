@@ -6,5 +6,6 @@
         (import ./base-directories.nix {
             inherit config lib pkgs network-config;
         })
+        ./deep-clean.nix
     ];
 }
