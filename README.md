@@ -104,6 +104,10 @@ in psql shell:
     - Options defined in `config/scripts/endoreg-sensitive-mounting.nix`
 
 # Misc
+## Burn ISO to USB Stick
+'sudo umount /dev/sdX*'
+'sudo dd bs=4M conv=fsync oflag=direct status=progress if=<path-to-image> of=/dev/sda'
+
 ## Power Management
 Using tlp to manage max. charge (set to 80) and reduce cpu frequency when not on charged
 
