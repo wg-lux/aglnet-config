@@ -9,15 +9,7 @@
 
 let 
     ip = network-config.ips.hostnames.${hostname};
-    _custom-hardware = import ../config/hardware/${hostname}.nix;
-    
-    ###### TODO IMPLEMENT PROPERLY
-    # if "boot-fs-options" not in custom-hardware then set to []
-    custom-hardware = if ! lib.hasAttr "boot-fs-options" _custom-hardware then {
-        boot-fs-options = [];
-    } else _custom-hardware;
-
-    ########
+    custom-hardware = import ../config/hardware/${hostname}.nix;
 
     usb-key-config-path = builtins.toPath ../config/hardware/${hostname}-usb-key.nix;
 

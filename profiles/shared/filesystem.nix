@@ -20,11 +20,14 @@ in {
         fsType = "ext4";
     };
 
-    fileSystems."/boot".device = "/dev/disk/by-uuid/${filesystem-boot-uuid}"; 
-    fileSystems."/boot".fsType = "vfat";
+    fileSystems."/boot" = {
+        device = "/dev/disk/by-uuid/${filesystem-boot-uuid}";
+        fsType = "vfat";
+    } // lib.optionalAttrs (lib.hasAttr "boot-fs-options" ch) {
+        options = custom-boot-options;
+    };
 
-    # if hostname ==  in BOOT_OPTIONS then take the options from BOOT_OPTIONS else []
-    fileSystems."/boot".options = ch.boot-fs-options;
+
 
     boot.initrd.luks.devices = if system-encrypted then {
         "luks-${luks-base-uuid}".device = "/dev/disk/by-uuid/${luks-base-uuid}";
