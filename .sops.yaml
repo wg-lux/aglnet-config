@@ -6,6 +6,10 @@ keys:
   - &agl-gpu-client-03 age149mfrmv0h7e48gf67gtutuyfka85ukp9y8kfj9s5m3dvfz93fpcseg7p3j # MH
   - &agl-gpu-client-04 age1egdv2wcqwzz79hgtel3amsyuczv0rq9vh02tcsph8vkfcqakquqqpekanq # CW
   - &agl-gpu-client-05 age17safzahag4965lc9cxz66quyc82x50nws940tft9velkngqxkqzq5hwfle # ColoReg UKW
+  - &agl-gpu-client-06 age1qydcxxvlvhqg2xemxnasddanmvlr22enmp5pvyvas2akvch9wfnsevjrlr #
+  - &agl-gpu-client-07 age14wsdh4s9950kjn6tf2exwdg49suuhwqg0vtu0u6guylcphj09cwsjt9csu
+  - &agl-gpu-client-08 age1u30a42f7s5d38mk85g2tcklqe3fujcw6yl6pusxsqrvxunkjw40st3ec56
+  - &agl-gpu-client-09 age1z7j5zmjghh3ujdckpcmh35q9u7llvrfn9s60aexhsqh2f205nv4qfng58e
   - &agl-gpu-workstation age1h3kajn0t674dhggsjrn7rtzkurtrzy3fpt7528j3w3rejht4l35sx75xdy
   - &agl-server-01 age1zlty6e9vn8td20zn3a8xq4dlnz9d9n83f6mj9ykdsq9x6lgfr54supx0fn
   - &agl-server-02 age1fvn47mkn44t49dfjkefpjwrd0s556qythz5xm3czay7vp2z4jajsxnvaw8
@@ -44,6 +48,26 @@ creation_rules:
       - age:
         - *primary
         - *agl-gpu-client-05
+  - path_regex: secrets/agl-gpu-client-06/.*\.(yaml|json|env|ini|txt|tmp|bin|key|crt|pem)$
+    key_groups:
+      - age:
+        - *primary
+        - *agl-gpu-client-06
+  - path_regex: secrets/agl-gpu-client-07/.*\.(yaml|json|env|ini|txt|tmp|bin|key|crt|pem)$
+    key_groups:
+      - age:
+        - *primary
+        - *agl-gpu-client-07
+  - path_regex: secrets/agl-gpu-client-08/.*\.(yaml|json|env|ini|txt|tmp|bin|key|crt|pem)$
+    key_groups:
+      - age:
+        - *primary
+        - *agl-gpu-client-08
+  - path_regex: secrets/agl-gpu-client-09/.*\.(yaml|json|env|ini|txt|tmp|bin|key|crt|pem)$
+    key_groups:
+      - age:
+        - *primary
+        - *agl-gpu-client-09
   - path_regex: secrets/agl-gpu-workstation/.*\.(yaml|json|env|ini|txt|tmp|bin|key|crt|pem)$
     key_groups:
       - age:
@@ -83,6 +107,10 @@ creation_rules:
         - *agl-gpu-client-03
         - *agl-gpu-client-04
         - *agl-gpu-client-05
+        - *agl-gpu-client-06
+        - *agl-gpu-client-07
+        - *agl-gpu-client-08
+        - *agl-gpu-client-09
         - *agl-gpu-workstation
         - *agl-gpu-client-dev
         - *agl-server-01

@@ -11,5 +11,9 @@ let
         gpu-client-03 = "agl-gpu-client-03";
         gpu-client-04 = "agl-gpu-client-04";
         gpu-client-05 = "agl-gpu-client-05";
+        gpu-client-06 = "agl-gpu-client-06";
+        gpu-client-07 = "agl-gpu-client-07";
+        gpu-client-08 = "agl-gpu-client-08";
+        gpu-client-09 = "agl-gpu-client-09";
     };
 in hostnames

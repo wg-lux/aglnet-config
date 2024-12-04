@@ -58,6 +58,39 @@ let
                 network-config = network-config;
             }
         );
+
+        # gc06
+        "${hostnames.gpu-client-06}" = import ./dev-client-gpu.nix ( ##TODO Change to base-client after prototyping
+            os-base-args // {
+                hostname = hostnames.gpu-client-06;
+                extra-modules = extra-modules;
+                network-config = network-config;
+            }
+        );
+
+        "${hostnames.gpu-client-07}" = import ./dev-client-gpu.nix ( ##TODO Change to base-client after prototyping
+            os-base-args // {
+                hostname = hostnames.gpu-client-07;
+                extra-modules = extra-modules;
+                network-config = network-config;
+            }
+        );
+
+        "${hostnames.gpu-client-08}" = import ./dev-client-gpu.nix ( ##TODO Change to base-client after prototyping
+            os-base-args // {
+                hostname = hostnames.gpu-client-08;
+                extra-modules = extra-modules;
+                network-config = network-config;
+            }
+        );
+
+        "${hostnames.gpu-client-09}" = import ./dev-client-gpu.nix ( ##TODO Change to base-client after prototyping
+            os-base-args // {
+                hostname = hostnames.gpu-client-09;
+                extra-modules = extra-modules;
+                network-config = network-config;
+            }
+        );
     };
 
 in os-configs

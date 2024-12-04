@@ -161,6 +161,8 @@ sudo /run/current-system/bin/switch-to-configuration boot
 
 # Setup Guide
 ## Getting System speciic Hardware Info
+*TIP* You can use 'sudo nix run --option experimental-features "nix-command flakes" nixpkgs#nixos-facter -- -o facter.json' to generate an alternative hardware-report
+
 ### File System
 Use script to help: 'sudo bash ./deployment/scripts/filesystem-readout.sh'
 
@@ -214,6 +216,8 @@ move file to `config/hardware`
 - move the resulting `nix-user.yaml` file to `secrets/${hostname}/ 
 - encrypt it after moving the file (sops -e --in-place $FILEPATH)
 
+## Generate age key
+age-keygen -o keys.txt
 
 ## OpenVPN Certificate Authority (CA)
 Initialize
