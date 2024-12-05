@@ -167,6 +167,8 @@ in {
         easyrsa
         openvpn
 
+        python3Full
+
         bc
         gptfdisk
         parted
