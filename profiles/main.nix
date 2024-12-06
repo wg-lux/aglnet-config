@@ -93,6 +93,7 @@ in {
         item = "nofile";
         value = "8192";
     }];
+    
 
     imports = [
         ./customization.nix # File is in gitignore, so its safe to test stuff here without accidental commits

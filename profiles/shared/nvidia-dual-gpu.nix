@@ -40,12 +40,12 @@ in {
       persistencedSha256 = pkgs.lib.fakeSha256;
     };
 
-    prime = {
-      sync.enable = true; 
-      # Make sure to use the correct Bus ID values for your system!
-      # intelBusId = onboardGraphicBusId;
-      nvidiaBusId = nvidiaBusId;
-    };
+    # prime = {
+    #   sync.enable = true; 
+    #   # Make sure to use the correct Bus ID values for your system!
+    #   # intelBusId = onboardGraphicBusId;
+    #   nvidiaBusId = nvidiaBusId;
+    # };
   };
 
 }
