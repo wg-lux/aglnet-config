@@ -23,7 +23,7 @@
       "sd_mod" 
       "ast"
     ];
-    kenel-modules = ["kvm-amd" ];
+    kernel-modules = ["kvm-amd" ];
     boot-fs-options = [ "fmask=0022" "dmask=0022" ];
     cpu_type = "amd";
 
