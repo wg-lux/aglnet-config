@@ -5,7 +5,7 @@
 # NAME                  SIZE TYPE MOUNTPOINTS
 #                                            UUID
 # sda                 465.8G disk            
-# ├─sda1                  1G part            AF9C-CC9F
+# ├─sda1                  1G part            AF9C-CC9F # 2ter Versuch
 # └─sda2              464.7G part            deb5be66-f6bf-42db-8514-028394123e11
 # sdb                   3.5T disk            
 # ├─sdb1                100M part            
@@ -29,7 +29,7 @@
     onboardGraphicBusId = "PCI:198:00:0"; # select by user
 
     file-system-base-uuid = "02da5c64-162e-43e4-8a00-9ef14acb547e"; 
-    file-system-boot-uuid = "3AAF-0A61"; 
+    file-system-boot-uuid = "AF9C-CC9F"; 
     swap-device-uuid = null;
 
     luks-hdd-intern-uuid = "x";

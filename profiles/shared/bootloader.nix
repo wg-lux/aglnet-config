@@ -26,7 +26,7 @@ in {
     boot.loader.systemd-boot.enable = use_systemd_boot;
     boot.loader.grub = {
       enable = use_grub;
-      device = "/dev/disk/by-uuid/3AAF-0A61";
+      device = "/dev/disk/by-uuid/AF9C-CC9F";
       # devices = [ ];   # Multiple devices can be specified here
       efiSupport = true;
       # efiInstallAsRemovable = true;
