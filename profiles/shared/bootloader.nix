@@ -29,7 +29,7 @@ in {
       device = "/dev/disk/by-uuid/3AAF-0A61";
       # devices = [ ];   # Multiple devices can be specified here
       efiSupport = true;
-      efiInstallAsRemovable = true;
+      # efiInstallAsRemovable = true;
     };
     boot.loader.efi.canTouchEfiVariables = true;
     boot.kernelPackages = pkgs.linuxPackages_6_11;
