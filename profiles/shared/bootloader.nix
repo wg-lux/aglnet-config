@@ -24,7 +24,13 @@ in {
     boot.extraModulePackages = lib.mkDefault [ ];
 
     boot.loader.systemd-boot.enable = use_systemd_boot;
-    boot.loader.grub.enable = use_grub;
+    boot.loader.grub = {
+      enable = use_grub;
+      device = "/dev/disk/by-uuid/3AAF-0A61";
+      # devices = [ ];   # Multiple devices can be specified here
+      efiSupport = true;
+      efiInstallAsRemovable = true;
+    };
     boot.loader.efi.canTouchEfiVariables = true;
     boot.kernelPackages = pkgs.linuxPackages_6_11;
 
