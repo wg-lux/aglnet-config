@@ -29,7 +29,7 @@
     onboardGraphicBusId = "PCI:198:00:0"; # select by user
 
     file-system-base-uuid = "02da5c64-162e-43e4-8a00-9ef14acb547e"; 
-    file-system-boot-uuid = "AF9C-CC9F"; 
+    file-system-boot-uuid = "3AAF-0A61"; 
     swap-device-uuid = null;
 
     luks-hdd-intern-uuid = "x";
