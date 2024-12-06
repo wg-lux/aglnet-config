@@ -4,6 +4,7 @@
     inputs, system, hostname, extra-packages,
     network-config, is-endoreg-client ? false,
     system-encrypted ? false, ssh-by-default ? false,
+    dual-gpu ? false,
   ... 
 }:
 
@@ -118,6 +119,11 @@ in {
             inherit config pkgs lib network-config is-endoreg-client;
         })
 
+        # load nvidia modules if dual_gpu is true using nix library
+        ( import ./shared/gpu_init.nix {
+            inherit config pkgs lib network-config dual-gpu is-endoreg-client;
+        })
+
 
         # import filesystems, inherit from custom-hardware
         (import ./shared/filesystem.nix { 
@@ -173,7 +179,6 @@ in {
         gptfdisk
         parted
         util-linux
-        python312Full
         devenv
         dbeaver-bin
     ];

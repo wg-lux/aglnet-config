@@ -5,6 +5,10 @@ let
     filesystem-base-uuid = ch.file-system-base-uuid;
     filesystem-boot-uuid = ch.file-system-boot-uuid;
     swap-uuid = ch.swap-device-uuid;
+    has-swap = swap-uuid != null;
+    swap-devices = if ! has-swap then [] else [
+        { device = "/dev/disk/by-uuid/${swap-uuid}"; }
+    ];
 
     luks-base-uuid = ch.luks-hdd-intern-uuid;
     luks-swap-uuid = ch.luks-swap-uuid;
@@ -29,12 +33,18 @@ in {
 
 
 
-    boot.initrd.luks.devices = if system-encrypted then {
-        "luks-${luks-base-uuid}".device = "/dev/disk/by-uuid/${luks-base-uuid}";
-        "luks-${luks-swap-uuid}".device = "/dev/disk/by-uuid/${luks-swap-uuid}";
-    } else {};
+    boot.initrd.luks.devices = if system-encrypted then 
+        let
+            luksDevices = {
+            "luks-${luks-base-uuid}".device = "/dev/disk/by-uuid/${luks-base-uuid}";
+            };
+            swapLuksDevice = if has-swap then {
+            "luks-${luks-swap-uuid}".device = "/dev/disk/by-uuid/${luks-swap-uuid}";
+            } else {};
+        in
+        luksDevices // swapLuksDevice
+    else {};
 
-    swapDevices = [ 
-            { device = "/dev/disk/by-uuid/${swap-uuid}"; }
-        ];
+
+    swapDevices = swap-devices;
 }

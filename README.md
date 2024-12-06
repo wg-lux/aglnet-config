@@ -1,4 +1,4 @@
-# aglnet-config
+## aglnet-config
 Nix configuration for the agl-network
 
 # Flake Inputs
@@ -334,15 +334,20 @@ Dynamically created in `config/services/openvpn`
 See: `deployment/openvpn/aglnet-host.conf`
 
 ## SSH
-Known hosts are added in the config.
-If you want to use SSH to access another client, you have to deploy a suitable identity file
+Generate Key: 
+- 'ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -C "your_email@example.com"' 
+  or 
+- 'ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -C "your_email@example.com"'
 
-For this we deploy the corresponding identity to ~/.ssh/use ssh-add
-(if we need another path we can use ssh-add $PATH)
+- Deploy to 'secrets/{hostname}/{filename}.bin
+  - Filenames are: id_ed25519.bin, id_ed25519.pub.bin, id_rsa.bin, and id_rsa.pub.bin
+  
+- *ENCRYPT FILES WITH SOPS BEFORE COMITTING*
 
-verify with ssh-add -l
-
-*Important:* When connecting via ssh we need use the correct user for the available key files (USER@HOST), if not specified we use the currently active user
+*ToDo:*
+- Nix Script to automatically create identity files, and deploy to nix
+  - Decision: Add via script and ssh-agent or using home manager
+    - prbly hm
 
 ## Database
 ### Postgresql base db

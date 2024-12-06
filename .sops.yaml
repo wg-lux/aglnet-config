@@ -15,6 +15,7 @@ keys:
   - &agl-server-02 age1fvn47mkn44t49dfjkefpjwrd0s556qythz5xm3czay7vp2z4jajsxnvaw8
   - &agl-server-03 age1pg47c2vyqr2d00j9ds2n7dx0lvudmey29v5y9rym2trltg8r7pjq7llxrg
   - &agl-server-04 age1a3uv2j0wg5hd0vd8mmx3teyyrfs0c0ff233l90u9luxqsm5z4grq75vd3l
+  - &agl-gpu-server-01 age1cnq8apuzkxj3xd0sfg7cmg57yyv4slczj2w8745langfuhj5xqksek45qd 
 
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini|txt|tmp|bin|key|crt|pem)$
@@ -98,6 +99,13 @@ creation_rules:
       - age:
         - *primary
         - *agl-server-04
+
+  - path_regex: secrets/agl-gpu-server-01/.*\.(yaml|json|env|ini|txt|tmp|bin|key|crt|pem)$
+    key_groups:
+      - age:
+        - *primary
+        - *agl-gpu-server-01
+    
   - path_regex: secrets/shared/.*\.(yaml|json|env|ini|txt|tmp|bin|key|crt|pem)$
     key_groups:
       - age:
@@ -117,5 +125,6 @@ creation_rules:
         - *agl-server-02
         - *agl-server-03
         - *agl-server-04
+        - *agl-gpu-server-01
 
         

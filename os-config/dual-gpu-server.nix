@@ -10,9 +10,10 @@
     ...
 }@args:
 let 
-    IS_ENDOREG_CLIENT = true;
-    SYSTEM_ENVRYPTED = true;
+    IS_ENDOREG_CLIENT = false;
+    SYSTEM_ENVRYPTED = false;
     SSH_BY_DEFAULT = true;
+    DUAL_GPU = true;
 
     ######### EXPERIMENTAL #########################
     clangVersion = "18";   # Version of Clang
@@ -40,7 +41,7 @@ in nixpkgs.lib.nixosSystem {
         is-endoreg-client = IS_ENDOREG_CLIENT;
         system-encrypted = SYSTEM_ENVRYPTED;
         ssh-by-default = SSH_BY_DEFAULT;
-        dual-gpu = false;
+        dual-gpu = DUAL_GPU;
     };
     
     modules = [

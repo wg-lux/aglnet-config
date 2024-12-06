@@ -31,6 +31,7 @@
     #];
     kernel-modules = [ "kvm-intel" ];
 
+    cpu_type = "intel";
     boot-fs-options = [ "fmask=0077" "dmask=0077" ];
 
     system-state = "24.11"; # enter by user

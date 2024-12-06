@@ -15,6 +15,6 @@
 
     kernel-modules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "usbhid" "sd_mod" ];
     initrd-available-kernel-modules = [ "kvm-amd" ];
-
+    cpu_type = "amd";
     system-state = "23.11"; # enter by user
 }
