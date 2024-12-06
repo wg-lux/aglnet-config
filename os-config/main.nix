@@ -91,6 +91,13 @@ let
                 network-config = network-config;
             }
         );
+        "${hostnames.gpu-server-01}" = import ./dual-gpu-server.nix (
+            os-base-args // {
+                hostname = hostnames.gpu-server-01;
+                extra-modules = extra-modules;
+                network-config = network-config;
+            }
+        );
     };
 
 in os-configs

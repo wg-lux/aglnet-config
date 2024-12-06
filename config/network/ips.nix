@@ -36,6 +36,7 @@ let
         gpu-client-07 = "${vpn-ip-prefix}.147";
         gpu-client-08 = "${vpn-ip-prefix}.148";
         gpu-client-09 = "${vpn-ip-prefix}.149";
+        gpu-server-01 = "${vpn-ip-prefix}.230";
     };
 
     ips = {
