@@ -2,6 +2,7 @@
 hardware-readout.json
 keyfile.bin
 *decrypted~*
+aglnet-config.code-workspace
 
 untracked-notes.md
 secrets-versions/
