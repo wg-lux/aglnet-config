@@ -8,7 +8,7 @@ let
     domain = config.networking.domain;
 
     custom-packages = [] 
-        ++ (if hostname == "agl-gpu-client-02" then [ 
+        ++ (if hostname == "agl-gpu-client-06" then [ 
             pkgs.udisks
             pkgs.vault
             pkgs.vlc

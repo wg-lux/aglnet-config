@@ -108,6 +108,9 @@ in psql shell:
 'sudo umount /dev/sdX*'
 'sudo dd bs=4M conv=fsync oflag=direct status=progress if=<path-to-image> of=/dev/sda'
 
+## Find out Bootloader / Bootmode
+[ -d /sys/firmware/efi/efivars ] && echo "UEFI" || echo "Legacy"
+
 ## Power Management
 Using tlp to manage max. charge (set to 80) and reduce cpu frequency when not on charged
 
